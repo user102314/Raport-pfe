@@ -1,0 +1,45 @@
+@startuml koda_cycle2_use_cases
+title Cycle 2 — Cas d'utilisation du Distributeur de Services (backend FastAPI)
+
+left to right direction
+skinparam packageStyle rectangle
+skinparam actorStyle awesome
+
+actor "Utilisateur\n(devant KODA)" as U
+actor "Application mobile\n(KodaMate)" as App
+actor "Administrateur\n/ developpeur" as Admin
+
+rectangle "Distributeur de Services\n(FastAPI — Cycle 2)" as DS {
+
+  usecase "Traiter une requete\nvocale du robot" as UC_voice
+  usecase "Gerer la session\nWebSocket robot" as UC_ws
+  usecase "Identifier une personne\n(reconnaissance faciale)" as UC_face
+  usecase "Authentifier et servir\nl'application mobile" as UC_auth
+  usecase "Consulter / modifier\nprofils et agenda" as UC_mobile
+  usecase "Persister conversations,\nnotes et activites" as UC_db
+  usecase "Deleguer le raisonnement\nau workflow n8n" as UC_n8n
+  usecase "Appeler services cloud\n(Azure STT/TTS, Gemini)" as UC_cloud
+}
+
+U --> UC_voice
+U --> UC_face
+App --> UC_auth
+App --> UC_mobile
+Admin --> UC_db
+
+UC_voice ..> UC_cloud : <<include>>
+UC_voice ..> UC_n8n : <<include>>
+UC_voice ..> UC_db : <<include>>
+UC_ws ..> UC_voice : <<extend>>
+UC_face ..> UC_db : <<include>>
+UC_mobile ..> UC_db : <<include>>
+UC_n8n ..> UC_db : <<include>>
+
+note bottom of DS
+  Point d'entree unique : le backend
+  centralise securite, persistance
+  et orchestration sans coupler
+  directement robot, mobile et n8n.
+end note
+
+@enduml

@@ -1,0 +1,52 @@
+@startuml koda_cycle2_hub_architecture
+title Cycle 2 — Le Distributeur comme pivot de flexibilite et de disponibilite
+
+skinparam componentStyle rectangle
+skinparam shadowing false
+
+package "Couche interaction" {
+  [Raspberry Pi\n(robot physique)] as RPI
+  [Application mobile\nFlutter / KodaMate] as APP
+}
+
+package "Couche cognition" {
+  [Workflows n8n\n(Cycle 1)] as N8N
+}
+
+package "Couche donnees" {
+  database "PostgreSQL\n(Supabase)" as PG
+}
+
+cloud "Services cloud" {
+  [Azure STT / TTS] as AZ
+  [Gemini / OpenRouter] as LLM
+}
+
+node "Distributeur de Services\n(FastAPI — seul point de liaison)" as DS {
+  component "API REST\n(JWT, CORS)" as REST
+  component "WebSocket\n(temps reel robot)" as WS
+  component "Services metier\n(vocal, visage, persistance)" as SVC
+  component "Clients HTTP\n(webhooks n8n, SDK cloud)" as HTTP
+}
+
+RPI -down-> WS : commandes, audio,\netat capteurs
+APP -down-> REST : profils, agenda,\nchat, parametres
+DS -down-> N8N : POST webhook\n(question + contexte)
+DS -down-> PG : ORM async\n(SQLAlchemy)
+DS -down-> AZ : transcription /\nsynthese vocale
+DS -down-> LLM : enrichissements\noptionnels
+
+note right of DS
+  **Pourquoi un seul composant ?**
+  -- Une adresse serveur, un schema de securite
+  -- Remplacement d'un service cloud sans toucher au robot
+  -- Disponibilite : retry, journalisation, validation
+  -- Flexibilite : evolution n8n / mobile / embarque en parallele
+end note
+
+note bottom of RPI
+  Le robot ne connait que le backend ;
+  pas les cles Azure ni l'URL n8n.
+end note
+
+@enduml

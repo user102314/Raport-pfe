@@ -1,0 +1,32 @@
+%% Version simplifiée — arborescence fidèle à l'explorateur VS Code
+%% draw.io : Insert → Advanced → Mermaid
+
+flowchart LR
+    subgraph D["Distributeur/"]
+        direction TB
+
+        F1[".env"]
+        F2["requirements.txt"]
+        F3["migrations/"]
+        F4["tests/unit/"]
+
+        subgraph S["src/"]
+            direction TB
+            M["main.py"]
+            A["application/"]
+            C["config/"]
+            R["controllers/"]
+            K["core/"]
+            D2["domain/"]
+            I["infrastructure/"]
+            P["presentation/"]
+        end
+
+        V[".venv/ · .idea/ · .pytest_cache/"]
+    end
+
+    M --> R
+    R --> A
+    A --> D2
+    A --> I
+    C --> M

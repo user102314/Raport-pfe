@@ -1,0 +1,33 @@
+@startuml koda_cycle2_mobile_auth_sequence
+title Cycle 2 — Authentification KodaMate (POST /api/auth/login)
+
+skinparam sequenceMessageAlign center
+skinparam responseMessageBelowArrow true
+
+actor "Utilisateur" as U
+participant "KodaMate\n(.NET MAUI)" as APP
+participant "Distributeur\n(FastAPI)" as DS
+database "PostgreSQL\n(Supabase)" as PG
+
+U -> APP : Saisie email + mot de passe
+activate APP
+
+APP -> DS : POST /api/auth/login\n{emailclient, motdepasse}
+activate DS
+DS -> PG : SELECT authentification
+activate PG
+PG --> DS : idproduit, idkoda, emailclient
+deactivate PG
+DS --> APP : {status, data:\n{idproduit, emailclient, idkoda}}
+deactivate DS
+
+APP -> APP : Preferences.Set\n(session locale)
+APP --> U : Navigation Accueil /\nConfig robot
+deactivate APP
+
+note over APP
+  Timeout client : 60 s
+  Base URL : http://IP:8000/api
+end note
+
+@enduml

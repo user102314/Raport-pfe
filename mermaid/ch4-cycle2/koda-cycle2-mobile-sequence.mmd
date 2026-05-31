@@ -1,0 +1,29 @@
+%% Cycle 2 — Bootstrap KodaMate : GET / et session
+%% Export → public/ch4-mobile-bootstrap.png
+
+sequenceDiagram
+    autonumber
+    actor U as Utilisateur
+    participant APP as KodaMate (.NET MAUI)
+    participant DS as Distributeur (FastAPI)
+    participant PREF as Preferences (session locale)
+
+    U->>APP: Lancement application
+    APP->>DS: GET / (test serveur)
+
+    alt Backend disponible
+        DS-->>APP: {message, routes_prefix}
+        APP->>PREF: Lecture session (email, idproduit, idkoda)
+        alt Session valide
+            PREF-->>APP: Données session
+            APP-->>U: Accueil / Config robot
+        else Pas de session
+            PREF-->>APP: Vide
+            APP-->>U: Écran Login
+        end
+    else Backend injoignable
+        DS-->>APP: Timeout / erreur réseau
+        APP-->>U: Redirection Login + message erreur
+    end
+
+    Note over APP,DS: Timeout HTTP 60 s · URL http://IP-PC:8000 · CORS MAUI

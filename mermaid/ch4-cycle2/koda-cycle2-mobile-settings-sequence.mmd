@@ -1,0 +1,44 @@
+%% Cycle 2 — Paramètres, power et historique KodaMate
+%% Export → public/ch4-mobile-settings.png
+
+sequenceDiagram
+    autonumber
+    actor U as Utilisateur
+    participant APP as KodaMate
+    participant DS as Distributeur
+    participant PG as PostgreSQL
+
+    rect rgb(240, 248, 255)
+        Note over U,PG: Configuration robot
+        U->>APP: Ouvrir Paramètres / Config
+        APP->>DS: GET /api/settings
+        DS->>PG: SELECT setting
+        PG-->>DS: name, langue, etat, caractère...
+        DS-->>APP: JSON paramètres
+        U->>APP: Modifier et enregistrer
+        APP->>DS: PUT /api/settings
+        DS->>PG: UPDATE setting
+        DS-->>APP: Confirmation
+    end
+
+    rect rgb(240, 255, 240)
+        Note over U,PG: Power on / off (Accueil)
+        U->>APP: Bouton alimentation
+        APP->>DS: POST /api/power-on ou /api/power-off
+        DS->>PG: UPDATE etat
+        DS-->>APP: {status, etat}
+    end
+
+    rect rgb(255, 248, 240)
+        Note over U,PG: Historique
+        U->>APP: Onglet Historique
+        APP->>DS: GET /api/conversations?date_from&date_to
+        DS->>PG: SELECT conversation
+        PG-->>DS: Liste messages
+        DS-->>APP: JSON conversations
+        opt Erreur ou timeout filtres
+            APP->>DS: GET /api/conversations/last100
+            DS-->>APP: 100 derniers messages
+        end
+        APP-->>U: Bulles question/réponse par date
+    end

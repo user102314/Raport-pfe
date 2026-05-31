@@ -1,0 +1,54 @@
+@startuml koda_cycle2_robot_flux1_vocal_split
+title Cycle 2 — Flux 1 (detail en 2 parties)
+
+skinparam sequenceMessageAlign center
+skinparam responseMessageBelowArrow true
+
+== Partie A — Entree : capture, identification, STT ==
+
+actor "Utilisateur" as U
+participant "Robot KODA" as KODA
+participant "Distributeur" as DS
+participant "Reconnaissance\nfaciale" as FR
+participant "Azure STT" as STT
+
+U -> KODA : Parole + presence
+KODA -> DS : photo + audio vocal
+activate DS
+DS -> FR : getUserName(photo)
+FR --> DS : nom utilisateur
+DS -> STT : audio -> texte
+STT --> DS : texte vocal
+deactivate DS
+
+newpage
+
+== Partie B — Traitement, TTS et restitution ==
+
+participant "Distributeur" as DS2
+participant "Traduction" as TR
+participant "n8n Flux 1" as N8N
+database "PostgreSQL" as PG
+participant "Azure TTS" as TTS
+participant "Robot KODA" as KODA2
+actor "Utilisateur" as U2
+
+activate DS2
+DS2 -> TR : traduire en francais
+TR --> DS2 : texte FR
+DS2 -> N8N : POST webhook Flux 1
+N8N -> PG : contexte
+PG --> N8N : profil
+N8N --> DS2 : reponse generee
+opt Reponse en arabe
+  DS2 -> TR : FR -> AR
+  TR --> DS2 : reponse AR
+end
+DS2 -> TTS : synthese vocale
+TTS --> DS2 : audio
+DS2 -> PG : sauvegarder echange
+DS2 --> KODA2 : JSON + audio + emotion
+deactivate DS2
+KODA2 --> U2 : reponse vocale + Nextion
+
+@enduml

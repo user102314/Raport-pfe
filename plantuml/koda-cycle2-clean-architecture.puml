@@ -1,0 +1,66 @@
+@startuml koda_cycle2_clean_architecture
+title Cycle 2 — Clean Architecture / Onion du Distributeur
+
+skinparam shadowing false
+skinparam packageStyle rectangle
+
+package "Frameworks & Drivers\n(couche externe)" as FW {
+  [FastAPI routers] as API
+  [WebSocket handlers] as WS
+  [SQLAlchemy / asyncpg] as ORM
+  [SDK Azure, Gemini] as SDK
+  [Client HTTP n8n] as N8NClient
+}
+
+package "Interface Adapters" as AD {
+  [Repositories] as REPO
+  [Serializers / DTO] as DTO
+  [Controllers] as CTRL
+}
+
+package "Application Use Cases" as UC {
+  [Traitement vocal] as VoiceUC
+  [Reconnaissance faciale] as FaceUC
+  [Gestion sessions robot] as RobotUC
+  [Services mobile] as MobileUC
+}
+
+package "Entities (Domaine)" as DOM {
+  class Person
+  class Session
+  class Command
+  class Event
+  class Conversation
+}
+
+DOM -[hidden]-> UC
+UC -[hidden]-> AD
+AD -[hidden]-> FW
+
+CTRL --> VoiceUC
+CTRL --> FaceUC
+CTRL --> RobotUC
+CTRL --> MobileUC
+VoiceUC --> Person
+FaceUC --> Person
+RobotUC --> Command
+RobotUC --> Session
+MobileUC --> Conversation
+REPO --> ORM
+API --> CTRL
+WS --> RobotUC
+VoiceUC --> SDK
+VoiceUC --> N8NClient
+
+note bottom of DOM
+  Regles metier stables ;
+  aucune dependance vers FastAPI ou PostgreSQL.
+end note
+
+note bottom of FW
+  Couche interchangeable :
+  remplacer Supabase ou Azure
+  sans modifier le domaine.
+end note
+
+@enduml

@@ -1,0 +1,45 @@
+@startuml koda_cycle2_embedded_sequence
+title Cycle 2 — Communication temps reel avec le systeme embarque (WebSocket)
+
+skinparam sequenceMessageAlign center
+skinparam responseMessageBelowArrow true
+
+participant "Raspberry Pi\n(client WebSocket)" as RPI
+participant "Distributeur\n(WebSocket handler)" as DS
+participant "Service commandes\n(use case)" as UC
+database "PostgreSQL" as PG
+
+RPI -> DS : Connexion WS\n(handshake + token)
+activate DS
+DS --> RPI : ACK connexion
+deactivate DS
+
+loop Boucle de vie du robot
+  RPI -> DS : JSON {type: "status",\nbatterie, capteurs}
+  activate DS
+  DS -> PG : Journalisation etat
+  activate PG
+  deactivate PG
+  DS --> RPI : ACK
+  deactivate DS
+
+  RPI -> DS : JSON {type: "command_result",\nid, success}
+  activate DS
+  DS -> UC : Mise a jour statut commande
+  activate UC
+  UC -> PG : UPDATE commande
+  deactivate UC
+  deactivate DS
+
+  DS -> RPI : JSON {type: "action",\nmoteur, emotion, display}
+  activate RPI
+  RPI --> DS : ACK apres execution
+  deactivate RPI
+end
+
+note over RPI, DS
+  Reconnexion automatique avec backoff
+  en cas de coupure reseau ou conflit d'adresse serveur.
+end note
+
+@enduml

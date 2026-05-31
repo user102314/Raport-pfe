@@ -1,0 +1,44 @@
+@startuml koda_cycle2_mobile_sequence
+title Cycle 2 — Bootstrap KodaMate : disponibilite backend et session
+
+skinparam sequenceMessageAlign center
+skinparam responseMessageBelowArrow true
+
+actor "Utilisateur" as U
+participant "KodaMate\n(.NET MAUI)" as APP
+participant "Distributeur\n(FastAPI)" as DS
+participant "Preferences\n(session locale)" as PREF
+
+U -> APP : Lancement application
+activate APP
+
+APP -> DS : GET /\n(test serveur)
+activate DS
+alt Backend disponible
+  DS --> APP : {message, routes_prefix}
+  deactivate DS
+  APP -> PREF : Lecture session\n(email, idproduit, idkoda)
+  activate PREF
+  alt Session valide
+    PREF --> APP : Donnees session
+    APP --> U : Accueil / Config
+  else Pas de session
+    PREF --> APP : Vide
+    APP --> U : Ecran Login
+  end
+  deactivate PREF
+else Backend injoignable
+  DS --> APP : Timeout / erreur reseau
+  deactivate DS
+  APP --> U : Redirection Login\n+ message erreur
+end
+
+deactivate APP
+
+note over APP, DS
+  Timeout HTTP : 60 s
+  URL : http://IP-PC:8000
+  CORS : origines MAUI autorisees
+end note
+
+@enduml

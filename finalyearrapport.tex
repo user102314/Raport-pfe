@@ -102,10 +102,18 @@ headheight=14pt
 \usepackage{multirow}
 \usepackage{colortbl}
 \usepackage{makecell}
+\usepackage{etoolbox}
 
-%----------------------------------------------------------------
-% Listes
-%----------------------------------------------------------------
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\AtBeginEnvironment{tabular}{%
+	\small\renewcommand{\arraystretch}{1.35}%
+}
+\AtBeginEnvironment{tabularx}{%
+	\small\renewcommand{\arraystretch}{1.35}%
+}
+\AtBeginEnvironment{table}{%
+	\setlength{\tabcolsep}{4pt}%
+}
 \usepackage{enumitem}
 \setlist[itemize]{label=\textbullet, leftmargin=1.5em, itemsep=2pt, topsep=4pt}
 \setlist[enumerate]{leftmargin=1.5em, itemsep=2pt, topsep=4pt}
@@ -858,14 +866,7 @@ Le chapitre suivant, \textbf{«\,Préparation du Projet\,»}, formalise les beso
 			\caption{Synthèse visuelle des besoins fonctionnels KODA (chapitre~II)}
 			\label{fig:ch2-besoins-f}
 		\end{figure}
-	}{%
-		\begin{center}
-			\fbox{\begin{minipage}{0.88\textwidth}\centering\vspace{1.2em}
-				\textit{Figure optionnelle — générer \texttt{public/ch2-besoins-fonctionnels.png}\\
-				(voir \texttt{prompts/ch2-images-generation-prompts.txt}).}
-				\vspace{1.2em}\end{minipage}}
-		\end{center}
-	}
+	}{}
 	
 	\subsection{Spécification des besoins non fonctionnels}
 	
@@ -953,14 +954,7 @@ Le chapitre suivant, \textbf{«\,Préparation du Projet\,»}, formalise les beso
 			\vfill
 		\end{figure}
 		\clearpage
-	}{%
-		\begin{center}
-			\fbox{\begin{minipage}{0.88\textwidth}\centering\vspace{1.2em}
-				\textit{Diagramme des acteurs — exporter PlantUML vers \texttt{public/ch2-diagramme-acteurs.png}\\
-				(fichier source : \texttt{plantuml/ch2-diagramme-acteurs.puml}).}
-				\vspace{1.2em}\end{minipage}}
-		\end{center}
-	}
+	}{}
 	
 	%----------------------------------------------------------------
 	\section{Pilotage du projet — Modèle en spirale et cycles de développement}
@@ -1013,7 +1007,7 @@ Le chapitre suivant, \textbf{«\,Préparation du Projet\,»}, formalise les beso
 		\caption{Vue synthétique des cycles et livrables attendus}
 		\label{tab:cycles_koda}
 		\renewcommand{\arraystretch}{1.25}
-		\begin{tabular}{|c|p{4.2cm}|p{7.5cm}|}
+		\begin{tabular}{|c|>{\raggedright\arraybackslash}p{4.2cm}|>{\raggedright\arraybackslash}p{7.5cm}|}
 			\hline
 			\textbf{Cycle} & \textbf{Thème} & \textbf{Livrable principal} \\
 			\hline
@@ -1061,14 +1055,7 @@ Le chapitre suivant, \textbf{«\,Préparation du Projet\,»}, formalise les beso
 			\caption{Planification des cycles : jalons, chevauchements et dépendances}
 			\label{fig:ch2-planification-cycles}
 		\end{figure}
-	}{%
-		\begin{center}
-			\fbox{\begin{minipage}{0.88\textwidth}\centering\vspace{1.2em}
-				\textit{Figure à ajouter — \texttt{public/ch2-planification-cycles.png}\\
-				(prompt : voir \texttt{prompts/ch2-images-generation-prompts.txt}).}
-				\vspace{1.2em}\end{minipage}}
-		\end{center}
-	}
+	}{}
 	
 	%----------------------------------------------------------------
 	\section{Architecture}
@@ -1125,14 +1112,7 @@ Le chapitre suivant, \textbf{«\,Préparation du Projet\,»}, formalise les beso
 			\caption{Environnement matériel de développement et de test (poste, Raspberry Pi, robot)}
 			\label{fig:ch2-env-materiel}
 		\end{figure}
-	}{%
-		\begin{center}
-			\fbox{\begin{minipage}{0.88\textwidth}\centering\vspace{2em}
-				\textit{Emplacement réservé — photographie à insérer sous le nom\\
-				\texttt{public/ch2-environnement-materiel.png} (PC, Raspberry Pi, périphériques du robot).}
-				\vspace{2em}\end{minipage}}
-		\end{center}
-	}
+	}{}
 	
 	%----------------------------------------------------------------
 	\section{Environnement logiciel}
@@ -1144,7 +1124,7 @@ Le chapitre suivant, \textbf{«\,Préparation du Projet\,»}, formalise les beso
 		\item \textbf{n8n} (self-hosted ou cloud) pour l'édition des workflows ;
 		\item \textbf{Visual Studio Code} ou équivalent pour Python, Dart et LaTeX ;
 		\item \textbf{Git} pour le versioning ;
-		\item \textbf{PlantUML} / captures d'écran pour les diagrammes de séquence et de
+		\item \textbf{draw.io / Mermaid} / captures d'écran pour les diagrammes de séquence et de
 		cas d'utilisation ;
 		\item \textbf{Supabase Studio} pour l'administration PostgreSQL ;
 		\item \textbf{Docker} (le cas échéant) pour le déploiement du backend et la
@@ -1170,24 +1150,6 @@ Le chapitre suivant, \textbf{«\,Préparation du Projet\,»}, formalise les beso
 	\end{figure}
 	
 	%----------------------------------------------------------------
-	\section{Figures et diagrammes prévus pour ce chapitre}
-	%----------------------------------------------------------------
-	
-	Pour illustrer le chapitre~II dans le PDF final, les captures et exports suivants
-	 sont recommandés. Les noms de fichiers sont normalisés \textbf{sans espace}
-	(dossier \texttt{public/}) afin d'éviter les erreurs de compilation \LaTeX{} ; il
-	suffit de créer chaque fichier sous ce nom puis d'insérer
-	\texttt{\textbackslash includegraphics} dans la section concernée.
-	
-
-	
-	\noindent\textbf{Réutilisation possible :} la figure d'architecture multicouche du
-	chapitre~I (\texttt{public/ch2-architecture-systeme.png}) peut être réutilisée ou
-	déclinée pour d'autres sections après recadrage ou légende adaptée au
-	§\,2.2.3 / 2.5. Le \textbf{modèle en spirale} introduit au chapitre~I est détaillé
-	ici (cycles, planification, figure~\ref{fig:ch2-modele-spirale}).
-	
-	%----------------------------------------------------------------
 	\section{Conclusion}
 	%----------------------------------------------------------------
 	
@@ -1197,7 +1159,7 @@ Le chapitre suivant, \textbf{«\,Préparation du Projet\,»}, formalise les beso
 	gestion purement Scrum/sprint, tout en conservant l'esprit d'incrémentalité et de
 	revue de fin de cycle. Le chapitre suivant détaille le \textbf{Cycle~1} (\textbf{Analyseur et réflexion})~: workflows n8n.
 	
-	%================================================================
+		%================================================================
 	%  CHAPITRE III : Analyseur et réflexion
 	%================================================================
 	\chapter{Cycle 1 : ANALYSEUR ET RÉFLEXION}
@@ -1419,7 +1381,7 @@ Le chapitre suivant, \textbf{«\,Préparation du Projet\,»}, formalise les beso
   \kodafigure[0.95\textwidth]{public/dsb1.png}{Webhook~1 --- séquence de l'entrée fonctionnelle}
   \kodafigure[0.95\textwidth]{public/ducb1.png}{Webhook~1 --- cas d'utilisation de l'entrée fonctionnelle}
   
-  Dès l'appel au webhook et la lecture du message de chat (\texttt{chatInput}), le flux interroge la base (nœud PostgreSQL \textit{Identité}) pour récupérer au minimum le \textbf{mot de passe} attendu et l'\textbf{état} courant du robot (\texttt{etat}). Le nœud Code \textbf{Test} consolide ces données et le texte saisi par l'utilisateur afin de produire une \textbf{intention} unique consommée par le nœud \textit{Switch} en aval. Ce \textit{Switch} (six sorties, voir figure~\ref{fig:block1-workflow-n8n}) active l'une des branches métier (musique via SerpAPI, arrêt / authentification via requêtes \textit{Identité4--5}, direction, historique comparé, branche \textit{Code10}, etc.) décrite par le diagramme de séquence source \texttt{plantuml/koda-block1-switch-six-branches-sequence.puml}.
+  Dès l'appel au webhook et la lecture du message de chat (\texttt{chatInput}), le flux interroge la base (nœud PostgreSQL \textit{Identité}) pour récupérer au minimum le \textbf{mot de passe} attendu et l'\textbf{état} courant du robot (\texttt{etat}). Le nœud Code \textbf{Test} consolide ces données et le texte saisi par l'utilisateur afin de produire une \textbf{intention} unique consommée par le nœud \textit{Switch} en aval. Ce \textit{Switch} (six sorties, voir figure~\ref{fig:block1-workflow-n8n}) active l'une des branches métier (musique via SerpAPI, arrêt / authentification via requêtes \textit{Identité4--5}, direction, historique comparé, branche \textit{Code10}, etc.) selon le diagramme de séquence du \textit{Switch} (six branches).
   
   Le message est d'abord normalisé en \textbf{minuscules} pour les détections par sous-chaîne. La logique applique une \textbf{priorité fixe} entre les intentions reconnues :
   \begin{enumerate}
@@ -2179,7 +2141,6 @@ Le chapitre suivant, \textbf{«\,Préparation du Projet\,»}, formalise les beso
 	\IfFileExists{public/4conseil.png}{%
 		\kodafigureL[0.95\textwidth]{public/4conseil.png}{Webhook~2 --- exemple de sortie structurée (quatre dimensions de la fiche journalière)}{fig:webhook2-output-4dimensions}
 	}{%
-		\noindent\textit{(Figure optionnelle~: ajouter \texttt{public/4conseil.png} --- capture des champs \texttt{interets}, \texttt{synthese}, \texttt{point\_cles}, \texttt{conseils} en sortie du nœud \textit{Response}.)}
 	}
 	
 	\subsubsection{Persistance : relation \texttt{utilisateur} / \texttt{accompagnement}}
@@ -2301,7 +2262,7 @@ Le chapitre suivant, \textbf{«\,Préparation du Projet\,»}, formalise les beso
 	\begin{table}[ht]
 		\centering
 		\caption{Correspondance entre mécanismes cognitifs humains et implémentations de KODA}
-		\begin{tabularx}{\textwidth}{|X|X|X|}
+		\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
 			\hline
 			\textbf{Mécanisme Humain} & \textbf{Référence Scientifique} & \textbf{Implémentation KODA} \\
 			\hline
@@ -2321,7 +2282,6 @@ Le chapitre suivant, \textbf{«\,Préparation du Projet\,»}, formalise les beso
 	
 	% ----------------------------------------------------------------
 	% IMAGE À INSÉRER : Architecture cognitive globale de KODA
-	% Chemin suggéré : public/global.png
 	% Légende : "Architecture cognitive globale de KODA — Interaction entre les trois webhooks"
 	% ----------------------------------------------------------------
 	
@@ -2356,42 +2316,148 @@ Le chapitre suivant, \textbf{«\,Préparation du Projet\,»}, formalise les beso
 	\section{Introduction}
 	%------------------------------------------------------------------
 	
-	Le \textbf{chapitre~IV} correspond au \textbf{Cycle~2} du projet KODA. Il documente le
-	\textbf{Distributeur de Services}~: l'application \textbf{backend} (Python / FastAPI)
-	qui relie entre eux le robot, les workflows n8n, l'application mobile et la base de
-	données, tout en appelant les services cloud nécessaires (Azure, Gemini, etc.).
+	Le \textbf{chapitre~IV} documente le \textbf{Cycle~2} du projet KODA~: la conception,
+	le développement et la validation du \textbf{Distributeur de Services}, backend
+	\textbf{Python / FastAPI} qui constitue la \textbf{couche de services} de l'écosystème.
+	Ce cycle intervient après le \textbf{Cycle~1} (moteur de réflexion n8n) et précède
+	les cycles embarqué (matériel et logiciel Raspberry Pi) et mobile (KodaMate).
 	
-	\paragraph{Rôle du composant.}
-	Sans ce maillon, chaque partie du système devrait connaître les adresses, les clés
-	et les formats de tous les autres modules~: le Raspberry Pi parlerait directement à
-	n8n, l'application mobile à Supabase, etc. Le Distributeur évite cette dispersion~:
-	il \textbf{centralise} les échanges, applique la \textbf{sécurité} (authentification,
-	validation), et garantit une \textbf{logique d'acheminement} unique. C'est le
-	\textbf{pivot} de l'architecture présentée au chapitre~II (partie~1 du rapport).
+	\paragraph{Problématique technique.}
+	KODA doit interagir avec l'utilisateur de deux manières complémentaires~:
+	\textbf{vocalement} via le robot physique, et \textbf{via l'application mobile} pour
+	la configuration, l'agenda et le suivi. Par ailleurs, le raisonnement conversationnel
+	est délégué à n8n, la mémoire durable est confiée à PostgreSQL, et les capacités
+	vocales et cognitives passent par des services cloud (Azure, Gemini). Sans couche
+	intermédiaire, chaque composant devrait connaître les adresses, protocoles et clés
+	de tous les autres~: couplage fort, secrets exposés sur l'embarqué, évolutions
+	impossibles en parallèle.
 	
-	\paragraph{Rôle du chapitre.}
-	Ce chapitre vise d'abord à situer le Distributeur dans l'ensemble (diagrammes
-	généraux), puis à détailler sa \textbf{composition} selon quatre axes de
-	communication~: système embarqué, application mobile, base de données et workflow
-	n8n. L'architecture interne du code (Clean Architecture, arborescence) est traitée
-	ensuite, avant les difficultés rencontrées et la conclusion.
+	\paragraph{Rôle global du Distributeur.}
+	Le Distributeur résout cette fragmentation en offrant au système un \textbf{point
+	d'accès unique et homogène} aux ressources partagées. Concrètement, il~:
+	\begin{itemize}[noitemsep]
+		\item reçoit l'audio et les événements du \textbf{robot}, orchestre la transcription,
+		la consultation de n8n et la synthèse vocale, puis renvoie un \textbf{output cohérent}
+		(parole, commandes moteur, expressions)~;
+		\item expose des \textbf{API REST sécurisées} à l'\textbf{application mobile} pour
+		l'authentification, les profils, l'agenda et l'historique~;
+		\item assure la \textbf{persistances} des conversations, profils et paramètres via
+		PostgreSQL (Supabase)~;
+		\item délègue le \textbf{raisonnement} à n8n tout en gardant le contrôle de la
+		sécurité, de la validation et de la journalisation.
+	\end{itemize}
+	Le backend n'est donc pas un simple relais HTTP~: il \textbf{matérialise la
+	fonctionnalité globale} du système en assemblant des services techniques (vocal,
+	visage, persistance, orchestration) pour produire une expérience utilisateur unifiée,
+	que l'interaction soit vocale ou applicative.
+	
+	\paragraph{Objectifs et résultats attendus.}
+	À l'issue de ce cycle, nous visons~: \textbf{(i)} un backend déployable et testable
+	indépendamment du robot et de n8n~; \textbf{(ii)} des interfaces stables (WebSocket
+	robot, REST mobile, webhook n8n) permettant aux cycles suivants de progresser en
+	parallèle~; \textbf{(iii)} une reconnaissance faciale opérationnelle ($>$94\,\% de
+	précision)~; \textbf{(iv)} une chaîne vocale Azure STT/TTS fonctionnelle~;
+	\textbf{(v)} une persistance relationnelle couvrant conversations, profils et agenda.
+	
+	\paragraph{Organisation du chapitre.}
+	Le chapitre suit une progression \textbf{théorique puis opérationnelle}~: d'abord le
+	\textbf{cadre conceptuel} (pourquoi le Distributeur est le seul pivot du système),
+	ensuite la \textbf{modélisation} (cas d'utilisation, classes, architecture globale),
+	puis l'\textbf{architecture interne} du code, les \textbf{services et flux} détaillés,
+	les \textbf{problèmes rencontrés} (réseau, CORS, concurrence), les
+	\textbf{perspectives}, et enfin la conclusion.
 	
 	\begin{tcolorbox}[colback=blue!5!white, colframe=blue!60!black,
 		title=\textbf{Rôle principal du Distributeur de Services}]
-		Centraliser et redistribuer les communications entre le robot physique, le
-		moteur n8n, l'application mobile, PostgreSQL (Supabase) et les services cloud,
-		sans exposer les secrets ni multiplier les couplages entre composants.
+		Offrir au robot et à l'application mobile un \textbf{accès unifié} aux services
+		techniques (vocal, visage, persistance, cloud) et au moteur n8n, afin de garantir
+		\textbf{flexibilité} (évolution indépendante des composants) et
+		\textbf{disponibilité} (validation, retry, journalisation) sans exposer les secrets
+		ni multiplier les couplages.
 	\end{tcolorbox}
+	
+	%------------------------------------------------------------------
+	\section{Fondements théoriques et positionnement du Distributeur}
+	\label{sec:ch4-fondements}
+	%------------------------------------------------------------------
+	
+	Avant d'aborder l'implémentation, il convient d'expliciter \textbf{pourquoi} le
+	Distributeur est le \textbf{seul composant} capable de relier harmonieusement robot,
+	application, base de données, n8n et cloud.
+	
+	\subsection{Le principe du point de liaison unique}
+	
+	Dans une architecture distribuée, chaque lien direct entre deux composants crée une
+	\textbf{dépendance}~: changement d'URL n8n, rotation de clé Azure ou migration
+	Supabase impose alors de modifier le Raspberry Pi, l'application mobile et les
+	workflows. Le modèle retenu pour KODA inverse cette logique~: seul le Distributeur
+	connaît l'ensemble des partenaires externes~; robot et mobile ne connaissent
+	\textbf{qu'une adresse backend} et un contrat d'interface stable.
+	
+	Ce choix architectural, proche du \textbf{pattern API Gateway}, apporte deux
+	propriétés essentielles~:
+	\begin{description}[leftmargin=!, style=nextline, itemsep=0.4em]
+		\item[\textbf{Flexibilité}] Remplacer Whisper par Azure STT, ou migrer un webhook
+		n8n, se fait dans le backend sans recompiler le robot ni l'application mobile.
+		Les cycles du modèle en spirale (chapitre~II) peuvent avancer en parallèle tant
+		que les contrats d'interface restent respectés.
+		\item[\textbf{Disponibilité}] Le Distributeur centralise la gestion des erreurs
+		(\textit{timeout}, retry WebSocket, validation JSON, transactions atomiques en
+		base). Un échec ponctuel d'un service cloud ne se propage pas brutalement à
+		l'utilisateur~: le backend peut renvoyer un message de repli ou mettre une
+		commande en file d'attente.
+	\end{description}
+	
+	\subsection{Services backend et fonctionnalité globale du système}
+	
+	La \textbf{fonctionnalité globale} de KODA --- dialoguer, mémoriser, personnaliser,
+	accompagner --- ne réside dans aucun composant isolé. Elle émerge de la
+	\textbf{composition de services} que le backend assemble~:
+	\begin{enumerate}[leftmargin=*, itemsep=0.3em]
+		\item \textbf{Service vocal}~: capture $\rightarrow$ STT $\rightarrow$ traitement
+		$\rightarrow$ TTS $\rightarrow$ restitution audio sur le robot~;
+		\item \textbf{Service d'identité}~: reconnaissance faciale, profils utilisateurs,
+		paramètres KODA~;
+		\item \textbf{Service de persistance}~: conversations, historique contextuel,
+		agenda, activités, notes~;
+		\item \textbf{Service d'orchestration cognitive}~: délégation à n8n avec enrichissement
+		du contexte depuis la base~;
+		\item \textbf{Service mobile}~: authentification JWT, CRUD profils/agenda,
+		consultation de l'historique.
+	\end{enumerate}
+	Chaque service est implémenté comme un \textbf{cas d'usage} (Clean Architecture) et
+	exposé via REST ou WebSocket. Le robot vocal et l'application mobile consomment ces
+	services selon leurs besoins, mais partagent la \textbf{même logique métier} et la
+	\textbf{même mémoire}~: une question posée au robot et une saisie dans l'app aboutissent
+	aux mêmes tables PostgreSQL et au même moteur n8n.
+	
+	\subsection{Communication vocale et applicative~: deux faces, un backend}
+	
+	\begin{itemize}[noitemsep]
+		\item \textbf{Face robot (temps réel)}~: le Raspberry Pi maintient une connexion
+		\textbf{WebSocket} persistante pour les commandes, acquittements et flux audio.
+		La latence et la fiabilité sont critiques~; le backend garantit un protocole
+		JSON normalisé et une journalisation des commandes (statut \og en attente \fg{},
+		ACK, retry).
+		\item \textbf{Face application (requête-réponse)}~: KodaMate consomme des
+		\textbf{API REST} authentifiées par JWT (Supabase Auth). Le rythme est moins
+		contraignant, mais la cohérence des données avec le robot est impérative~:
+		modifier l'agenda dans l'app doit être visible lors de la prochaine interaction
+		vocale.
+	\end{itemize}
+	Le Distributeur est le \textbf{garant de cette cohérence}~: il unifie persistance,
+	sécurité et orchestration pour produire, dans les deux cas, un \textbf{rôle et un output
+	parfait} au sens fonctionnel --- réponse adaptée, actions robot correctes, trace
+	enregistrée en base.
 	
 	%------------------------------------------------------------------
 	\section{Modélisation et place dans l'architecture}
 	\label{sec:ch4-modelisation}
 	%------------------------------------------------------------------
 	
-	Cette section fixe le \textbf{cadre fonctionnel} du Cycle~2 avant l'implémentation
-	détaillée. Elle répond à trois questions~: \emph{que fait} le Distributeur (cas
-	d'utilisation), \emph{avec quelles entités} il travaille (schéma de classes /
-	données), et \emph{pourquoi} il est indispensable dans l'architecture globale.
+	La modélisation traduit le cadre théorique ci-dessus en artefacts UML~: \emph{que
+	fait} le Distributeur (cas d'utilisation), \emph{avec quelles entités} il travaille
+	(schéma de classes), et \emph{où} il se situe dans l'architecture multicouche KODA.
 	
 	\subsection{Diagramme de cas d'utilisation général}
 	
@@ -2401,51 +2467,57 @@ Le chapitre suivant, \textbf{«\,Préparation du Projet\,»}, formalise les beso
 		\IfFileExists{public/ducg.png}{%
 			\kodafigureL[\textwidth]{public/ducg.png}{Cycle~2 --- diagramme de cas d'utilisation général du Distributeur de services}{fig:ducgc4-cycle2}
 		}{%
-			\noindent\textit{(Figure à ajouter~: \texttt{public/ducgc4.png}.)}
+		}%
+	}
+	
+	\IfFileExists{public/ch4-schema-classes.png}{%
+		\kodafigureL[0.95\textwidth]{public/ch4-schema-classes.png}{Cycle~2 --- schéma de classes général du backend (persistance PostgreSQL)}{fig:ch4-classes-schema}
+	}{%
+		\IfFileExists{public/koda_schema.png}{%
+			\kodafigureL[0.95\textwidth]{public/koda_schema.png}{Cycle~2 --- schéma de classes et modèle de persistance (PostgreSQL)}{fig:ch4-classes-schema}
+		}{%
 		}%
 	}
 	\FloatBarrier
 	
-	Le diagramme regroupe les interactions typiques~: réception des requêtes du robot ou
-	de l'application, lecture/écriture en base, déclenchement ou consultation des
-	workflows n8n, appels aux services cognitifs. Il sert de \textbf{carte de lecture}
-	pour les quatre communications détaillées au §~\ref{sec:ch4-composition}.
+	Le diagramme de cas d'utilisation regroupe les interactions typiques~: traitement
+	vocal, session WebSocket robot, reconnaissance faciale, authentification mobile,
+	persistance et délégation n8n. Il sert de \textbf{carte de lecture} pour les
 	
-	\subsection{Schéma de classes général}
+	Le schéma de classes (figure~\ref{fig:ch4-classes-schema}, placé sous le cas
+	d'utilisation) matérialise les entités persistées par le Distributeur~:
+	\texttt{Setting}, \texttt{Authentification}, \texttt{Utilisateur},
+	\texttt{Conversation}, \texttt{Historique}, \texttt{Note}, \texttt{Activity},
+	\texttt{InformationPersonelle}, \texttt{Accompagnement} et \texttt{ImageUser}, ainsi
+	que leurs clés étrangères (\texttt{idkoda}, \texttt{iduser}, \texttt{idconv}). Il
+	complète la vue fonctionnelle en montrant \textbf{quoi} est stocké en base,
+	indépendamment des protocoles HTTP ou WebSocket.
 	
-	\IfFileExists{public/ch4-schema-classes.png}{%
-		\kodafigureL[0.95\textwidth]{public/ch4-schema-classes.png}{Cycle~2 --- schéma de classes général du backend}{fig:ch4-classes-schema}
-	}{%
-		\kodafigureL[0.95\textwidth]{public/koda_schema.png}{Cycle~2 --- schéma de classes et modèle de persistance (PostgreSQL)}{fig:ch4-classes-schema}
-	}
-	\FloatBarrier
+	\subsection{Architecture globale~: pivot de flexibilité et de disponibilité}
 	
-	Ce schéma matérialise les entités manipulées par le Distributeur (sessions,
-	conversations, profils, commandes, etc.) et leurs relations. Il complète le cas
-	d'utilisation en montrant \textbf{quoi} est stocké ou transité, indépendamment des
-	protocoles HTTP ou WebSocket.
-	
-	\subsection{Architecture globale et nécessité du Distributeur}
-	
-	La figure~\ref{fig:ch2-architecture-systeme} (déjà introduite au chapitre~II) rappelle
-	la décomposition multicouche de KODA~: n8n pour la \textbf{réflexion}, le
-	\textbf{backend} pour la \textbf{distribution des services}, le \textbf{Raspberry Pi}
-	pour l'\textbf{action} physique, l'\textbf{application mobile} pour la
-	\textbf{configuration}, PostgreSQL pour la \textbf{mémoire} durable.
+	La figure~\ref{fig:ch2-architecture-systeme} (chapitre~II) rappelle la décomposition
+	multicouche de KODA~: n8n pour la \textbf{réflexion}, le \textbf{backend} pour la
+	\textbf{distribution des services}, le \textbf{Raspberry Pi} pour l'\textbf{action}
+	physique, l'\textbf{application mobile} pour la \textbf{configuration}, PostgreSQL
+	pour la \textbf{mémoire} durable.
 	
 	\kodafigureL[0.95\textwidth]{public/ch2-architecture-systeme.png}{Architecture multicouche de KODA --- place du Distributeur de services (Cycle~2)}{fig:ch4-architecture-rappel}
 	
-	Le Distributeur est \textbf{nécessaire} car il constitue le seul point d'entrée
-	\textbf{homogène} vers les ressources partagées~: une modification de la base, d'un
-	webhook n8n ou d'une clé Azure se fait au même endroit, ce qui respecte le modèle en
-	spirale (cycle~2 livrable et testable sans réécrire le robot ni les workflows). Les
-	cycles~1 et~3 restent focalisés sur leur périmètre tout en s'appuyant sur des
-	\textbf{interfaces stables} exposées par ce backend.
+	Le Distributeur est \textbf{indispensable} car il constitue le seul point d'entrée
+	\textbf{homogène} vers les ressources partagées (cf. §~\ref{sec:ch4-fondements})~:
+	une modification de la base, d'un webhook n8n ou d'une clé Azure se fait au même
+	endroit, ce qui respecte le modèle en spirale (cycle~2 livrable et testable sans
+	réécrire le robot ni les workflows). Les cycles~1, 3, 4 et~5 s'appuient sur des
+	\textbf{interfaces stables} exposées par ce backend. Le diagramme de composants
+	détaillé (pivot central) est présenté dans la section modélisation.
 	
 	%------------------------------------------------------------------
 	\section{Architecture interne du backend}
 	\label{sec:ch4-architecture-interne}
 	%------------------------------------------------------------------
+	
+	Cette section décrit \textbf{comment} le Distributeur est structuré en code~: choix
+	technologiques, principes Clean Architecture et organisation des répertoires.
 	
 	\subsection{Choix du langage : Python}
 	
@@ -2530,53 +2602,166 @@ Le chapitre suivant, \textbf{«\,Préparation du Projet\,»}, formalise les beso
 	sérialiseurs). Enfin, la couche \textbf{Frameworks \& Drivers}
 	regroupe tous les détails d'implémentation~: FastAPI, les
 	connecteurs Supabase, les SDK Azure et Gemini.
+	Ces quatre anneaux concentriques orientent les dépendances vers l'intérieur.
 	
 	\subsection{Structure des répertoires du projet}
 	
-	\kodafigureL[0.55\textwidth]{public/archipy.png}{Arborescence du projet backend (Distributeur)}{fig:ch4-archipy}
-	\kodafigureL[0.55\textwidth]{public/archiipy.png}{Exécution du programme backend (Distributeur)}{fig:ch4-archiipy}
+	Le code du Distributeur est organisé selon une \textbf{arborescence} qui reflète
+	la Clean Architecture~: le point d'entrée \texttt{main.py} est configuré par
+	\texttt{config/}, expose les routes via \texttt{controllers/}, délègue la logique
+	à \texttt{application/}, s'appuie sur le \texttt{domain/} et externalise
+	Supabase, Azure et n8n dans \texttt{infrastructure/}, avec \texttt{presentation/}
+	pour les DTO. À la racine du projet figurent \texttt{.env},
+	\texttt{requirements.txt}, \texttt{migrations/} et \texttt{tests/unit/}.
 	
+	\kodafigureL[0.92\textwidth]{public/archipy.png}{Architecture des dossiers du projet backend Distributeur (\texttt{src/})}{fig:ch4-archipy}
+	\FloatBarrier
 	
-	
-	%------------------------------------------------------------------
-	\section{Composition du Distributeur : communications}
-	\label{sec:ch4-composition}
-	%------------------------------------------------------------------
-	
-	Le Distributeur se comprend le mieux comme un \textbf{nœud de communication} entre
-	quatre partenaires du système. Chaque sous-section décrit un flux, ses protocoles et
-	son rôle dans l'expérience KODA.
-	
-	\subsection{Communication avec le système embarqué}
-	
-	L'interface avec le \textbf{robot physique} (Raspberry Pi et microcontrôleurs) est
-	l'une des plus sensibles~: latence faible, commandes critiques, retours d'état en
-	temps réel. Le backend maintient une connexion \textbf{WebSocket} persistante pour
-	échanger des messages JSON (commandes moteur, émotions, acquittements).
-	
-	Chaque commande est journalisée (statut \og en attente \fg{}, puis confirmée par
-	ACK), avec \textit{retry} en cas de timeout. La figure~\ref{fig:dscse-robot} illustre
-	le scénario type robot $\leftrightarrow$ Distributeur.
-	
-	\IfFileExists{public/dscse.png}{%
-		\kodafigureL[0.95\textwidth]{public/dscse.png}{Communication avec le système embarqué --- diagramme de séquence}{fig:dscse-robot}
+	\IfFileExists{public/archiipy.png}{%
+		\kodafigureL[0.55\textwidth]{public/archiipy.png}{Exécution du programme backend (Distributeur)}{fig:ch4-archiipy}
 	}{}
 	
-	\subsubsection{Voix et parole (Azure STT / TTS)}
+	La figure~\ref{fig:ch4-archipy} résume le flux de dépendances~:
+	\texttt{config} $\rightarrow$ \texttt{main.py} $\rightarrow$ \texttt{controllers}
+	$\rightarrow$ \texttt{application}, puis branches vers \texttt{domain},
+	\texttt{infrastructure} et \texttt{presentation}.
 	
-	Le robot capture l'audio~; le \textbf{Distributeur} transmet ce flux vers
-	\textbf{Azure Speech-to-Text}, récupère le texte, déclenche le traitement
-	conversationnel (souvent via n8n), puis renvoie la réponse synthétisée par
-	\textbf{Text-to-Speech}. Centraliser Azure côté backend évite d'exposer les clés sur
-	l'embarqué et uniformise la journalisation.
+	%------------------------------------------------------------------
+	\section{Services exposés et flux de communication}
+	\label{sec:ch4-services}
+	%------------------------------------------------------------------
 	
-	\begin{enumerate}[leftmargin=*, itemsep=0.2em]
-		\item capture audio sur le robot $\rightarrow$ envoi au Distributeur~;
-		\item transcription STT (Azure)~;
-		\item traitement du texte (workflow / services)~;
-		\item synthèse TTS (Azure)~;
-		\item retour audio vers le robot.
+	Le §~\ref{sec:ch4-fondements} a posé le \textbf{cadre théorique}~: le Distributeur
+	assemble des services pour produire la fonctionnalité globale de KODA. Cette section
+	décrit \textbf{concrètement} chaque flux~: protocoles, séquences et rôle dans
+	l'expérience utilisateur (vocale ou applicative).
+	
+	\subsection{Interaction avec le système embarqué (robot)}
+	\label{sec:ch4-robot-interaction}
+	
+	L'interface avec le \textbf{robot physique} (Raspberry Pi et microcontrôleurs) repose
+	sur \textbf{deux actions vocales} initiées par le \textbf{système embarqué} auprès du
+	Distributeur. Le robot ne contacte \textbf{jamais} directement n8n, Supabase ou Azure~:
+	le backend centralise l'orchestration, la sécurité et la synthèse audio.
+	
+	\subsubsection{Cas d'utilisation robot $\leftrightarrow$ backend}
+	
+	La figure~\ref{fig:ch4-robot-use-cases} présente les deux cas d'utilisation vus du
+	côté embarqué~:
+	\begin{itemize}[noitemsep]
+		\item \textbf{Demander une réponse vocale}~: le robot transmet une question ou un
+		flux audio~; le Distributeur s'appuie sur \textbf{Azure Speech Services} (STT/TTS)
+		et sur l'\textbf{Analyseur et Réflexion} (\textbf{Flux~1} --- Webhook~1, chapitre~III),
+		puis persiste ou consulte la \textbf{base de données}~;
+		\item \textbf{Demander une introduction de parole vocale}~: lors d'une détection de
+		présence, le robot sollicite un \textbf{accueil proactif}~; le Distributeur invoque
+		l'\textbf{Analyseur et Réflexion} (\textbf{Flux~3} --- Webhook~3) et retourne le texte
+		synthétisé en \textbf{audio pré-enregistré} via Azure TTS.
+	\end{itemize}
+	
+	\kodafigureL[0.88\textwidth]{public/ch4-robot-use-cases.png}{Cycle~2 --- cas d'utilisation du système embarqué vis-à-vis du Distributeur de services}{fig:ch4-robot-use-cases}
+	\FloatBarrier
+	
+	Les sous-sections suivantes détaillent le \textbf{diagramme de séquence} de chaque
+	scénario.
+	
+	\subsubsection{Action 1 --- Demander une réponse vocale (Flux~1)}
+	\label{sec:ch4-robot-flux1}
+	
+	La première action correspond au cas d'utilisation \og \textbf{Demander une réponse
+	vocale} \fg{} (figure~\ref{fig:ch4-robot-use-cases}). Lors d'un dialogue, le système
+	embarqué transmet au Distributeur une \textbf{photo} (identification) et un
+	\textbf{flux audio} (question). Le backend~:
+	\begin{enumerate}[leftmargin=*, itemsep=0.25em]
+		\item identifie l'interlocuteur via le \textbf{service de reconnaissance faciale}
+		(\texttt{getUserName})~;
+		\item transcrit l'audio en texte via \textbf{Azure STT}~;
+		\item normalise la langue (traduction vers le français si nécessaire)~;
+		\item invoque le \textbf{Webhook~1} (Flux~1 --- Analyseur et Réflexion,
+		chapitre~III) pour produire la réponse~;
+		\item traduit éventuellement la réponse en arabe~;
+		\item synthétise la phrase via \textbf{Azure TTS}~;
+		\item retourne au robot le \textbf{JSON}, le \textbf{flux audio} et les commandes
+		d'affichage~;
+		\item persiste l'échange dans PostgreSQL (étape optionnelle).
 	\end{enumerate}
+	
+	Le Raspberry Pi se contente de \textbf{capturer} la parole et la photo, puis de
+	\textbf{restituer} la réponse (haut-parleur et écran Nextion). Pour une meilleure
+	lisibilité, la figure~\ref{fig:ch4-robot-flux1-compact} présente une \textbf{vue
+	synthétique} en trois phases~; les figures~\ref{fig:ch4-robot-flux1-partA}
+	et~\ref{fig:ch4-robot-flux1-partB} détaillent respectivement l'\textbf{entrée}
+	(capture, identification, STT) et la \textbf{sortie} (Flux~1, TTS, restitution).
+	
+	\kodafigureL[0.92\textwidth]{public/ch4-robot-flux1-vocal-compact.png}{Action 1 --- vue compacte du pipeline vocal (Flux~1)}{fig:ch4-robot-flux1-compact}
+	
+	\kodafigureL[0.98\textwidth]{public/ch4-robot-flux1-vocal-partA.png}{Action 1 (a) --- entrée : capture, identification faciale et transcription STT}{fig:ch4-robot-flux1-partA}
+	
+	\kodafigureL[0.98\textwidth]{public/ch4-robot-flux1-vocal-partB.png}{Action 1 (b) --- sortie : Flux~1, synthèse TTS et restitution au robot}{fig:ch4-robot-flux1-partB}
+	\FloatBarrier
+	
+	\paragraph{Lien avec le Cycle~1.}
+	Le Flux~1 correspond au \textbf{Webhook~1} documenté au chapitre~III (Analyseur et
+	Réflexion). Le Distributeur centralise l'accès aux services Azure, à la traduction et
+	à n8n~: l'embarqué n'expose aucune clé API cloud.
+	
+	\subsubsection{Action 2 --- Demander une introduction de parole (Flux~3)}
+	\label{sec:ch4-robot-flux3}
+	
+	La seconde action correspond au cas d'utilisation \og \textbf{Demander une introduction
+	de parole vocale} \fg{} (figure~\ref{fig:ch4-robot-use-cases}). Elle intervient lorsque
+	le robot \textbf{détecte une présence} (caméra, reconnaissance faciale) et souhaite
+	\textbf{prendre la parole en premier} pour accueillir l'utilisateur. Le système embarqué envoie une requête HTTP au
+	Distributeur (identifiant \texttt{username} ou \texttt{acteur}, personne connue ou
+	\texttt{unkonu}). Le backend~:
+	\begin{enumerate}[leftmargin=*, itemsep=0.25em]
+		\item invoque le \textbf{Webhook~3} (Flux~3 --- spontanéité, chapitre~III)~;
+		\item récupère depuis n8n le texte \texttt{parole\_du\_robot} et l'émotion
+		\texttt{emotion\_visuelle}, enrichis par les fiches \texttt{accompagnement}
+		(Webhook~2)~;
+		\item synthétise la phrase via \textbf{Azure TTS}~;
+		\item retourne au robot le \textbf{JSON} et le \textbf{flux audio pré-synthétisé}.
+	\end{enumerate}
+	
+	Le Raspberry Pi se contente de \textbf{restituer} l'audio (haut-parleur) et
+	d'afficher l'émotion sur l'écran Nextion. Comme pour l'Action~1, la
+	figure~\ref{fig:ch4-robot-flux3-compact} résume le scénario en \textbf{deux phases}~;
+	les figures~\ref{fig:ch4-robot-flux3-partA} et~\ref{fig:ch4-robot-flux3-partB}
+	en détaillent l'\textbf{entrée} (détection, identification) et la
+	\textbf{sortie} (Flux~3, TTS, restitution).
+	
+	\kodafigureL[0.92\textwidth]{public/ch4-robot-flux3-intro-compact.png}{Action 2 --- vue compacte de l'introduction de parole (Flux~3)}{fig:ch4-robot-flux3-compact}
+	
+	\kodafigureL[0.98\textwidth]{public/ch4-robot-flux3-intro-partA.png}{Action 2 (a) --- entrée : détection de présence et requête au Distributeur}{fig:ch4-robot-flux3-partA}
+	
+	\kodafigureL[0.98\textwidth]{public/ch4-robot-flux3-intro-partB.png}{Action 2 (b) --- sortie : Flux~3, synthèse TTS et restitution au robot}{fig:ch4-robot-flux3-partB}
+	\FloatBarrier
+	
+	\paragraph{Lien avec le Cycle~1.}
+	Le Flux~3 correspond au \textbf{Webhook~3} documenté au chapitre~III (spontanéité et
+	interaction proactive). Le Distributeur en est le \textbf{seul point d'accès} côté
+	robot~: il traduit l'appel embarqué en webhook n8n, puis en réponse audio exploitable
+	par l'embarqué.
+	
+	\subsubsection{Chaîne vocale complète (Azure STT / TTS)}
+	
+	La dimension vocale est au c\oe{}ur de l'expérience KODA. Le robot \textbf{capture}
+	l'audio localement~; le backend prend en charge l'intégralité du traitement cloud et
+	cognitif, puis renvoie un \textbf{output unifié} (audio synthétisé, commandes
+	d'affichage et de mouvement). Ce découpage garantit que l'embarqué reste léger et
+	que les clés Azure ne quittent jamais le serveur.
+	
+	Le pipeline théorique s'articule ainsi~:
+	\begin{enumerate}[leftmargin=*, itemsep=0.2em]
+		\item capture audio sur le robot $\rightarrow$ envoi au backend (HTTP ou WebSocket)~;
+		\item transcription \textbf{Speech-to-Text} (Azure)~;
+		\item enrichissement du contexte depuis PostgreSQL (historique, profil)~;
+		\item traitement conversationnel via \textbf{webhook n8n} (Cycle~1)~;
+		\item synthèse \textbf{Text-to-Speech} (Azure)~;
+		\item retour audio et actions vers le robot.
+	\end{enumerate}
+	Les routes REST associées sont recensées au tableau~\ref{tab:ch4-endpoints-robot}
+	(\texttt{/api/audio/*}).
 	
 	\IfFileExists{public/azur.png}{%
 		\kodafigure[0.95\textwidth]{public/azur.png}{Configuration Azure Speech (STT/TTS)}
@@ -2606,42 +2791,110 @@ Le chapitre suivant, \textbf{«\,Préparation du Projet\,»}, formalise les beso
 		sur le serveur de déploiement.
 	\end{tcolorbox}
 	
-	\subsection{Communication avec l'application mobile}
+	\subsection{Interaction avec l'application mobile KodaMate (REST / JSON)}
+	\label{sec:ch4-mobile-interaction}
 	
-	L'application \textbf{Flutter} consomme des \textbf{API REST} exposées par le
-	Distributeur~: authentification, profils, agenda, activités, journaux d'échange,
-	paramètres du robot. Chaque requête est sécurisée par \textbf{JWT} (Supabase Auth),
-	validé par un middleware FastAPI transversal.
+	L'application \textbf{KodaMate} (.NET MAUI~8, Cycle~5) constitue l'interface
+	utilisateur mobile du système. Elle consomme un \textbf{sous-ensemble} des API REST
+	du Distributeur~; elle ne contacte \textbf{jamais} directement Supabase ni n8n.
+	Toute opération métier transite par le backend, seul habilité à accéder à la base,
+	aux webhooks et aux clés de services cloud. Le catalogue complet des routes est
+	donné au §~\ref{sec:ch4-endpoints}~; cette sous-section en décrit le
+	\textbf{fonctionnement} et les \textbf{flux} principaux.
 	
-	\IfFileExists{public/listeendpoint.png}{%
-		\kodafigureL[0.90\textwidth]{public/listeendpoint.png}{Endpoints REST exposés à l'application mobile}{fig:ch4-endpoints-mobile}
-	}{}
+	\subsubsection{Contexte architectural}
+	
+	KodaMate s'inscrit dans une architecture \textbf{client--serveur en trois couches}~:
+	\begin{enumerate}[leftmargin=*, itemsep=0.25em]
+		\item \textbf{Présentation}~: application mobile KodaMate (.NET MAUI) sur
+		smartphone Android (ou autre cible MAUI)~;
+		\item \textbf{Services}~: backend Distributeur (FastAPI / Python), API REST
+		centralisée hébergée sur le PC ou le VPS du projet~;
+		\item \textbf{Données}~: PostgreSQL distant (Supabase), accessible
+		\textbf{exclusivement} via le backend (ORM \texttt{SQLAlchemy} / \texttt{asyncpg}).
+	\end{enumerate}
+	
+	Cette séparation garantit la cohérence avec le pipeline vocal du robot~: robot,
+	mobile et n8n partagent la \textbf{même mémoire} PostgreSQL, mais seul le
+	Distributeur en assure l'accès contrôlé.
+	
+	\subsubsection{Principe de communication}
+	
+	L'échange s'effectue en \textbf{HTTP/JSON} sur le réseau local Wi-Fi (ou Internet
+	en déploiement distant)~:
+	\begin{itemize}[noitemsep]
+		\item \textbf{URL de base}~: \texttt{http://<IP-du-PC>:8000/api} (configurable)~;
+		\item \textbf{Protocole}~: REST (\texttt{GET}, \texttt{POST}, \texttt{PUT})~;
+		\item \textbf{Format}~: corps et réponses en JSON~;
+		\item \textbf{Timeout côté mobile}~: 60~secondes (latences Supabase et n8n)~;
+		\item \textbf{Validation serveur}~: middleware FastAPI transversal (CORS, parsing).
+	\end{itemize}
+	
+	Au \textbf{démarrage}, l'application vérifie la disponibilité du serveur via
+	l'écran de connexion. Après authentification réussie, une \textbf{session locale}
+	(email, \texttt{idproduit}, \texttt{idkoda}) est conservée dans les préférences
+	MAUI (\texttt{Preferences}) pour les écrans suivants.
+	
+	\subsubsection{Flux fonctionnels principaux}
+	
+	\paragraph{Authentification.}
+	L'utilisateur saisit email et mot de passe. L'application envoie~:
+	\texttt{POST /api/auth/login} avec \texttt{\{emailclient, motdepasse\}}.
+	Le backend interroge la table d'authentification sur Supabase, valide les
+	identifiants et renvoie \texttt{\{idproduit, emailclient, idkoda\}}. Ces données
+	alimentent la configuration robot, le chat et l'historique.
+	
+	\paragraph{Configuration et contrôle du robot.}
+	\begin{itemize}[noitemsep]
+		\item lecture des paramètres~: \texttt{GET /api/settings} (nom, langue, état
+		on/off, caractère, etc.)~;
+		\item enregistrement~: \texttt{PUT /api/settings}~;
+		\item allumage / extinction~: \texttt{POST /api/power-on} et
+		\texttt{POST /api/power-off}.
+	\end{itemize}
+	L'état du robot (\texttt{etat}) provient de la table \texttt{setting} en base.
+	
+	\paragraph{Chat intelligent (délégation n8n).}
+	Depuis l'onglet Chat, l'utilisateur envoie un message. L'application~:
+	\begin{enumerate}[leftmargin=*, itemsep=0.2em]
+		\item ajoute un suffixe identifiant au texte (ex.~\og oussama \fg{})~;
+		\item appelle \texttt{POST /api/trigger-n8n} avec \texttt{\{question: \"...\"\}}~;
+		\item le backend transmet la requête au workflow n8n (variable
+		\texttt{N8N\_WEBHOOK\_URL})~;
+		\item n8n traite la question (IA, notes, contexte) et renvoie un JSON contenant
+		le champ \texttt{output}~;
+		\item KodaMate extrait et affiche uniquement le texte de \texttt{output}.
+	\end{enumerate}
+	Le mobile \textbf{ne connaît pas} l'URL n8n~: seul le Distributeur y accède, ce
+	qui respecte le principe du point de liaison unique (§~\ref{sec:ch4-fondements}).
+	
+	\paragraph{Historique des conversations.}
+	L'onglet Historique charge les échanges via \texttt{GET /api/conversations} (filtres
+	optionnels \texttt{date\_from}, \texttt{date\_to}), ou en secours
+	\texttt{GET /api/conversations/last100}. Les messages s'affichent en bulles
+	(question utilisateur à droite, réponse KODA à gauche), groupés par date.
+	
+	\paragraph{Données complémentaires (hors backend).}
+	\begin{itemize}[noitemsep]
+		\item \textbf{Météo} (écran Accueil)~: appel direct à l'API externe Open-Meteo,
+		sans passer par le Distributeur~;
+		\item \textbf{Notifications}~: service simulé localement
+		(\texttt{MockFirebaseService}), non branché au backend à ce stade~;
+		\item \textbf{Wi-Fi}~: scan Android natif, sans endpoint backend.
+	\end{itemize}
+	
 	\IfFileExists{public/exucution.png}{%
-		\kodafigure[0.90\textwidth]{public/exucution.png}{Exécution de quelques endpoints (tests)}
+		\kodafigure[0.90\textwidth]{public/exucution.png}{Exécution de quelques endpoints (tests manuels)}
 	}{}
 	
-	\begin{table}[htbp]
-		\centering
-		\caption{Endpoints exposés à l'application mobile (à compléter)}
-		\label{tab:endpoints_mobile}
-		\renewcommand{\arraystretch}{1.3}
-		\begin{tabular}{|l|c|l|}
-			\hline
-			\textbf{Endpoint} & \textbf{Méthode} & \textbf{Description} \\
-			\hline
-			&  &  \\
-			&  &  \\
-			\hline
-		\end{tabular}
-	\end{table}
-	
-	\subsection{Communication avec la base de données}
+	\subsection{Persistance et modèle de données (PostgreSQL / Supabase)}
 	
 	La couche de persistance repose sur \textbf{PostgreSQL} hébergé sur
 	\textbf{Supabase} (interface d'administration, SQL, gestion des accès).
-	Le Distributeur y accède via \texttt{SQLAlchemy} (ORM) et \texttt{asyncpg}
+	Le backend y accède via \texttt{SQLAlchemy} (ORM) et \texttt{asyncpg}
 	(asynchrone), selon la chaîne~:
-	\textit{API REST $\rightarrow$ service $\rightarrow$ repository $\rightarrow$ PostgreSQL}.
+	\textit{API REST $\rightarrow$ cas d'usage $\rightarrow$ repository $\rightarrow$ PostgreSQL}.
+	C'est la \textbf{mémoire partagée} entre interactions vocales et applicatives.
 	
 	\IfFileExists{public/supabase.jpg}{%
 		\kodafigureL[0.95\textwidth]{public/supabase.jpg}{Interface Supabase --- administration PostgreSQL}{fig:supabase_interface}
@@ -2666,53 +2919,352 @@ Le chapitre suivant, \textbf{«\,Préparation du Projet\,»}, formalise les beso
 \noindent Le détail des relations entre tables est donné par la
 figure~\ref{fig:ch4-classes-schema} (§~\ref{sec:ch4-modelisation}).
 	
-	\subsection{Communication avec le workflow n8n}
+	\subsection{Délégation du raisonnement au workflow n8n}
 	
-	Le moteur de workflow \textbf{n8n} joue le rôle d'orchestrateur
-	cognitif du système~: il reçoit les requêtes, applique la logique de
-	traitement et renvoie une réponse structurée au backend. Dans notre
-	architecture, la communication entre Python et n8n est fondée sur un
-	échange HTTP de type \textbf{requête/réponse} via webhook.
-
-	\subsubsection*{Rôle de cette communication}
-	L'objectif principal est de déléguer à n8n la logique
-	conversationnelle et décisionnelle, tout en conservant dans le backend
-	Python les fonctions techniques (sécurité, accès base de données,
-	services matériels). Cette séparation permet de modifier rapidement le
-	comportement métier dans n8n sans impacter la couche d'exposition API.
-
-	\subsubsection*{Flux détaillé : de la requête à la réponse}
+	Le moteur de workflow \textbf{n8n} (Cycle~1) joue le rôle d'\textbf{orchestrateur
+	cognitif}~: il reçoit une question enrichie, applique la logique de traitement et
+	renvoie une réponse structurée. Le backend ne duplique pas cette intelligence~: il
+	\textbf{prépare le contexte} (identité, historique), \textbf{appelle le webhook},
+	\textbf{valide la réponse} et \textbf{persiste} l'échange. Cette séparation permet
+	de modifier rapidement le comportement métier dans n8n sans impacter la couche
+	d'exposition API ni le robot.
+	
 	Le scénario standard suit les étapes suivantes~:
 	\begin{enumerate}
-		\item le backend récupère le \textbf{nom de l'utilisateur} (ou son identifiant) et la \textbf{question} formulée~;
-		\item il construit un payload JSON normalisé (ex.~: \texttt{\{"name":"...", "question":"..."\}})~;
-		\item ce payload est envoyé au webhook n8n via une requête \texttt{HTTP POST}~;
-		\item n8n exécute le workflow correspondant~: enrichissement du contexte, appels de services, règles de décision et génération de réponse~;
-		\item n8n retourne un objet de sortie contenant la \textbf{réponse finale}~;
-		\item le backend valide le format, journalise l'échange et renvoie la réponse au robot ou à l'application cliente.
+		\item récupération du \textbf{nom de l'utilisateur} (ou identifiant) et de la
+		\textbf{question} formulée~;
+		\item construction d'un payload JSON normalisé (ex.~:
+		\texttt{\{"name":"...", "question":"..."\}})~;
+		\item envoi au webhook n8n via \texttt{HTTP POST} (timeout configurable)~;
+		\item exécution du workflow~: enrichissement, appels LLM, règles de décision~;
+		\item retour de la \textbf{réponse finale} et métadonnées éventuelles~;
+		\item validation, journalisation et renvoi au robot ou à l'application cliente.
 	\end{enumerate}
-
-	Sur le plan qualité, cette interface inclut la gestion des
-	\textit{timeouts}, le contrôle des erreurs de webhook et la validation
-	du schéma de réponse pour garantir la robustesse en exploitation.
+	
+	Sur le plan qualité, cette interface inclut la gestion des \textit{timeouts}, le
+	contrôle des erreurs de webhook et la validation du schéma de réponse.
 	\IfFileExists{public/captureworkflowinput.png}{%
 		\kodafigureL[0.95\textwidth]{public/captureworkflowinput.png}{Communication avec n8n --- exemple de payload en entrée de webhook}{fig:ch4-n8n-input}
 	}{}
 	
 	%------------------------------------------------------------------
-	\section{Problèmes Rencontrés et Solutions Apportées}
+	\section{Catalogue des endpoints REST du Distributeur}
+	\label{sec:ch4-endpoints}
 	%------------------------------------------------------------------
 	
-	Le développement du backend a été ponctué de plusieurs défis
-	techniques significatifs. Le tableau~\ref{tab:problemes} en
-	présente les principaux, accompagnés des solutions retenues.
+	Le Distributeur expose \textbf{65 routes HTTP} au total~: \textbf{60 endpoints métier}
+	sous le préfixe \texttt{/api} et \textbf{5 routes} de documentation ou de santé à
+	la racine. Plutôt qu'une liste plate, ce catalogue les regroupe selon
+	\textbf{l'axe de communication} qu'ils matérialisent~: avec le \textbf{système
+	embarqué}, l'\textbf{application mobile}, la \textbf{base PostgreSQL}, le
+	\textbf{workflow n8n}, ou les outils d'\textbf{exploitation}. Certains endpoints
+	 sont \textbf{partagés} entre plusieurs clients (ex.~: \texttt{/api/conversations}
+	 alimenté par le robot et consulté par KodaMate).
+	
+	\begin{table}[htbp]
+		\centering
+		\caption{Répartition des 65 endpoints par axe de communication}
+		\label{tab:ch4-endpoints-synthese}
+		\small
+		\renewcommand{\arraystretch}{1.25}
+		\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.4cm}|c|>{\raggedright\arraybackslash}X|}
+			\hline
+			\textbf{Axe de communication} & \textbf{Nb} & \textbf{Rôle principal} \\
+			\hline
+			Exploitation / documentation &
+			5 &
+			Santé serveur, Swagger, OpenAPI (\texttt{/}, \texttt{/docs}\ldots) \\
+			\hline
+			Persistance PostgreSQL (Supabase) &
+			46 &
+			CRUD sur utilisateurs, conversations, notes, paramètres, etc. \\
+			\hline
+			Système embarqué (Raspberry Pi) &
+			5 &
+			Audio Azure, reconnaissance faciale, mot-clé de réveil \\
+			\hline
+			Délégation n8n / IA &
+			2 &
+			Déclenchement workflow et pipeline vocal complet \\
+			\hline
+			Application mobile (KodaMate) &
+			9 actifs &
+			Consommés à l'écran~; 5 endpoints \og notes \fg{} codés mais non branchés \\
+			\hline
+			\textbf{Total backend} & \textbf{65} & 60 métier + 5 docs/racine \\
+			\hline
+		\end{tabularx}
+	\end{table}
+	
+	\noindent\textit{Remarque}~: le décompte par axe peut se chevaucher~: un endpoint de
+	persistance est invoqué indifféremment par le robot, n8n (via le backend) ou
+	l'application mobile.
+	
+	\subsection{Infrastructure et documentation (hors \texttt{/api})}
+	
+	Ces routes servent au \textbf{déploiement}, aux tests de connectivité et à la
+	documentation interactive FastAPI.
+	
+	\begin{table}[htbp]
+		\centering
+		\caption{Endpoints racine --- exploitation et documentation}
+		\label{tab:ch4-endpoints-infra}
+		\small
+		\renewcommand{\arraystretch}{1.2}
+		\begin{tabularx}{\textwidth}{|c|c|>{\raggedright\arraybackslash}p{4.2cm}|>{\raggedright\arraybackslash}X|}
+			\hline
+			\textbf{\#} & \textbf{Méth.} & \textbf{Endpoint} & \textbf{Description} \\
+			\hline
+			1 & GET & \texttt{/} & Santé serveur (\texttt{message}, préfixes de routes) \\
+			2 & GET & \texttt{/test} & Test simple de disponibilité \\
+			3 & GET & \texttt{/docs} & Interface Swagger UI (FastAPI) \\
+			4 & GET & \texttt{/redoc} & Documentation ReDoc \\
+			5 & GET & \texttt{/openapi.json} & Schéma OpenAPI exportable \\
+			\hline
+		\end{tabularx}
+	\end{table}
+	
+	\subsection{Communication avec PostgreSQL (persistance Supabase)}
+	
+	Ces endpoints traduisent la couche \textbf{mémoire durable} du système. Ils sont
+	consommés par le backend lui-même au service du robot, de n8n ou de KodaMate. La
+	chaîne interne reste~:
+	\textit{route REST $\rightarrow$ cas d'usage $\rightarrow$ repository $\rightarrow$ PostgreSQL}.
+	
+	\subsubsection{Santé de la base}
+	
+	\begin{table}[htbp]
+		\centering
+		\small
+		\renewcommand{\arraystretch}{1.2}
+		\begin{tabularx}{\textwidth}{|c|c|>{\raggedright\arraybackslash}p{5.5cm}|>{\raggedright\arraybackslash}X|}
+			\hline
+			\textbf{\#} & \textbf{Méth.} & \textbf{Endpoint} & \textbf{Description} \\
+			\hline
+			6 & GET & \texttt{/api/db-test} & Test de connexion Supabase / PostgreSQL \\
+			\hline
+		\end{tabularx}
+		\caption{Endpoint de diagnostic base de données}
+		\label{tab:ch4-endpoints-dbtest}
+	\end{table}
+	
+	\subsubsection{Entités persistées (CRUD)}
+	
+	\begin{table}[htbp]
+		\centering
+		\caption{Endpoints CRUD --- communication avec PostgreSQL par entité}
+		\label{tab:ch4-endpoints-crud}
+		\footnotesize
+		\renewcommand{\arraystretch}{1.15}
+		\begin{tabularx}{\textwidth}{|c|c|>{\raggedright\arraybackslash}p{5.8cm}|>{\raggedright\arraybackslash}>{\raggedright\arraybackslash}X|}
+			\hline
+			\textbf{\#} & \textbf{Méth.} & \textbf{Endpoint} & \textbf{Entité / table} \\
+			\hline
+			\multicolumn{4}{|l|}{\textit{Utilisateurs (\texttt{utilisateur})}} \\
+			7--11 & GET/POST/PUT/DELETE & \texttt{/api/users}, \texttt{/api/users/\{iduser\}} & Profils des personnes connues de KODA \\
+			\hline
+			\multicolumn{4}{|l|}{\textit{Images utilisateur (\texttt{imageuser})}} \\
+			12--17 & GET/POST/PUT/DELETE & \texttt{/api/user-images\ldots}, \texttt{/by-user/\{iduser\}} & Photos et encodages faciaux \\
+			\hline
+			\multicolumn{4}{|l|}{\textit{Historique contextuel (\texttt{historique})}} \\
+			18--21 & GET/POST/DELETE & \texttt{/api/history}, \texttt{/api/history/\{historique\_id\}} & Fenêtre des derniers messages (mémoire immédiate) \\
+			\hline
+			\multicolumn{4}{|l|}{\textit{Conversations (\texttt{conversation})}} \\
+			22--27 & GET/POST/PUT/DELETE & \texttt{/api/conversations\ldots}, \texttt{/last100} & Archive des échanges robot--humain \\
+			\hline
+			\multicolumn{4}{|l|}{\textit{Notes et rendez-vous (\texttt{note})}} \\
+			28--33 & GET/POST/PUT/PATCH/DELETE & \texttt{/api/notes\ldots}, \texttt{/etat?etat=} & Agenda, rappels, bascule d'état \\
+			\hline
+			\multicolumn{4}{|l|}{\textit{Paramètres robot (\texttt{setting})}} \\
+			34--35 & GET/PUT & \texttt{/api/settings} & Identité KODA (nom, langue, caractère, état) \\
+			\hline
+			\multicolumn{4}{|l|}{\textit{Informations personnelles}} \\
+			36--40 & GET/POST/PUT/DELETE & \texttt{/api/personal-info\ldots}, \texttt{/user/\{iduser\}} & Faits mémorisés sur l'utilisateur \\
+			\hline
+			\multicolumn{4}{|l|}{\textit{Accompagnements}} \\
+			41--46 & GET/POST/PUT/DELETE & \texttt{/api/accompagnements\ldots}, \texttt{/user/\{iduser\}} & Synthèses et conseils quotidiens \\
+			\hline
+			\multicolumn{4}{|l|}{\textit{Inscriptions produit (\texttt{auth/registrations})}} \\
+			47--52 & POST/GET/PUT/DELETE & \texttt{/api/auth/login}, \texttt{/api/auth/registrations\ldots} & Authentification et comptes KodaMate \\
+			\hline
+			\multicolumn{4}{|l|}{\textit{Activités (alias notes)}} \\
+			54--58 & GET/POST/PUT/DELETE & \texttt{/api/activities\ldots} & Activités utilisateur saisies depuis le mobile \\
+			\hline
+		\end{tabularx}
+	\end{table}
+	
+	\noindent L'endpoint \texttt{POST /api/auth/login} (\#47) appartient à la persistance
+	des comptes tout en constituant le \textbf{point d'entrée} de l'application mobile
+	(cf. §~\ref{sec:ch4-endpoints-mobile}).
+	
+	\subsection{Communication avec le système embarqué (Raspberry Pi)}
+	
+	Ces routes sont \textbf{primordialement} consommées par le Raspberry Pi (Cycle~4) pour
+	la voix, la vision et le mot de réveil. Elles s'ajoutent au canal \textbf{WebSocket}
+	(temps réel) décrit au §~\ref{sec:ch4-services}.
+	
+	\begin{table}[htbp]
+		\centering
+		\caption{Endpoints orientés robot --- audio, vision et mot-clé}
+		\label{tab:ch4-endpoints-robot}
+		\small
+		\renewcommand{\arraystretch}{1.2}
+		\begin{tabularx}{\textwidth}{|c|c|>{\raggedright\arraybackslash}p{5.5cm}|>{\raggedright\arraybackslash}X|}
+			\hline
+			\textbf{\#} & \textbf{Méth.} & \textbf{Endpoint} & \textbf{Description} \\
+			\hline
+			59 & POST & \texttt{/api/identify-face} & Reconnaissance faciale (\texttt{multipart}, fichier image) \\
+			62 & POST & \texttt{/api/audio/speech-to-text} & Transcription Azure STT \\
+			63 & POST & \texttt{/api/audio/text-to-speech} & Synthèse Azure TTS \\
+			64 & POST & \texttt{/api/audio/speech-to-n8n-to-speech} & Pipeline vocal complet (STT $\rightarrow$ n8n $\rightarrow$ TTS) \\
+			65 & GET & \texttt{/api/keywords/robot-name} & Mot-clé / nom de réveil du robot \\
+			\hline
+		\end{tabularx}
+	\end{table}
+	
+	Le robot s'appuie également, de façon indirecte, sur les endpoints de
+	\textbf{persistance} (utilisateurs, historique, conversations) lorsque n8n ou le
+	backend enregistrent une interaction vocale.
+	
+	\subsection{Communication avec le workflow n8n (Cycle~1)}
+	
+	\begin{table}[htbp]
+		\centering
+		\caption{Endpoints de délégation au moteur n8n}
+		\label{tab:ch4-endpoints-n8n}
+		\small
+		\renewcommand{\arraystretch}{1.2}
+		\begin{tabularx}{\textwidth}{|c|c|>{\raggedright\arraybackslash}p{5.8cm}|>{\raggedright\arraybackslash}X|}
+			\hline
+			\textbf{\#} & \textbf{Méth.} & \textbf{Endpoint} & \textbf{Description} \\
+			\hline
+			53 & POST & \texttt{/api/trigger-n8n} & Envoi \texttt{\{question\}} au webhook n8n, retour \texttt{\{output\}} \\
+			64 & POST & \texttt{/api/audio/speech-to-n8n-to-speech} & Variante vocale intégrée (STT + n8n + TTS) \\
+			\hline
+		\end{tabularx}
+	\end{table}
+	
+	\noindent\texttt{POST /api/trigger-n8n} est aussi invoqué par \textbf{KodaMate} depuis
+	l'écran Chat~; c'est l'exemple le plus visible d'un endpoint \textbf{croisé} entre
+	robot (via pipeline vocal) et application mobile (saisie texte).
+	
+	\subsection{Communication avec l'application mobile (KodaMate)}
+	\label{sec:ch4-endpoints-mobile}
+	
+	L'application \textbf{KodaMate (.NET MAUI)} n'utilise qu'un \textbf{sous-ensemble} du catalogue~: neuf
+	endpoints backend sont effectivement appelés à l'écran, auxquels s'ajoute une API
+	météo externe. Les endpoints \og alimentation robot \fg{} (\texttt{power-on/off})
+	sont exclusifs au mobile~; le Wi-Fi et les notifications restent locaux (pas de route
+	backend).
+	
+	\subsubsection{Endpoints consommés à l'écran}
+	
+	\begin{table}[htbp]
+		\centering
+		\caption{Endpoints backend effectivement utilisés par KodaMate (UI)}
+		\label{tab:ch4-endpoints-mobile-actifs}
+		\footnotesize
+		\renewcommand{\arraystretch}{1.15}
+		\begin{tabularx}{\textwidth}{|c|c|>{\raggedright\arraybackslash}p{3.8cm}|>{\raggedright\arraybackslash}p{2.2cm}|>{\raggedright\arraybackslash}>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}>{\raggedright\arraybackslash}X|}
+			\hline
+			\textbf{\#} & \textbf{Méth.} & \textbf{Endpoint} & \textbf{Écran} & \textbf{Entrée} & \textbf{Sortie} \\
+			\hline
+			1 & GET & \texttt{/} & Démarrage, Login, session & --- & \texttt{\{message, routes\_prefix\}} \\
+			2 & POST & \texttt{/api/auth/login} & Connexion & \texttt{emailclient}, \texttt{motdepasse} & \texttt{\{status, data:\{idproduit, idkoda\}\}} \\
+			3 & GET & \texttt{/api/settings} & Accueil, Paramètres, Config & --- & nom, langue, caractère, \texttt{etat}, \texttt{idkoda}\ldots \\
+			4 & PUT & \texttt{/api/settings} & Paramètres, Config robot & corps \texttt{setting} & lignes mises à jour \\
+			5 & POST & \texttt{/api/power-on} & Accueil (power) & --- & \texttt{\{status: power\_on, etat: 1\}} \\
+			6 & POST & \texttt{/api/power-off} & Accueil (power) & --- & \texttt{\{status: power\_off, etat: 0\}} \\
+			7 & POST & \texttt{/api/trigger-n8n} & Chat (+ photo) & \texttt{\{question\}} & \texttt{\{output:\ldots\}} \\
+			8 & GET & \texttt{/api/conversations?date\_from\&date\_to} & Historique & dates \texttt{YYYY-MM-DD} & liste conversations \\
+			9 & GET & \texttt{/api/conversations/last100} & Historique (repli) & --- & 100 derniers messages max \\
+			\hline
+		\end{tabularx}
+	\end{table}
+	
+	\subsubsection{Endpoints codés mais non branchés à l'interface}
+	
+	Cinq routes \texttt{/api/notes} sont implémentées dans \texttt{DistributeurApiService}
+	mais aucun écran ne les invoque encore~: CRUD complet + \texttt{PATCH .../etat}.
+	
+	\subsubsection{API externe et services locaux}
+	
+	\begin{table}[htbp]
+		\centering
+		\caption{Appels réseau complémentaires de KodaMate (hors Distributeur)}
+		\label{tab:ch4-endpoints-externes}
+		\small
+		\renewcommand{\arraystretch}{1.2}
+		\begin{tabularx}{\textwidth}{|c|c|>{\raggedright\arraybackslash}X|c|}
+			\hline
+			\textbf{\#} & \textbf{Méth.} & \textbf{URL / service} & \textbf{Écran} \\
+			\hline
+			15 & GET & \texttt{api.open-meteo.com/v1/forecast\ldots} & Accueil (météo) \\
+			\hline
+			--- & --- & \texttt{MockFirebaseService} (local) & Notifications \\
+			--- & --- & Scan Wi-Fi Android (local) & Paramètres réseau \\
+			\hline
+		\end{tabularx}
+	\end{table}
+	
+	\subsubsection{Cartographie écran $\rightarrow$ endpoints}
+	
+	\begin{table}[htbp]
+		\centering
+		\caption{Mapping des écrans KodaMate vers les endpoints backend}
+		\label{tab:ch4-endpoints-mapping}
+		\small
+		\renewcommand{\arraystretch}{1.25}
+		\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}X|}
+			\hline
+			\textbf{Écran} & \textbf{Endpoints invoqués} \\
+			\hline
+			Démarrage / Session &
+			\texttt{GET /}, \texttt{GET /api/settings} \\
+			Login &
+			\texttt{GET /}, \texttt{POST /api/auth/login} \\
+			Config robot &
+			\texttt{GET /api/settings}, \texttt{PUT /api/settings} \\
+			Accueil &
+			\texttt{GET /api/settings}, \texttt{POST /api/power-on}, \texttt{POST /api/power-off}, Open-Meteo \\
+			Chat &
+			\texttt{POST /api/trigger-n8n} \\
+			Historique &
+			\texttt{GET /api/conversations}, \texttt{GET /api/conversations/last100} \\
+			Paramètres &
+			\texttt{GET /api/settings}, \texttt{PUT /api/settings} \\
+			\hline
+		\end{tabularx}
+	\end{table}
+	
+	\begin{tcolorbox}[colback=gray!5!white, colframe=gray!60!black,
+		title=\textbf{Synthèse de consommation --- KodaMate}]
+		\begin{itemize}[noitemsep]
+			\item \textbf{65} endpoints backend au total (60 métier + 5 documentation)~;
+			\item \textbf{9} endpoints backend actifs à l'écran + \textbf{1} API externe (météo)~;
+			\item \textbf{5} endpoints \texttt{/api/notes} prêts dans le code client, non branchés~;
+			\item \textbf{56} routes backend réservées au robot, à l'audio, aux CRUD avancés ou à
+			une évolution future de l'UI mobile.
+		\end{itemize}
+	\end{tcolorbox}
+	
+	%------------------------------------------------------------------
+	\section{Problèmes rencontrés et solutions apportées}
+	\label{sec:ch4-problemes}
+	%------------------------------------------------------------------
+	
+	Le développement et l'intégration du backend ont révélé des difficultés
+	\textbf{techniques} (performance, concurrence) et \textbf{d'intégration}
+	(réseau, CORS). Le tableau~\ref{tab:problemes} synthétise les principaux cas~;
+	les deux sous-sections suivantes détaillent les problèmes de connectivité les
+	plus impactants pour la chaîne robot--backend--mobile.
 	
 	\begin{table}[htbp]
 		\centering
 		\caption{Problèmes techniques rencontrés et solutions apportées}
 		\label{tab:problemes}
 		\renewcommand{\arraystretch}{1.4}
-		\begin{tabularx}{\textwidth}{|p{3.8cm}|p{3.2cm}|X|}
+		\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.8cm}|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}X|}
 			\hline
 			\textbf{Problème rencontré} & \textbf{Impact} & \textbf{Solution adoptée} \\
 			\hline
@@ -2738,10 +3290,53 @@ figure~\ref{fig:ch4-classes-schema} (§~\ref{sec:ch4-modelisation}).
 			& Interruption du service vocal
 			& Système de quota local et \textit{fallback} Whisper (OpenAI) \\
 			\hline
+			\textbf{Conflit d'adresses serveur}\newline
+			(Raspberry Pi vs backend)
+			& Robot injoignable ou connecté au mauvais hôte (\texttt{localhost}, IP obsolète)
+			& Fichier de configuration centralisé (\texttt{.env}) avec URL publique ou IP LAN du VPS~; distinction explicite URL backend / URL n8n \\
+			\hline
+			\textbf{Erreurs CORS}\newline
+			(backend vs application mobile)
+			& Requêtes MAUI / client HTTP bloquées (politique CORS)
+			& \texttt{CORSMiddleware} FastAPI avec liste d'origines autorisées (émulateur, device, production) \\
+			\hline
 		\end{tabularx}
 	\end{table}
 	
-	Un défi transversal a concerné la gestion des dépendances
+	\subsection{Conflit d'adressage Raspberry Pi / backend}
+	
+	Lors des premiers tests d'intégration, le Raspberry Pi était configuré avec
+	\texttt{http://localhost:8000} ou une adresse IP de poste de développement devenue
+	inaccessible après déploiement du backend sur un VPS. Symptômes~: WebSocket
+	robot en échec permanent, pipeline vocal silencieux, commandes non acquittées.
+	
+	\textbf{Analyse}~: le robot, le backend et n8n possèdent chacun une URL distincte~;
+	confondre l'adresse du poste local avec celle du serveur de production crée un
+	\textbf{conflit de routage} invisible côté logs n8n (le workflow n'est jamais
+	appelé car la requête n'atteint pas le backend).
+	
+	\textbf{Solution}~: externalisation de l'URL backend dans un fichier
+	\texttt{.env} partagé entre environnements (dev LAN, staging, production), tests
+	de connectivité (\texttt{curl} / ping WebSocket) avant chaque session robot, et
+	documentation d'une \textbf{base URL unique} consommée par l'embarqué (Cycle~4).
+	problème et sa résolution.
+	
+	\subsection{Problème CORS entre backend et application mobile}
+	
+	L'application KodaMate (.NET MAUI), exécutée sur émulateur Android ou appareil physique,
+	envoie des requêtes HTTP cross-origin vers le backend FastAPI. Sans en-têtes
+	\texttt{Access-Control-Allow-Origin} adaptés, le client rejette les réponses
+	(\og blocked by CORS policy \fg{}) même si le serveur traite correctement la
+	requête.
+	
+	\textbf{Solution}~: configuration explicite du \texttt{CORSMiddleware}~:
+	origines autorisées (\texttt{http://localhost:*}, IP LAN du poste de dev, domaine
+	de production), méthodes (\texttt{GET}, \texttt{POST}, \texttt{PUT},
+	\texttt{DELETE}, \texttt{OPTIONS}) et en-têtes (\texttt{Authorization},
+	\texttt{Content-Type}). En environnement de production, la liste est restreinte
+	aux domaines KodaMate déployés.
+	
+	Un défi transversal a également concerné la gestion des dépendances
 	circulaires entre modules dans une architecture Clean. Python,
 	contrairement à Java, n'impose pas nativement l'inversion de
 	dépendances, ce qui peut conduire à des couplages non voulus.
@@ -2750,43 +3345,67 @@ figure~\ref{fig:ch4-classes-schema} (§~\ref{sec:ch4-modelisation}).
 	d'injection de dépendances (\texttt{dependency\_injector}).
 	
 	%------------------------------------------------------------------
+	\section{Perspectives et évolutions futures}
+	\label{sec:ch4-perspectives}
+	%------------------------------------------------------------------
+	
+	Le Cycle~2 pose une \textbf{fondation}~; plusieurs axes d'évolution sont identifiés
+	pour les cycles suivants et la mise en production~:
+	\begin{itemize}[noitemsep]
+		\item \textbf{Observabilité}~: métriques Prometheus, traçage des appels n8n/Azure
+		et tableaux de bord de disponibilité du backend~;
+		\item \textbf{Résilience vocale}~: bascule automatique STT/TTS multi-fournisseurs
+		selon quota et latence~;
+		\item \textbf{Sécurité renforcée}~: rotation des JWT, rate limiting sur les
+		endpoints publics, chiffrement des flux WebSocket en production~;
+		\item \textbf{Scalabilité}~: déploiement multi-instances derrière un reverse
+		proxy, avec sessions WebSocket \og sticky \fg{}~;
+		\item \textbf{Alignement mobile--robot}~: notifications push depuis le backend
+		lorsqu'un événement agenda modifié dans l'app doit être annoncé vocalement par
+		KODA (Cycle~5).
+	\end{itemize}
+	
+	Ces perspectives s'appuient sur la \textbf{flexibilité} intrinsèque du Distributeur~:
+	tant que les contrats d'interface (REST, WebSocket, webhook) restent stables, les
+	composants amont et aval peuvent évoluer sans remise en cause du c\oe{}ur du système.
+	
+	%------------------------------------------------------------------
 	\section{Conclusion}
 	%------------------------------------------------------------------
 	
-	Le Cycle~2 a permis de concevoir, de développer et de valider
-	le composant le plus structurant de notre écosystème~: le
-	Distributeur de Services. Ce backend, développé en Python avec
-	FastAPI et organisé selon les principes de la Clean Architecture,
-	assure la totalité des communications entre les différents
-	acteurs du système avec rigueur et fiabilité.
+	Le Cycle~2 a permis de concevoir, de développer et de valider le composant le
+	plus structurant de l'écosystème KODA~: le \textbf{Distributeur de Services}. Ce
+	backend Python / FastAPI, organisé selon la Clean Architecture, \textbf{matérialise
+	la fonctionnalité globale} du système en offrant au robot et à l'application mobile
+	un accès unifié aux services vocaux, à la persistance, au moteur n8n et aux APIs
+	cloud.
 	
-	Les choix technologiques ont été justifiés par des critères
-	objectifs~: la richesse de l'écosystème Python pour l'IA, les
-	performances asynchrones de FastAPI, et la flexibilité de la
-	Clean Architecture pour absorber les évolutions futures.
-	Les services développés — reconnaissance faciale, synthèse et
-	transcription vocale, communication robot en temps réel, gestion
-	de la base de données — ont tous été validés par des campagnes
-	de tests rigoureuses.
+	L'approche retenue --- \textbf{un seul pivot} plutôt que des liaisons directes
+	entre composants --- garantit la \textbf{flexibilité} des évolutions (spirale de
+	développement) et la \textbf{disponibilité} des échanges (validation, retry,
+	journalisation). Les résultats obtenus (reconnaissance faciale $>$94\,\%, chaîne
+	Azure STT/TTS, persistance relationnelle, API mobile) constituent une base
+	testable sur laquelle s'appuient les cycles embarqué (III--IV) et mobile (V).
 	
-	Ce composant constitue désormais une fondation solide sur
-	laquelle les cycles ultérieurs pourront s'appuyer pour étendre
-	les fonctionnalités du système, notamment l'enrichissement des
-	interactions conversationnelles et l'amélioration des capacités
-	autonomes du robot.
+	Les difficultés d'intégration (adressage réseau Raspberry Pi, CORS KodaMate) ont
+	mis en évidence l'importance d'une configuration d'environnement rigoureuse~;
+	elles sont documentées pour faciliter le déploiement futur. Le chapitre suivant
+	(Cycle~3) traite du \textbf{matériel embarqué} sur lequel le backend vient
+	s'interfacer physiquement.
 	
 	\begin{tcolorbox}[colback=blue!5!white, colframe=blue!60!black,
 		title=\textbf{Points clés du Cycle 2}]
 		\begin{itemize}[noitemsep]
-			\item Modélisation (cas d'utilisation, classes, place dans l'architecture globale)
-			\item Quatre communications~: embarqué, mobile, base de données, workflow n8n
-			\item Backend FastAPI + Clean Architecture ; services Azure, reconnaissance faciale
-			\item Service de reconnaissance faciale avec 94{,}3\,\% de précision
-			\item Intégration professionnelle des services Azure STT/TTS
-			et de l'API Gemini
+			\item Distributeur = pivot unique pour flexibilité et disponibilité
+			\item Services backend = fonctionnalité globale (vocal + application + mémoire)
+			\item Catalogue de \textbf{65 endpoints REST} répartis par axe de communication
+			\item KodaMate~: 9 endpoints actifs + 5 notes préparés + 1 API météo externe
+			\item Flux détaillés~: WebSocket robot, pipeline vocal, REST mobile, webhook n8n
+			\item Problèmes intégration~: conflit adresses serveur, CORS mobile
+			\item Reconnaissance faciale $>$94\,\% ; Azure STT/TTS ; persistance Supabase
 		\end{itemize}
 	\end{tcolorbox}
-	
+
 	%================================================================
 	%  CHAPITRE V : Cycle 3 — Système Embarqué, Partie Matérielle
 	%================================================================
@@ -2824,7 +3443,6 @@ figure~\ref{fig:ch4-classes-schema} (§~\ref{sec:ch4-modelisation}).
 		\IfFileExists{public/robot_reel.jpeg}{%
 			\includegraphics[width=0.75\textwidth]{public/robot_reel.jpeg}
 		}{%
-			\fbox{\textit{Figure manquante~: \texttt{public/robot\_reel.jpeg}}}
 		}
 		\caption{Prototype physique KODA après impression 3D et montage}
 		\label{fig:ch3-robot-reel}
@@ -2860,7 +3478,7 @@ figure~\ref{fig:ch4-classes-schema} (§~\ref{sec:ch4-modelisation}).
 		\caption{Inventaire des composants matériels de KODA}
 		\label{tab:composants_cycle3}
 		\renewcommand{\arraystretch}{1.25}
-		\begin{tabularx}{\textwidth}{|p{3.5cm}|p{4cm}|X|}
+		\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.5cm}|>{\raggedright\arraybackslash}p{4cm}|>{\raggedright\arraybackslash}X|}
 			\hline
 			\textbf{Catégorie} & \textbf{Composant} & \textbf{Rôle} \\
 			\hline
@@ -2919,7 +3537,6 @@ figure~\ref{fig:ch4-classes-schema} (§~\ref{sec:ch4-modelisation}).
 		\IfFileExists{public/conception3d.png}{%
 			\includegraphics[width=0.92\textwidth]{public/conception3d.png}
 		}{%
-			\fbox{\textit{Figure manquante~: \texttt{public/conception3d.png}}}
 		}
 		\caption{Conception 3D du châssis KODA sous Blender (vue éclatée des pièces)}
 		\label{fig:ch3-conception3d}
@@ -2958,7 +3575,6 @@ figure~\ref{fig:ch4-classes-schema} (§~\ref{sec:ch4-modelisation}).
 		\IfFileExists{public/raspberry.jpg}{%
 			\includegraphics[width=0.55\textwidth]{public/raspberry.jpg}
 		}{%
-			\fbox{\textit{Figure manquante~: \texttt{public/raspberry.jpg}}}
 		}
 		\caption{Raspberry Pi 4 Model B utilisé comme unité centrale de KODA}
 		\label{fig:ch3-raspberry}
@@ -3022,7 +3638,6 @@ figure~\ref{fig:ch4-classes-schema} (§~\ref{sec:ch4-modelisation}).
 		\IfFileExists{public/arduino.jpg}{%
 			\includegraphics[width=0.55\textwidth]{public/arduino.jpg}
 		}{%
-			\fbox{\textit{Figure manquante~: \texttt{public/arduino.jpg}}}
 		}
 		\caption{Carte Arduino Uno (microcontrôleur ATmega328P à 16~MHz)}
 		\label{fig:ch3-arduino}
@@ -3033,7 +3648,6 @@ figure~\ref{fig:ch4-classes-schema} (§~\ref{sec:ch4-modelisation}).
 		\IfFileExists{public/l293d.jpg}{%
 			\includegraphics[width=0.55\textwidth]{public/l293d.jpg}
 		}{%
-			\fbox{\textit{Figure manquante~: \texttt{public/l293d.jpg}}}
 		}
 		\caption{Shield L293D empilé sur l'Arduino Uno (commande des moteurs DC et servomoteurs)}
 		\label{fig:ch3-l293d}
@@ -3055,7 +3669,6 @@ figure~\ref{fig:ch4-classes-schema} (§~\ref{sec:ch4-modelisation}).
 		\IfFileExists{public/moteur.jpg}{%
 			\includegraphics[width=0.5\textwidth]{public/moteur.jpg}
 		}{%
-			\fbox{\textit{Figure manquante~: \texttt{public/moteur.jpg}}}
 		}
 		\caption{Moteur DC utilisé pour la mobilité du robot (bornes M1 et M3 du shield)}
 		\label{fig:ch3-moteur-dc}
@@ -3067,7 +3680,6 @@ figure~\ref{fig:ch4-classes-schema} (§~\ref{sec:ch4-modelisation}).
 			\includegraphics[width=0.85\textwidth]{public/ch3-traction-differentielle.png}
 		}{%
 			\fbox{\begin{minipage}{0.85\textwidth}\centering\vspace{0.8cm}
-				\textit{Figure à ajouter~: \texttt{public/ch3-traction-differentielle.png}}
 			\vspace{0.8cm}\end{minipage}}
 		}
 		\caption{Principe de traction différentielle — moteurs M1 et M3}
@@ -3092,7 +3704,6 @@ figure~\ref{fig:ch4-classes-schema} (§~\ref{sec:ch4-modelisation}).
 		\IfFileExists{public/servo.jpg}{%
 			\includegraphics[width=0.5\textwidth]{public/servo.jpg}
 		}{%
-			\fbox{\textit{Figure manquante~: \texttt{public/servo.jpg}}}
 		}
 		\caption{Servomoteur utilisé pour les articulations (bras S1/S2 et rotation Nextion S3)}
 		\label{fig:ch3-servo}
@@ -3125,7 +3736,6 @@ figure~\ref{fig:ch4-classes-schema} (§~\ref{sec:ch4-modelisation}).
 		\IfFileExists{public/mic.jpg}{%
 			\includegraphics[width=0.55\textwidth]{public/mic.jpg}
 		}{%
-			\fbox{\textit{Figure manquante~: \texttt{public/mic.jpg}}}
 		}
 		\caption{ReSpeaker 4-Mic Array USB : quatre microphones MEMS pour capture omnidirectionnelle et détection de direction (DOA)}
 		\label{fig:ch3-respeaker}
@@ -3137,7 +3747,6 @@ figure~\ref{fig:ch4-classes-schema} (§~\ref{sec:ch4-modelisation}).
 			\includegraphics[width=0.88\textwidth]{public/ch3-schema-doa.png}
 		}{%
 			\fbox{\begin{minipage}{0.88\textwidth}\centering\vspace{0.8cm}
-				\textit{Figure à ajouter~: \texttt{public/ch3-schema-doa.png}}
 			\vspace{0.8cm}\end{minipage}}
 		}
 		\caption{Enchaînement conceptuel~: DOA (micro) $\rightarrow$ rotation du robot (M1, M3) $\rightarrow$ caméra (torse)}
@@ -3167,7 +3776,6 @@ figure~\ref{fig:ch4-classes-schema} (§~\ref{sec:ch4-modelisation}).
 		\IfFileExists{public/pam8403.jpg}{%
 			\includegraphics[width=0.5\textwidth]{public/pam8403.jpg}
 		}{%
-			\fbox{\textit{Figure manquante~: \texttt{public/pam8403.jpg}}}
 		}
 		\caption{Amplificateur audio PAM8403 (chaîne filaire entre la sortie jack du Pi et les haut-parleurs)}
 		\label{fig:ch3-pam8403}
@@ -3178,7 +3786,6 @@ figure~\ref{fig:ch4-classes-schema} (§~\ref{sec:ch4-modelisation}).
 		\IfFileExists{public/hauteparleurs.jpg}{%
 			\includegraphics[width=0.5\textwidth]{public/hauteparleurs.jpg}
 		}{%
-			\fbox{\textit{Figure manquante~: \texttt{public/hauteparleurs.jpg}}}
 		}
 		\caption{Paire de haut-parleurs gauche/droite alimentés par le PAM8403}
 		\label{fig:ch3-hauteparleurs}
@@ -3192,7 +3799,6 @@ figure~\ref{fig:ch4-classes-schema} (§~\ref{sec:ch4-modelisation}).
 	l'\textbf{identification visuelle} des utilisateurs.
 	
 	Au niveau matériel, seule la \textbf{qualité de capture} (netteté,
-	éclairage, cadrage) est concernée dans ce cycle. L'envoi des images vers
 	le serveur distant et le traitement logiciel seront détaillés au
 	\textbf{Cycle~4}.
 
@@ -3201,7 +3807,6 @@ figure~\ref{fig:ch4-classes-schema} (§~\ref{sec:ch4-modelisation}).
 		\IfFileExists{public/camera.jpg}{%
 			\includegraphics[width=0.45\textwidth]{public/camera.jpg}
 		}{%
-			\fbox{\textit{Figure manquante~: \texttt{public/camera.jpg}}}
 		}
 		\caption{Caméra Raspberry Pi connectée au port CSI (acquisition d'images pour l'identification visuelle)}
 		\label{fig:ch3-camera}
@@ -3234,7 +3839,6 @@ figure~\ref{fig:ch4-classes-schema} (§~\ref{sec:ch4-modelisation}).
 		\IfFileExists{public/ecran.jpg}{%
 			\includegraphics[width=0.55\textwidth]{public/ecran.jpg}
 		}{%
-			\fbox{\textit{Figure manquante~: \texttt{public/ecran.jpg}}}
 		}
 		\caption{Écran Nextion NX4832T035\_011 (3{,}5\textquotedbl) affichant le visage animé de KODA}
 		\label{fig:ch3-nextion}
@@ -3251,7 +3855,7 @@ figure~\ref{fig:ch4-classes-schema} (§~\ref{sec:ch4-modelisation}).
 		\caption{Architecture d'alimentation de KODA}
 		\label{tab:alimentation}
 		\renewcommand{\arraystretch}{1.25}
-		\begin{tabular}{|p{3.5cm}|p{3.5cm}|p{6cm}|}
+		\begin{tabular}{|>{\raggedright\arraybackslash}p{3.5cm}|>{\raggedright\arraybackslash}p{3.5cm}|>{\raggedright\arraybackslash}p{6cm}|}
 			\hline
 			\textbf{Source} & \textbf{Caractéristiques} & \textbf{Composants alimentés} \\
 			\hline
@@ -3273,7 +3877,6 @@ figure~\ref{fig:ch4-classes-schema} (§~\ref{sec:ch4-modelisation}).
 		\IfFileExists{public/powerbank.jpg}{%
 			\includegraphics[width=0.5\textwidth]{public/powerbank.jpg}
 		}{%
-			\fbox{\textit{Figure manquante~: \texttt{public/powerbank.jpg}}}
 		}
 		\caption{Power Bank 5\,V / 3\,A alimentant le Raspberry Pi (chaîne logique)}
 		\label{fig:ch3-powerbank}
@@ -3284,7 +3887,6 @@ figure~\ref{fig:ch4-classes-schema} (§~\ref{sec:ch4-modelisation}).
 		\IfFileExists{public/piles.jpg}{%
 			\includegraphics[width=0.5\textwidth]{public/piles.jpg}
 		}{%
-			\fbox{\textit{Figure manquante~: \texttt{public/piles.jpg}}}
 		}
 		\caption{3 piles lithium 3{,}7\,V en série (11{,}1\,V total) alimentant le Shield L293D et les moteurs}
 		\label{fig:ch3-piles}
@@ -3305,7 +3907,6 @@ figure~\ref{fig:ch4-classes-schema} (§~\ref{sec:ch4-modelisation}).
 			\includegraphics[width=\textwidth]{public/ch3-architecture-materielle.png}
 		}{%
 			\fbox{\begin{minipage}{0.88\textwidth}\centering\vspace{1.2cm}
-				\textit{Figure manquante~: \texttt{public/ch3-architecture-materielle.png}}
 			\vspace{1.2cm}\end{minipage}}
 		}
 		\caption{Schéma de montage matériel de KODA — style Fritzing (Cycle~3)}
@@ -3320,7 +3921,7 @@ figure~\ref{fig:ch4-classes-schema} (§~\ref{sec:ch4-modelisation}).
 		\caption{Récapitulatif des connexions entre composants}
 		\label{tab:cablage}
 		\renewcommand{\arraystretch}{1.25}
-		\begin{tabularx}{\textwidth}{|p{3.2cm}|p{2.8cm}|p{2.2cm}|X|}
+		\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}p{2.8cm}|>{\raggedright\arraybackslash}p{2.2cm}|>{\raggedright\arraybackslash}X|}
 			\hline
 			\textbf{Composant} & \textbf{Connecté à} & \textbf{Interface} & \textbf{Détail} \\
 			\hline
@@ -3383,7 +3984,7 @@ figure~\ref{fig:ch4-classes-schema} (§~\ref{sec:ch4-modelisation}).
 		\label{tab:tests_unitaires_cycle3}
 		\renewcommand{\arraystretch}{1.35}
 		\small
-		\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{2.6cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}p{3.2cm}|}
+		\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{2.6cm}|>{\raggedright\arraybackslash}>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}p{3.2cm}|}
 			\hline
 			\textbf{Composant} & \textbf{Procédure (concept)} & \textbf{Critère OK} \\
 			\hline
@@ -3676,14 +4277,7 @@ void loop() {
 			\caption{Cycle~4 --- architecture logique du logiciel Raspberry Pi}
 			\label{fig:ch4-logical-architecture}
 		\end{figure}
-	}{%
-		\begin{center}
-			\fbox{\begin{minipage}{0.88\textwidth}\centering\vspace{1em}
-				\textit{Exporter \texttt{plantuml/koda-cycle4-logical-architecture.puml}
-				vers \texttt{public/koda-cycle4-logical-architecture.png}.}
-				\vspace{1em}\end{minipage}}
-		\end{center}
-	}
+	}{}
 	
 	\IfFileExists{public/ch4-raspberry-corps-operationnel.png}{%
 		\begin{figure}[htbp]
@@ -3731,14 +4325,7 @@ void loop() {
 			\caption{Cycle~4 --- architecture du code \texttt{codeRaspberry}}
 			\label{fig:ch4-code-architecture}
 		\end{figure}
-	}{%
-		\begin{center}
-			\fbox{\begin{minipage}{0.88\textwidth}\centering\vspace{1em}
-				\textit{Exporter \texttt{plantuml/koda-cycle4-code-architecture.puml}
-				vers \texttt{public/koda-cycle4-code-architecture.png}.}
-				\vspace{1em}\end{minipage}}
-		\end{center}
-	}
+	}{}
 	
 	Le diagramme de classes ci-dessous présente les principaux objets logiciels
 	qui coopèrent pendant une interaction vocale. \texttt{ConversationService}
@@ -4031,7 +4618,7 @@ python -m app.main
 		\caption{Tests de validation du logiciel Raspberry Pi}
 		\label{tab:ch4-tests-logiciel}
 		\renewcommand{\arraystretch}{1.25}
-		\begin{tabularx}{\textwidth}{|p{3.2cm}|X|p{3.4cm}|}
+		\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}p{3.4cm}|}
 			\hline
 			\textbf{Type de test} & \textbf{Procédure} & \textbf{Critère OK} \\
 			\hline
@@ -4168,7 +4755,7 @@ python -m app.main
 		\caption{Périmètre fonctionnel de KodaMate}
 		\label{tab:ch5-perimetre}
 		\renewcommand{\arraystretch}{1.25}
-		\begin{tabularx}{\textwidth}{|p{3.4cm}|X|}
+		\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.4cm}|>{\raggedright\arraybackslash}X|}
 			\hline
 			\textbf{Fonction} & \textbf{Rôle dans le Cycle 5} \\
 			\hline
@@ -4244,7 +4831,7 @@ python -m app.main
 		\caption{Organisation du code KodaMate}
 		\label{tab:ch5-code-architecture}
 		\renewcommand{\arraystretch}{1.25}
-		\begin{tabularx}{\textwidth}{|p{4cm}|X|}
+		\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{4cm}|>{\raggedright\arraybackslash}X|}
 			\hline
 			\textbf{Élément} & \textbf{Responsabilité} \\
 			\hline
@@ -4466,7 +5053,6 @@ python -m app.main
 	prend en charge les filtres \textit{Tous}, \textit{Aujourd'hui}, \textit{Hier},
 	\textit{Cette semaine} et \textit{Choisir une date}. Le filtrage par texte
 	s'applique ensuite localement sur la question, la réponse et le type de
-	question. Si l'endpoint général échoue, le service revient vers
 	\texttt{/api/conversations/last100} pour conserver un affichage utilisable.
 	
 	%------------------------------------------------------------------
@@ -4536,7 +5122,7 @@ python -m app.main
 		\caption{Tests de validation de KodaMate}
 		\label{tab:ch5-tests}
 		\renewcommand{\arraystretch}{1.25}
-		\begin{tabularx}{\textwidth}{|p{3.3cm}|X|p{3.2cm}|}
+		\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.3cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}p{3.2cm}|}
 			\hline
 			\textbf{Type de test} & \textbf{Procédure} & \textbf{Critère OK} \\
 			\hline

@@ -1,0 +1,88 @@
+@startuml koda_cycle2_robot_flux1_vocal
+title Cycle 2 — Action 1 : Demander une reponse vocale (Flux 1)
+
+skinparam sequenceMessageAlign center
+skinparam responseMessageBelowArrow true
+skinparam ParticipantPadding 8
+skinparam maxMessageSize 140
+
+actor "Utilisateur /\nvisiteur" as U
+participant "Systeme embarque\n(KODA / Raspberry Pi)" as KODA
+participant "Distributeur\n(FastAPI)" as DS
+participant "Service\nreconnaissance faciale" as FR
+participant "Azure Speech\n(STT / TTS)" as AZ
+participant "Service\ntraduction" as TR
+participant "Webhook 1 n8n\n(Flux 1 — Analyseur\net Reflexion)" as N8N
+database "PostgreSQL\n(Service API)" as API
+
+U -> KODA : Parole + presence\n(camera / micro)
+activate KODA
+
+KODA -> DS : Envoyer photo + audio vocal
+activate DS
+
+group Identification personne
+  DS -> FR : getUserName(photo)
+  activate FR
+  FR --> DS : nom utilisateur
+  deactivate FR
+end
+
+group Traitement vocal
+  DS -> AZ : Transformer audio -> texte (STT)
+  activate AZ
+  AZ --> DS : texte vocal
+  deactivate AZ
+end
+
+group Comprehension / reponse
+  DS -> TR : Traduire texte en francais
+  activate TR
+  TR --> DS : texte FR
+  deactivate TR
+
+  DS -> N8N : POST webhook Flux 1\n{text FR, user}
+  activate N8N
+  N8N -> API : Lecture contexte / historique
+  activate API
+  API --> N8N : profil, fiches
+  deactivate API
+  N8N -> N8N : AI Agent — raisonnement\net generation reponse
+  N8N --> DS : Reponse generee
+  deactivate N8N
+end
+
+opt Reponse en arabe
+  DS -> TR : Traduire reponse FR -> AR
+  activate TR
+  TR --> DS : reponse AR
+  deactivate TR
+end
+
+group Restitution vocale
+  DS -> AZ : Synthese vocale (TTS)
+  activate AZ
+  AZ --> DS : audio reponse
+  deactivate AZ
+
+  DS --> KODA : Renvoyer message vocal\n(JSON + audio + emotion)
+  deactivate DS
+
+  KODA -> KODA : Lecture audio +\naffichage Nextion
+  KODA --> U : Reponse vocale
+  deactivate KODA
+end
+
+group Persistance (optionnelle)
+  DS -> API : Sauvegarder echange\n(question / reponse)
+  activate API
+  API --> DS : OK
+  deactivate API
+end
+
+note over KODA, DS
+  Le robot ne contacte jamais n8n ni Azure directement ;
+  le Distributeur orchestre Flux 1, traduction et synthese.
+end note
+
+@enduml

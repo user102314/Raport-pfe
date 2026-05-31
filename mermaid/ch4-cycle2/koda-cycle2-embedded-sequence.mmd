@@ -1,0 +1,25 @@
+%% Cycle 2 — WebSocket robot temps réel
+%% Export → public/dscse.png
+
+sequenceDiagram
+    autonumber
+    participant RPI as Raspberry Pi (client WS)
+    participant DS as Distributeur (WebSocket)
+    participant UC as Service commandes
+    participant PG as PostgreSQL
+
+    RPI->>DS: Connexion WS (handshake)
+    DS-->>RPI: ACK connexion
+
+    loop Boucle de vie du robot
+        RPI->>DS: JSON {type: status, capteurs}
+        DS->>PG: Journalisation état
+        DS-->>RPI: ACK
+        RPI->>DS: JSON {type: command_result}
+        DS->>UC: Mise à jour statut commande
+        UC->>PG: UPDATE commande
+        DS->>RPI: JSON {type: action, moteur, emotion}
+        RPI-->>DS: ACK après exécution
+    end
+
+    Note over RPI,DS: Reconnexion backoff si coupure réseau

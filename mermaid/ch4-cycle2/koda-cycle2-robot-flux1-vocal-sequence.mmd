@@ -1,0 +1,71 @@
+%% Cycle 2 — Sequence 1 : reponse vocale (Flux 1)
+%% draw.io : Arrange > Insert > Advanced > Mermaid
+%% Coller les lignes 5 a 58 uniquement (sans les %%)
+%% Mode "Image" si le mode "Diagram" echoue
+
+sequenceDiagram
+    autonumber
+    actor U as Utilisateur / visiteur
+    participant KODA as Systeme embarque KODA
+    participant DS as Distributeur FastAPI
+    participant FR as Reconnaissance faciale
+    participant AZ as Azure Speech STT TTS
+    participant TR as Service traduction
+    participant N8N as Webhook 1 n8n Flux 1
+    participant API as Service API PostgreSQL
+
+    U->>KODA: Parole et presence
+    activate KODA
+    KODA->>DS: Envoyer photo et audio vocal
+    activate DS
+
+    Note over DS,FR: Identification personne
+    DS->>FR: getUserName(photo)
+    activate FR
+    FR-->>DS: nom utilisateur
+    deactivate FR
+
+    Note over DS,AZ: Traitement vocal
+    DS->>AZ: Transformer audio en texte STT
+    activate AZ
+    AZ-->>DS: texte vocal
+    deactivate AZ
+
+    Note over DS,N8N: Comprehension / reponse
+    DS->>TR: Traduire texte en francais
+    activate TR
+    TR-->>DS: texte FR
+    deactivate TR
+    DS->>N8N: POST webhook Flux 1
+    activate N8N
+    N8N->>API: Lecture contexte historique
+    API-->>N8N: profil et fiches
+    N8N->>N8N: AI Agent generation reponse
+    N8N-->>DS: Reponse generee
+    deactivate N8N
+
+    opt Reponse en arabe
+        DS->>TR: Traduire reponse FR vers AR
+        activate TR
+        TR-->>DS: reponse AR
+        deactivate TR
+    end
+
+    Note over DS,KODA: Restitution vocale
+    DS->>AZ: Synthese vocale TTS
+    activate AZ
+    AZ-->>DS: audio reponse
+    deactivate AZ
+    DS-->>KODA: Renvoyer message vocal JSON audio
+    deactivate DS
+    KODA->>KODA: Lecture audio et Nextion
+    KODA-->>U: Reponse vocale
+    deactivate KODA
+
+    Note over DS,API: Persistance optionnelle
+    DS->>API: Sauvegarder echange
+    activate API
+    API-->>DS: OK
+    deactivate API
+
+    Note over KODA,DS: Robot ne contacte jamais n8n ni Azure

@@ -1,0 +1,54 @@
+@startuml koda_cycle2_robot_flux3_intro
+title Cycle 2 — Action 2 : Demander une introduction de parole (Flux 3)
+
+skinparam sequenceMessageAlign center
+skinparam responseMessageBelowArrow true
+skinparam ParticipantPadding 8
+skinparam maxMessageSize 140
+
+actor "Visiteur /\nutilisateur" as U
+participant "Raspberry Pi\n(systeme embarque)" as RPI
+participant "Distributeur\n(FastAPI)" as DS
+participant "Webhook 3 n8n\n(Flux 3 — spontaneite)" as N8N
+database "PostgreSQL" as PG
+participant "Azure TTS" as TTS
+
+U -> RPI : Presence detectee\n(camera / reconnaissance)
+activate RPI
+
+RPI -> RPI : Identifie acteur\n(nom connu ou unkonu)
+
+RPI -> DS : POST API\n(username / acteur)
+activate DS
+
+DS -> N8N : HTTP POST webhook Flux 3\n{username, acteur}
+activate N8N
+
+N8N -> PG : Recharge fiches Webhook 2\n(accompagnement)
+activate PG
+PG --> N8N : interets, synthese, conseils
+deactivate PG
+
+N8N -> N8N : AI Agent — generation\nintroduction personnalisee
+N8N --> DS : {parole_du_robot,\nemotion_visuelle}
+deactivate N8N
+
+DS -> TTS : Synthese parole_du_robot
+activate TTS
+TTS --> DS : Fichier audio / flux PCM
+deactivate TTS
+
+DS --> RPI : JSON + audio pre-synthetise\n+ commande affichage emotion
+deactivate DS
+
+RPI -> RPI : Lecture audio\n(haut-parleur)
+RPI -> RPI : Affichage Nextion\n(emotion_visuelle)
+RPI --> U : Introduction orale proactive
+deactivate RPI
+
+note over RPI, DS
+  Le robot ne contacte jamais n8n directement ;
+  le backend orchestre Flux 3 et TTS.
+end note
+
+@enduml

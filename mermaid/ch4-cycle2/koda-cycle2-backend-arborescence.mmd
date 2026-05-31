@@ -1,0 +1,80 @@
+%% Cycle 2 — Arborescence et architecture du projet Distributeur (backend FastAPI)
+%% Import draw.io : Arrange → Insert → Advanced → Mermaid
+%% Export PNG → public/archipy.png
+
+flowchart TB
+    subgraph ROOT["📁 Distributeur/ (racine projet)"]
+        direction TB
+
+        subgraph CONFIG_ROOT["Configuration & déploiement"]
+            ENV[".env<br/><i>variables d'environnement</i>"]
+            REQ["requirements.txt<br/><i>dépendances Python</i>"]
+            MIG["migrations/<br/><i>évolutions schéma BDD</i>"]
+        end
+
+        subgraph DEV["Environnement dev (hors prod)"]
+            VENV[".venv/<br/><i>interpréteur virtuel</i>"]
+            IDEA[".idea/<br/><i>config IDE</i>"]
+            PYTEST[".pytest_cache/"]
+        end
+
+        subgraph SRC["📂 src/ — cœur applicatif"]
+            direction TB
+            MAIN["main.py<br/><i>point d'entrée FastAPI</i>"]
+
+            subgraph L_PRES["presentation/"]
+                PRES["DTO, serializers,<br/>format réponses API"]
+            end
+
+            subgraph L_CTRL["controllers/"]
+                CTRL["Routeurs REST & WebSocket<br/>/api/*, handlers HTTP"]
+            end
+
+            subgraph L_APP["application/"]
+                APP["Cas d'usage<br/>vocal, visage, mobile, robot"]
+            end
+
+            subgraph L_DOM["domain/"]
+                DOM["Entités & règles métier<br/>Person, Session, Command…"]
+            end
+
+            subgraph L_INFRA["infrastructure/"]
+                INFRA["Supabase, Azure SDK,<br/>client n8n, repositories"]
+            end
+
+            subgraph L_CORE["core/"]
+                CORE["Utilitaires partagés,<br/>exceptions, helpers"]
+            end
+
+            subgraph L_CFG["config/"]
+                CFG["Settings Pydantic,<br/>chargement .env"]
+            end
+        end
+
+        subgraph TESTS["tests/unit/"]
+            TEST["Tests unitaires<br/>domaine & use cases"]
+        end
+    end
+
+    MAIN --> CTRL
+    CTRL --> APP
+    APP --> DOM
+    APP --> INFRA
+    CTRL --> PRES
+    INFRA --> DOM
+    CFG --> MAIN
+    CORE -.-> APP
+    CORE -.-> INFRA
+    ENV -.-> CFG
+    MIG -.-> INFRA
+    TEST -.-> APP
+    TEST -.-> DOM
+
+    ROOT -.- LEGEND["<b>Clean Architecture</b><br/>dépendances vers l'intérieur :<br/>controllers → application → domain<br/>infrastructure implémente les ports"]
+
+    style SRC fill:#e8f4fc,stroke:#0066aa
+    style L_DOM fill:#d4edda,stroke:#28a745
+    style L_APP fill:#fff3cd,stroke:#ffc107
+    style L_CTRL fill:#f8d7da,stroke:#dc3545
+    style L_INFRA fill:#e2e3e5,stroke:#6c757d
+    style MAIN fill:#0066aa,color:#fff

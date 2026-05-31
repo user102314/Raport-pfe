@@ -1,0 +1,25 @@
+%% Flux 3 — alias compact (source de verite : -compact.mmd)
+%% PNG : public/ch4-robot-flux3-intro-compact.png
+
+sequenceDiagram
+    autonumber
+    actor U as Visiteur
+    participant KODA as Robot KODA
+    participant DS as Distributeur
+    participant SVC as Services cloud n8n BDD Azure TTS
+
+    U->>KODA: Presence detectee camera
+    KODA->>KODA: Identifie acteur connu ou unkonu
+    KODA->>DS: POST username acteur
+
+    Note over DS,SVC: Phase 1 Flux 3 generation introduction
+    DS->>SVC: POST webhook Flux 3
+    SVC-->>DS: parole_du_robot emotion_visuelle
+
+    Note over DS,KODA: Phase 2 TTS restitution
+    DS->>SVC: synthese TTS
+    SVC-->>DS: audio pre-synthetise
+    DS-->>KODA: JSON + audio + emotion
+    KODA-->>U: Introduction orale Nextion
+
+    Note over KODA,DS: Robot ne parle qu au Distributeur

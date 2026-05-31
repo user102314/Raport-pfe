@@ -1,0 +1,28 @@
+%% Flux 1 — COMPACT (draw.io compatible)
+%% PNG : public/ch4-robot-flux1-vocal-compact.png
+
+sequenceDiagram
+    autonumber
+    actor U as Utilisateur
+    participant KODA as Robot KODA
+    participant DS as Distributeur
+    participant SVC as Services cloud Azure Trad n8n BDD
+
+    U->>KODA: Parole + photo
+    KODA->>DS: photo + audio vocal
+
+    Note over DS,SVC: Phase 1 Identification STT traduction FR
+    DS->>SVC: getUserName STT traduction
+    SVC-->>DS: user + texte FR
+
+    Note over DS,SVC: Phase 2 Flux 1 generation reponse
+    DS->>SVC: POST webhook Flux 1
+    SVC-->>DS: reponse AR optionnel
+
+    Note over DS,KODA: Phase 3 TTS restitution
+    DS->>SVC: synthese TTS sauvegarde
+    SVC-->>DS: audio
+    DS-->>KODA: JSON + audio + emotion
+    KODA-->>U: reponse vocale Nextion
+
+    Note over KODA,DS: Robot ne parle qu au Distributeur

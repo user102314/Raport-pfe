@@ -1,0 +1,32 @@
+%% Cycle 2 — Cas d'utilisation : deux actions robot ↔ backend
+%% Export draw.io → public/ch4-robot-use-cases.png
+
+flowchart LR
+    subgraph ROBOT["Système embarqué Raspberry Pi"]
+        RPI["Robot KODA"]
+    end
+
+    subgraph DS["Distributeur de Services (FastAPI)"]
+        UC1["UC1 — Piloter le robot\nen temps réel\n(WebSocket)"]
+        UC2["UC2 — Obtenir l'introduction\norale proactive\n(Flux 3 / Webhook 3)"]
+    end
+
+    subgraph EXT["Services externes (via backend)"]
+        PG[("PostgreSQL")]
+        N8N["Webhook 3 n8n\n(spontanéité)"]
+        TTS["Azure TTS"]
+    end
+
+    RPI --> UC1
+    RPI --> UC2
+
+    UC1 ..> PG : journalisation état
+    UC2 --> N8N : username / acteur
+    UC2 --> TTS : synthèse audio
+    UC2 ..> PG : lecture accompagnement
+
+    note1["Action 1 : commandes moteur,\némotions, acquittements ACK"]
+    note2["Action 2 : détection présence →\nparole d'accueil + audio pré-synthétisé"]
+
+    UC1 -.- note1
+    UC2 -.- note2

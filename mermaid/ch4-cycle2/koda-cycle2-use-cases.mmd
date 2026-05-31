@@ -1,0 +1,32 @@
+%% Cycle 2 — Cas d'utilisation Distributeur (vue fonctionnelle)
+%% Export → public/ducgc4.png
+
+flowchart LR
+    U(["Utilisateur<br/>devant KODA"])
+    APP(["KodaMate<br/>mobile"])
+    ADM(["Admin /<br/>développeur"])
+
+    subgraph DS["Distributeur de Services (FastAPI)"]
+        UC1["Traiter requête<br/>vocale"]
+        UC2["Session WebSocket<br/>robot"]
+        UC3["Reconnaissance<br/>faciale"]
+        UC4["Authentifier<br/>mobile"]
+        UC5["Profils &<br/>agenda"]
+        UC6["Persister<br/>conversations"]
+        UC7["Déléguer à<br/>n8n"]
+        UC8["Services cloud<br/>Azure / Gemini"]
+    end
+
+    U --> UC1
+    U --> UC3
+    APP --> UC4
+    APP --> UC5
+    ADM --> UC6
+
+    UC1 --> UC8
+    UC1 --> UC7
+    UC1 --> UC6
+    UC2 --> UC1
+    UC3 --> UC6
+    UC5 --> UC6
+    UC7 --> UC6

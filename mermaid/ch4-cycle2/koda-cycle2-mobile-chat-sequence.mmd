@@ -1,0 +1,25 @@
+%% Cycle 2 — Chat mobile → backend → n8n
+%% Export → public/ch4-mobile-chat.png
+
+sequenceDiagram
+    autonumber
+    actor U as Utilisateur
+    participant APP as KodaMate (Chat)
+    participant DS as Distributeur (FastAPI)
+    participant N8N as Workflow n8n
+    participant PG as PostgreSQL
+
+    U->>APP: Saisie message
+    APP->>APP: Ajout suffixe (ex. oussama)
+    APP->>DS: POST /api/trigger-n8n<br/>{question: "texte (oussema)"}
+    DS->>N8N: HTTP POST webhook (N8N_WEBHOOK_URL)
+    N8N->>PG: Lecture contexte (optionnel)
+    PG-->>N8N: Données profil / historique
+    N8N->>N8N: IA, règles, notes
+    N8N-->>DS: {output: "réponse KODA"}
+    DS->>PG: Persistance conversation (optionnel)
+    DS-->>APP: JSON avec champ output
+    APP->>APP: Extraire output
+    APP-->>U: Bulle réponse KODA (gauche)
+
+    Note over APP,N8N: Le mobile ne connaît pas l'URL n8n

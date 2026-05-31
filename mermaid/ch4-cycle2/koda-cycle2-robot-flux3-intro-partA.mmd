@@ -1,0 +1,14 @@
+%% Flux 3 — PARTIE A : detection presence et declenchement
+%% PNG : public/ch4-robot-flux3-intro-partA.png
+
+sequenceDiagram
+    autonumber
+    actor U as Visiteur
+    participant KODA as Robot KODA
+    participant DS as Distributeur
+
+    U->>KODA: Presence detectee camera
+    KODA->>KODA: Identifie acteur connu ou unkonu
+    KODA->>DS: POST API username acteur
+
+    Note over KODA,DS: Suite partie B Flux 3 TTS retour

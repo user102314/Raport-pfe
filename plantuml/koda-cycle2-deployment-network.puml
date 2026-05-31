@@ -1,0 +1,30 @@
+@startuml koda_cycle2_deployment_network
+title Cycle 2 — Probleme d'adressage reseau (Raspberry Pi vs backend)
+
+skinparam shadowing false
+
+node "Reseau local\n(Wi-Fi robot)" as LAN {
+  [Raspberry Pi\n192.168.x.x] as RPI
+  [PC developpement\nlocalhost:8000] as PC
+}
+
+cloud "Hebergement backend\n(VPS / Docker)" as VPS {
+  [Distributeur\napi.koda.example:443] as DS
+}
+
+node "Smartphone\n(emulateur / device)" as PH {
+  [KodaMate Flutter] as APP
+}
+
+RPI -[#red,dashed]-> PC : **Conflit initial** :\nconfig pointe vers\nlocalhost ou IP obsolete
+RPI -[#green]-> DS : **Solution** :\nURL publique ou IP LAN\ndu serveur backend
+APP -[#orange,dashed]-> DS : **CORS** :\norigine mobile bloquee\nsi non whitelistee
+APP -[#green]-> DS : **Solution** :\nCORSMiddleware +\norigines dev/prod
+
+note bottom of RPI
+  Le robot et le mobile doivent
+  cibler la **meme** base URL backend,
+  distincte de l'URL n8n (Cycle 1).
+end note
+
+@enduml

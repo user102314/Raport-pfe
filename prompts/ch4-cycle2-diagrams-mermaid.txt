@@ -1,0 +1,109 @@
+# Cycle 2 — Diagrammes Mermaid / draw.io (Chapitre IV — Distributeur de Services)
+#
+# ⚠️ NE PAS utiliser PlantUML pour ce chapitre.
+# Format source : Mermaid (.mmd) dans mermaid/ch4-cycle2/
+#
+# ================================================================================
+# COMMENT EXPORTER EN PNG (3 méthodes)
+# ================================================================================
+#
+# Méthode A — draw.io / diagrams.net (recommandé pour le rapport)
+#   1. Ouvrir https://app.diagrams.net
+#   2. Arrange → Insert → Advanced → Mermaid
+#   3. Coller UNIQUEMENT le bloc sequenceDiagram (sans lignes %% commentaires)
+#   4. draw.io : NE PAS utiliser rect rgb(...) ni \n — utiliser Note over et texte simple
+#   5. Si "Parse error" : choisir "Image" (pas "Diagram") avant Insert
+#   6. Ajuster couleurs bleu/gris académiques, exporter PNG → public/
+#
+# Méthode B — Mermaid Live Editor
+#   1. Ouvrir https://mermaid.live
+#   2. Coller le code Mermaid
+#   3. Actions → Export PNG/SVG
+#
+# Méthode C — CLI (optionnel)
+#   npm install -g @mermaid-js/mermaid-cli
+#   mmdc -i mermaid/ch4-cycle2/NOM.mmd -o public/NOM.png -b white
+#
+# ================================================================================
+# CORRESPONDANCE FICHIER → PNG → SECTION DU RAPPORT
+# ================================================================================
+#
+# | Fichier Mermaid                          | PNG public/                    | Section LaTeX        |
+# |------------------------------------------|--------------------------------|----------------------|
+# | koda-cycle2-use-cases.mmd                | ducgc4.png                     | Modélisation         |
+# | koda-cycle2-hub-architecture.mmd         | ch4-hub-architecture.png       | Modélisation         |
+# | koda-chapitre-classes-schema.mmd         | ch4-schema-classes.png         | Modélisation         |
+# | koda-cycle2-clean-architecture.mmd       | ch4-clean-architecture.png     | Architecture interne |
+# | koda-cycle2-robot-flux1-vocal-sequence.mmd | ch4-robot-flux1-vocal.png    | Action 1 Flux 1      |
+# | koda-cycle2-embedded-sequence.mmd        | dscse.png                      | (retire du rapport)  |
+# | koda-cycle2-robot-use-cases.mmd          | ch4-robot-use-cases.png        | Robot — 2 actions    |
+# | koda-cycle2-robot-flux3-intro-compact.mmd | ch4-robot-flux3-intro-compact.png | Action 2 Flux 3 compact |
+# | koda-cycle2-robot-flux3-intro-partA.mmd   | ch4-robot-flux3-intro-partA.png   | Action 2 Flux 3 part A  |
+# | koda-cycle2-robot-flux3-intro-partB.mmd   | ch4-robot-flux3-intro-partB.png   | Action 2 Flux 3 part B  |
+# | koda-cycle2-vocal-pipeline-sequence.mmd  | ch4-vocal-pipeline.png         | (alias Flux 1)       |
+# | koda-cycle2-mobile-3tier.mmd             | ch4-mobile-3tier.png           | Interaction mobile   |
+# | koda-cycle2-mobile-sequence.mmd          | ch4-mobile-bootstrap.png       | Interaction mobile   |
+# | koda-cycle2-mobile-auth-sequence.mmd     | ch4-mobile-auth.png            | Interaction mobile   |
+# | koda-cycle2-mobile-chat-sequence.mmd     | ch4-mobile-chat.png            | Interaction mobile   |
+# | koda-cycle2-mobile-settings-sequence.mmd | ch4-mobile-settings.png        | Interaction mobile   |
+# | koda-cycle2-n8n-sequence.mmd             | ch4-n8n-sequence.png           | Délégation n8n       |
+# | koda-cycle2-deployment-network.mmd       | ch4-deployment-network.png     | Problèmes réseau     |
+#
+# ================================================================================
+# RENDRE LES SEQUENCES LISIBLES (diagrammes trop longs)
+# ================================================================================
+#
+# Probleme : 7+ participants = diagramme tres large et illisible sur A4.
+#
+# Solution 1 — VERSION COMPACTE (recommandee pour le rapport)
+#   Fichier : koda-cycle2-robot-flux1-vocal-compact.mmd
+#   Regrouper Azure + Traduction + n8n + BDD en un seul bloc "Services externes"
+#   → 4 acteurs seulement, 3 phases numerotees dans les Notes
+#
+# Solution 2 — COUPER EN 2 PARTIES (detail complet)
+#   Partie A : koda-cycle2-robot-flux1-vocal-partA.mmd (capture → STT)
+#   Partie B : koda-cycle2-robot-flux1-vocal-partB.mmd (n8n → TTS → robot)
+#   Dans le rapport : 2 figures l'une sous l'autre (a) et (b)
+#
+# Solution 3 — PlantUML avec box + newpage
+#   koda-cycle2-robot-flux1-vocal-compact.puml  (box services cloud)
+#   koda-cycle2-robot-flux1-vocal-split.puml    (2 pages PDF)
+#
+# Solution 4 — Mise en page draw.io (apres import)
+#   - Reduire la police des lifelines (10–11 pt)
+#   - Activer "Format → Page → Paysage" pour les sequences larges
+#   - Exporter PNG en haute resolution puis \kodafigureL[1.0\textwidth]
+#
+# Solution 5 — LaTeX paysage (dernier recours)
+#   \begin{landscape} ... \kodafigureL ... \end{landscape}
+#   (package pdflscape deja disponible si besoin)
+#
+# ================================================================================
+#
+# - Fond blanc, pas de dégradé sombre
+# - Palette : bleu #0054A6, gris #666, vert #2E7D32 (OK), rouge #C62828 (erreur)
+# - Police lisible sur A4 (minimum 10 pt après export)
+# - Flèches simples, blocs arrondis pour composants, rectangles pour séquences
+# - Labels en français
+# - Pas de logo, pas de watermark
+#
+# ================================================================================
+# PROMPTS NANO BANANA (figures bitmap complémentaires — optionnel)
+# ================================================================================
+# Pour des infographies non-UML (captures d'écran stylisées), utiliser :
+#
+# ## public/ch4-backend-stack.png
+# Infographie académique, fond blanc, français. Pile FastAPI au centre : REST API,
+# WebSocket, services vocal/visage, ORM Supabase. À gauche Raspberry Pi et KodaMate
+# MAUI connectés par flèches HTTP. À droite n8n et Azure. Style plat, bleu/gris,
+# rapport d'ingénierie, pas de photo réaliste.
+#
+# ## public/ch4-mobile-backend-flow.png
+# Schéma applicatif KodaMate → FastAPI → Supabase/n8n. Montrer les 9 endpoints actifs
+# (login, settings, power, chat, historique). Style infographie claire, smartphone
+# sombre bleu/cyan, serveur gris, flèches JSON. Fond blanc, texte français lisible.
+#
+# ================================================================================
+# ANCIEN DOSSIER plantuml/koda-cycle2-*.puml
+# ================================================================================
+# Conservé pour référence historique uniquement. Source de vérité = mermaid/ch4-cycle2/

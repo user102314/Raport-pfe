@@ -1,0 +1,20 @@
+%% Cycle 2 — Conflit adresses + CORS
+%% Export → public/ch4-deployment-network.png
+
+flowchart TB
+    subgraph LAN["Réseau local Wi-Fi"]
+        RPI["Raspberry Pi<br/>192.168.x.x"]
+        PC["PC dev<br/>localhost:8000"]
+        PH["Smartphone<br/>KodaMate MAUI"]
+    end
+
+    subgraph VPS["Hébergement backend"]
+        DS["Distributeur<br/>api.koda:443"]
+    end
+
+    RPI -.->|"❌ Conflit initial<br/>localhost / IP obsolète"| PC
+    RPI ==>|"✅ Solution<br/>URL LAN ou VPS"| DS
+    PH -.->|"⚠ CORS<br/>origine non whitelistée"| DS
+    PH ==>|"✅ CORSMiddleware<br/>origines dev/prod"| DS
+
+    RPI -.- N["Robot et mobile : même base URL backend,<br/>distincte de l'URL n8n"]

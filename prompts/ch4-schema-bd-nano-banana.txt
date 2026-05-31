@@ -1,0 +1,151 @@
+# Cycle 2 — Prompt Nano Banana : schéma de la base de données (structure des tables)
+#
+# Image finale à enregistrer sous :
+#   public/ch4-schema-classes.png
+#
+# Usage : Cycle 2 — Chapitre IV — Modélisation — persistance PostgreSQL (Supabase)
+# Objectif : figure UML/ERD claire, LISIBILE à l'impression A4, tables et relations uniquement
+# (pas de robot, pas de serveur, pas de texte explicatif autour)
+
+================================================================================
+PROMPT PRINCIPAL — Schéma relationnel PostgreSQL (Supabase) KODA
+================================================================================
+
+Professional UML class diagram for a final-year engineering report (PFE),
+French labels, white background, academic style.
+
+Title at top (small, centered): "Modèle de persistance — Distributeur de Services (PostgreSQL / Supabase)"
+
+Draw exactly 10 entity boxes (database tables). Each box has:
+- dark gray header with white table name (bold)
+- white body listing columns with data types
+- mark PK in green and FK in orange next to column names
+
+TABLE 1 — Setting (central hub, place near top center)
+  idkoda : String [PK]
+  name : String
+  sexe : String
+  date : String
+  motdepasse : String
+  etat : Boolean
+  caractere : String
+  langue : String
+
+TABLE 2 — Authentification (left of Setting)
+  idproduit : Integer [PK]
+  emailclient : String
+  motdepasse : String
+  idkoda : String [FK → Setting]
+
+TABLE 3 — Historique (right of Setting)
+  id : Integer [PK]
+  created_at : DateTime
+  question : String
+  reponce : String
+  type_question : String
+  idkoda : String [FK → Setting]
+
+TABLE 4 — Utilisateur (below Setting)
+  iduser : Integer [PK]
+  nom : String
+  idkoda : String [FK → Setting]
+
+TABLE 5 — Note (left below Setting)
+  id : Integer [PK]
+  note : String
+  etat : Boolean
+  date : DateTime
+  idkoda : String [FK → Setting]
+
+TABLE 6 — Activity (below Note, dashed inheritance arrow pointing to Note)
+  id : Integer [PK]
+  note : String
+  etat : Boolean
+  date : DateTime
+  (same structure as Note — generalization / alias)
+
+TABLE 7 — ImageUser (right of Utilisateur)
+  idimage : Integer [PK]
+  iduser : Integer [FK → Utilisateur]
+  url : String
+
+TABLE 8 — Accompagnement (right of Utilisateur)
+  id : Integer [PK]
+  interets : String
+  synthese : String
+  point_cles : String
+  conseils : String
+  iduser : Integer [FK → Utilisateur]
+
+TABLE 9 — Conversation (below Utilisateur)
+  idconv : Integer [PK]
+  question : String
+  reponce : String
+  date : DateTime
+  typedequestion : String
+  iduser : Integer [FK → Utilisateur]
+  idkoda : String [FK → Setting]
+
+TABLE 10 — InformationPersonelle (bottom center)
+  id : Integer [PK]
+  question : String
+  reponce : String
+  date : DateTime
+  iduser : Integer [FK → Utilisateur]
+  idkoda : String [FK → Setting]
+  idconv : Integer [FK → Conversation]
+
+RELATIONSHIPS (draw clean arrows with multiplicities 0..* and 1):
+  Setting 1 ←→ 0..* Authentification (via idkoda)
+  Setting 1 ←→ 0..* Historique (via idkoda)
+  Setting 1 ←→ 0..* Note (via idkoda)
+  Setting 1 ←→ 0..* Conversation (via idkoda)
+  Setting 1 ←→ 0..* InformationPersonelle (via idkoda)
+  Setting 1 ←→ 0..* Utilisateur (via idkoda)
+  Utilisateur 1 → 0..* ImageUser (via iduser)
+  Utilisateur 1 → 0..* Accompagnement (via iduser)
+  Utilisateur 1 → 0..* Conversation (via iduser)
+  Utilisateur 1 → 0..* InformationPersonelle (via iduser)
+  Conversation 1 → 0..* InformationPersonelle (via idconv)
+  Activity - - ▷ Note (generalization, dashed line, open triangle toward Note)
+
+LAYOUT:
+  Setting at the top center as the main configuration hub.
+  Utilisateur just below Setting.
+  Tables linked to idkoda grouped around Setting (Authentification, Historique, Note).
+  Tables linked to iduser grouped around Utilisateur (ImageUser, Accompagnement, Conversation).
+  InformationPersonelle at the bottom linking Setting, Utilisateur and Conversation.
+  Balanced spacing, no overlapping boxes, all text readable at A4 portrait width.
+
+STYLE:
+  Flat vector UML, no 3D, no shadows, no photorealism.
+  Colors: header #4A4A4A, body white, borders #333, arrows #0054A6, PK badge green, FK badge orange.
+  Font: clean sans-serif, minimum readable size for print.
+  Landscape or large portrait, high contrast, no watermark, no logo, no decorative icons.
+
+Negative prompt: dark background, neon cyberpunk, blurry text, tiny unreadable columns,
+English-only labels, cartoon style, photo of a screen, SQL code blocks, extra tables
+not listed above, robot illustration, server rack clipart, watermark.
+
+================================================================================
+PROMPT COURT (si limite de caractères Nano Banana)
+================================================================================
+
+UML class diagram, white background, French, academic PFE report. 10 PostgreSQL tables:
+Setting (idkoda PK), Authentification, Historique, Utilisateur, Note, Activity→Note,
+ImageUser, Accompagnement, Conversation, InformationPersonelle. Show PK/FK columns,
+relationships with 0..* and 1, Setting as central hub via idkoda, Utilisateur hub via
+iduser. Gray headers, white bodies, blue arrows, readable A4, no robot, no watermark.
+
+================================================================================
+VARIANTE ERD SIMPLIFIÉE (tables seules, sans cardinalités détaillées)
+================================================================================
+
+Database ERD diagram, minimalist, French table names only. Ten rectangles:
+Setting, Authentification, Historique, Utilisateur, Note, Activity, ImageUser,
+Accompagnement, Conversation, InformationPersonelle. Inside each box: column list with
+PK and FK marked. Simple lines between related tables. Setting centered top, Utilisateur
+center middle. White background, black/gray lines, academic report style, very clean,
+no extra decoration, high readability for printed thesis.
+
+Negative prompt: cluttered, dark theme, illegible micro-text, 3D isometric, logos.

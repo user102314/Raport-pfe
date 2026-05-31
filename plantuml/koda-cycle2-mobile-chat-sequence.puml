@@ -1,0 +1,43 @@
+@startuml koda_cycle2_mobile_chat_sequence
+title Cycle 2 — Chat KodaMate : mobile -> backend -> n8n
+
+skinparam sequenceMessageAlign center
+skinparam responseMessageBelowArrow true
+
+actor "Utilisateur" as U
+participant "KodaMate\n(Chat)" as APP
+participant "Distributeur\n(FastAPI)" as DS
+participant "Workflow n8n" as N8N
+database "PostgreSQL" as PG
+
+U -> APP : Saisie message
+activate APP
+APP -> APP : Ajout suffixe\n(ex. oussama)
+APP -> DS : POST /api/trigger-n8n\n{question: "texte (oussema)"}
+activate DS
+
+DS -> N8N : HTTP POST webhook\n(N8N_WEBHOOK_URL)
+activate N8N
+N8N -> PG : Lecture contexte\n(optionnel)
+activate PG
+deactivate PG
+N8N -> N8N : IA, regles, notes
+N8N --> DS : {output: "reponse KODA"}
+deactivate N8N
+
+DS -> PG : Persistance conversation\n(optionnel)
+activate PG
+deactivate PG
+
+DS --> APP : JSON avec champ output
+deactivate DS
+APP -> APP : Extraire output
+APP --> U : Bulle reponse KODA\n(gauche)
+deactivate APP
+
+note over APP, N8N
+  Le mobile ne connait pas l'URL n8n ;
+  seul le backend delegue au Cycle 1.
+end note
+
+@enduml

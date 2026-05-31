@@ -1,0 +1,58 @@
+@startuml koda_cycle2_mobile_settings_sequence
+title Cycle 2 — Parametres robot et historique (KodaMate)
+
+skinparam sequenceMessageAlign center
+skinparam responseMessageBelowArrow true
+
+actor "Utilisateur" as U
+participant "KodaMate" as APP
+participant "Distributeur" as DS
+database "PostgreSQL" as PG
+
+== Configuration robot ==
+U -> APP : Ouvrir Parametres / Config
+activate APP
+APP -> DS : GET /api/settings
+activate DS
+DS -> PG : SELECT setting
+PG --> DS : name, langue, etat, caractere...
+DS --> APP : JSON parametres
+deactivate DS
+
+U -> APP : Modifier et enregistrer
+APP -> DS : PUT /api/settings
+activate DS
+DS -> PG : UPDATE setting
+PG --> DS : OK
+DS --> APP : Confirmation
+deactivate DS
+
+== Power on / off (Accueil) ==
+U -> APP : Bouton alimentation
+APP -> DS : POST /api/power-on\nou /api/power-off
+activate DS
+DS -> PG : UPDATE etat
+PG --> DS : etat 1 ou 0
+DS --> APP : {status, etat}
+deactivate DS
+
+== Historique ==
+U -> APP : Onglet Historique
+APP -> DS : GET /api/conversations\n?date_from&date_to
+activate DS
+DS -> PG : SELECT conversation
+PG --> DS : liste messages
+DS --> APP : JSON conversations
+deactivate DS
+
+alt Erreur ou timeout filtres
+  APP -> DS : GET /api/conversations/last100
+  activate DS
+  DS --> APP : 100 derniers messages
+  deactivate DS
+end
+
+APP --> U : Bulles question/reponse\npar date
+deactivate APP
+
+@enduml

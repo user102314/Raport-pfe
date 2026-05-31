@@ -1,0 +1,44 @@
+@startuml koda_cycle2_mobile_3tier
+title Cycle 2 — Architecture trois couches : KodaMate, Distributeur, Supabase
+
+skinparam componentStyle rectangle
+skinparam shadowing false
+
+package "Couche presentation" {
+  [KodaMate\n.NET MAUI 8\n(Android)] as APP
+}
+
+package "Couche services" {
+  [Distributeur de Services\nFastAPI :8000\n/api/*] as DS
+  [Workflow n8n\n(Cycle 1)] as N8N
+}
+
+package "Couche donnees" {
+  database "PostgreSQL\n(Supabase)" as PG
+}
+
+cloud "Externe (hors backend)" {
+  [Open-Meteo API] as METEO
+}
+
+APP -down-> DS : HTTP/JSON\nREST (Wi-Fi local)
+APP -[hidden]-> PG
+APP ..x PG : **Jamais**\ndirect
+APP ..x N8N : **Jamais**\ndirect
+APP -down-> METEO : GET meteo\n(Accueil uniquement)
+
+DS -down-> PG : SQLAlchemy\nasyncpg
+DS -down-> N8N : POST webhook\n(N8N_WEBHOOK_URL)
+
+note right of APP
+  Session locale apres login :
+  email, idproduit, idkoda
+  (Preferences MAUI)
+end note
+
+note bottom of DS
+  Seul point d'acces a Supabase,
+  n8n et services cloud pour le mobile.
+end note
+
+@enduml

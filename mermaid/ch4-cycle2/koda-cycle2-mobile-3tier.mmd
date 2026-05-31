@@ -1,0 +1,32 @@
+%% Cycle 2 — Architecture 3 couches KodaMate / Distributeur / Supabase
+%% Export : draw.io > Arrange > Insert > Advanced > Mermaid
+%%          ou https://mermaid.live → PNG → public/ch4-mobile-3tier.png
+
+flowchart TB
+    subgraph PRES["Couche présentation"]
+        APP["KodaMate<br/>.NET MAUI 8<br/>(Android)"]
+    end
+
+    subgraph SVC["Couche services"]
+        DS["Distributeur de Services<br/>FastAPI :8000 /api/*"]
+        N8N["Workflow n8n<br/>(Cycle 1)"]
+    end
+
+    subgraph DATA["Couche données"]
+        PG[("PostgreSQL<br/>(Supabase)")]
+    end
+
+    subgraph EXT["Externe (hors backend)"]
+        METEO["Open-Meteo API"]
+    end
+
+    APP -->|"HTTP/JSON REST<br/>(Wi-Fi local)"| DS
+    APP -.->|"❌ Jamais direct"| PG
+    APP -.->|"❌ Jamais direct"| N8N
+    APP -->|"GET météo<br/>(Accueil)"| METEO
+
+    DS -->|"SQLAlchemy / asyncpg"| PG
+    DS -->|"POST webhook<br/>N8N_WEBHOOK_URL"| N8N
+
+    APP -.- NOTE1["Session locale après login :<br/>email, idproduit, idkoda<br/>(Preferences MAUI)"]
+    DS -.- NOTE2["Seul point d'accès Supabase,<br/>n8n et cloud pour le mobile"]

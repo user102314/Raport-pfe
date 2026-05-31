@@ -1,0 +1,21 @@
+%% Flux 1 — PARTIE A : entree (capture → identification → STT)
+%% PNG : public/ch4-robot-flux1-vocal-partA.png
+
+sequenceDiagram
+    autonumber
+    actor U as Utilisateur
+    participant KODA as Robot KODA
+    participant DS as Distributeur
+    participant FR as Reconnaissance faciale
+    participant AZ as Azure STT
+
+    U->>KODA: Parole + presence
+    KODA->>DS: photo + audio vocal
+
+    DS->>FR: getUserName(photo)
+    FR-->>DS: nom utilisateur
+
+    DS->>AZ: audio vers texte STT
+    AZ-->>DS: texte vocal
+
+    Note over KODA,DS: Suite : partie B (n8n, TTS, retour)

@@ -1,0 +1,26 @@
+%% Cycle 2 — Délégation raisonnement n8n
+%% Export → public/ch4-n8n-sequence.png
+
+sequenceDiagram
+    autonumber
+    participant C as Robot ou KodaMate
+    participant DS as Distributeur (FastAPI)
+    participant PG as PostgreSQL
+    participant N8N as Webhook n8n
+    participant T as Services LLM / outils
+
+    C->>DS: Requête utilisateur (vocale ou texte)
+    DS->>PG: Charger identité, historique, notes
+    PG-->>DS: Contexte
+    DS->>DS: Construire payload JSON normalisé
+    DS->>N8N: HTTP POST webhook (timeout configurable)
+    N8N->>T: Enrichissement, classification
+    T-->>N8N: Résultats intermédiaires
+    N8N-->>DS: {réponse, actions, métadonnées}
+
+    alt Réponse valide
+        DS->>PG: Persister échange
+        DS-->>C: Réponse finale + effets périphériques
+    else Timeout ou erreur
+        DS-->>C: Message de repli + log erreur
+    end

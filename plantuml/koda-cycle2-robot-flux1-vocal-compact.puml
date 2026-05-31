@@ -1,0 +1,44 @@
+@startuml koda_cycle2_robot_flux1_vocal_compact
+title Cycle 2 — Flux 1 (vue compacte)
+
+skinparam sequenceMessageAlign center
+skinparam responseMessageBelowArrow true
+skinparam ParticipantPadding 10
+
+actor "Utilisateur" as U
+participant "Robot KODA" as KODA
+participant "Distributeur\n(FastAPI)" as DS
+
+box "Services externes (orchestrés par le backend)" #E8F4FC
+  participant "Azure STT/TTS" as AZ
+  participant "Traduction" as TR
+  participant "n8n Flux 1" as N8N
+  database "PostgreSQL" as PG
+end
+
+U -> KODA : Parole + photo
+KODA -> DS : photo + audio vocal
+activate DS
+
+DS -> AZ : STT
+AZ --> DS : texte vocal
+DS -> TR : traduction FR
+TR --> DS : texte FR
+DS -> N8N : webhook Flux 1
+N8N -> PG : contexte
+PG --> N8N : profil
+N8N --> DS : reponse
+DS -> AZ : TTS
+AZ --> DS : audio
+DS -> PG : sauvegarde (opt.)
+DS --> KODA : JSON + audio + emotion
+deactivate DS
+KODA --> U : reponse vocale
+
+note over KODA, DS
+  **3 phases** : (1) capture + STT
+  (2) Flux 1 n8n  (3) TTS + retour
+  Le robot ne contacte que le Distributeur.
+end note
+
+@enduml

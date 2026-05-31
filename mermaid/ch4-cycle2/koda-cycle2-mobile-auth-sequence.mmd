@@ -1,0 +1,19 @@
+%% Cycle 2 — Authentification POST /api/auth/login
+%% Export → public/ch4-mobile-auth.png
+
+sequenceDiagram
+    autonumber
+    actor U as Utilisateur
+    participant APP as KodaMate (.NET MAUI)
+    participant DS as Distributeur (FastAPI)
+    participant PG as PostgreSQL (Supabase)
+
+    U->>APP: Saisie email + mot de passe
+    APP->>DS: POST /api/auth/login<br/>{emailclient, motdepasse}
+    DS->>PG: SELECT authentification
+    PG-->>DS: idproduit, idkoda, emailclient
+    DS-->>APP: {status, data: {idproduit, emailclient, idkoda}}
+    APP->>APP: Preferences.Set (session locale)
+    APP-->>U: Navigation Accueil / Config robot
+
+    Note over APP: Timeout 60 s · Base URL http://IP:8000/api

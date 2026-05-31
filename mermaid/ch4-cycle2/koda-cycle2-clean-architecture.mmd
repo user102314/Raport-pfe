@@ -1,0 +1,45 @@
+%% Cycle 2 — Clean Architecture / Onion
+%% Export → public/ch4-clean-architecture.png
+
+flowchart TB
+    subgraph DOM["Entities — Domaine (centre)"]
+        E1[Person]
+        E2[Session]
+        E3[Command]
+        E4[Event]
+        E5[Conversation]
+    end
+
+    subgraph UC["Application Use Cases"]
+        U1[Traitement vocal]
+        U2[Reconnaissance faciale]
+        U3[Sessions robot]
+        U4[Services mobile]
+    end
+
+    subgraph AD["Interface Adapters"]
+        A1[Controllers]
+        A2[Repositories]
+        A3[Serializers / DTO]
+    end
+
+    subgraph FW["Frameworks & Drivers (périphérie)"]
+        F1[FastAPI routers]
+        F2[WebSocket handlers]
+        F3[SQLAlchemy / asyncpg]
+        F4[SDK Azure, Gemini]
+        F5[Client HTTP n8n]
+    end
+
+    A1 --> U1 & U2 & U3 & U4
+    U1 --> E1 & E5
+    U2 --> E1
+    U3 --> E2 & E3
+    U4 --> E5
+    A2 --> F3
+    F1 --> A1
+    F2 --> U3
+    U1 --> F4 & F5
+
+    DOM -.- ND["Règles métier stables — aucune dépendance framework"]
+    FW -.- NF["Infrastructure interchangeable"]

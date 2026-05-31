@@ -1,0 +1,15 @@
+# Chapitre IV — Diagrammes necessaires (section Robot)
+#
+# Ordre dans le rapport finalyearrapport.tex
+#
+# | #  | Source .mmd                              | PNG public/                              |
+# |----|------------------------------------------|------------------------------------------|
+# | 1  | (manuel)                                 | ch4-robot-use-cases.png                  |
+# | 2  | koda-cycle2-robot-flux1-vocal-compact    | ch4-robot-flux1-vocal-compact.png        |
+# | 3a | koda-cycle2-robot-flux1-vocal-partA      | ch4-robot-flux1-vocal-partA.png          |
+# | 3b | koda-cycle2-robot-flux1-vocal-partB      | ch4-robot-flux1-vocal-partB.png          |
+# | 4  | koda-cycle2-robot-flux3-intro-compact  | ch4-robot-flux3-intro-compact.png        |
+# | 5a | koda-cycle2-robot-flux3-intro-partA    | ch4-robot-flux3-intro-partA.png          |
+# | 5b | koda-cycle2-robot-flux3-intro-partB    | ch4-robot-flux3-intro-partB.png          |
+#
+# WebSocket (dscse.png) : SUPPRIME du rapport

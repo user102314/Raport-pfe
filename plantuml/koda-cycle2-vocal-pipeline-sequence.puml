@@ -1,0 +1,56 @@
+@startuml koda_cycle2_vocal_pipeline
+title Cycle 2 — Pipeline vocal complet (robot, backend, n8n, Azure)
+
+skinparam sequenceMessageAlign center
+skinparam responseMessageBelowArrow true
+
+actor "Utilisateur" as U
+participant "Raspberry Pi\n(capture audio)" as RPI
+participant "Distributeur\n(FastAPI)" as DS
+participant "Azure\nSpeech-to-Text" as STT
+participant "Workflow n8n\n(Cycle 1)" as N8N
+database "PostgreSQL" as PG
+participant "Azure\nText-to-Speech" as TTS
+
+U -> RPI : Parole / question
+activate RPI
+RPI -> DS : Flux audio ou chunk\n(HTTP / WebSocket)
+activate DS
+
+DS -> STT : Transcription
+activate STT
+STT --> DS : Texte utilisateur
+deactivate STT
+
+DS -> PG : Lecture contexte\n(historique, profil)
+activate PG
+PG --> DS : Donnees contextuelles
+deactivate PG
+
+DS -> N8N : POST webhook\n{name, question, contexte}
+activate N8N
+N8N -> N8N : Raisonnement,\nregles, appels LLM
+N8N --> DS : Reponse structuree\n+ actions eventuelles
+deactivate N8N
+
+DS -> PG : INSERT conversation /\nhistorique
+activate PG
+deactivate PG
+
+DS -> TTS : Synthese de la reponse
+activate TTS
+TTS --> DS : Audio ou URL stream
+deactivate TTS
+
+DS --> RPI : Audio + commandes\n(emoji, mouvement)
+deactivate DS
+RPI --> U : Reponse vocale\n+ expression Nextion
+deactivate RPI
+
+note over DS
+  Le backend garantit un **output coherent** :
+  texte valide, audio, persistance
+  et commandes robot dans un seul flux.
+end note
+
+@enduml

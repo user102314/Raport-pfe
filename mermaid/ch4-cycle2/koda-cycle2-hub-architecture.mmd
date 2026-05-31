@@ -1,0 +1,41 @@
+%% Cycle 2 — Distributeur pivot central
+%% Export → public/ch4-hub-architecture.png
+
+flowchart TB
+    subgraph INTER["Couche interaction"]
+        RPI["Raspberry Pi<br/>(robot physique)"]
+        APP["KodaMate<br/>(.NET MAUI)"]
+    end
+
+    subgraph COG["Couche cognition"]
+        N8N["Workflows n8n<br/>(Cycle 1)"]
+    end
+
+    subgraph DS["Distributeur de Services — seul point de liaison"]
+        REST["API REST<br/>(CORS)"]
+        WS["WebSocket<br/>(temps réel)"]
+        SVC["Services métier<br/>(vocal, visage, persistance)"]
+        HTTP["Clients HTTP<br/>(n8n, SDK cloud)"]
+    end
+
+    subgraph DATA["Couche données"]
+        PG[("PostgreSQL<br/>(Supabase)")]
+    end
+
+    subgraph CLOUD["Services cloud"]
+        AZ["Azure STT / TTS"]
+        LLM["Gemini / OpenRouter"]
+    end
+
+    RPI --> WS
+    APP --> REST
+    WS --> SVC
+    REST --> SVC
+    SVC --> HTTP
+    HTTP --> N8N
+    SVC --> PG
+    HTTP --> AZ
+    HTTP --> LLM
+
+    RPI -.- N1["Le robot ne connaît que le backend"]
+    DS -.- N2["Flexibilité · Disponibilité · Une adresse serveur"]

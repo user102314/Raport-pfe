@@ -1,0 +1,52 @@
+%% Cycle 2 — Schéma classes / persistance PostgreSQL
+%% Export → public/ch4-schema-classes.png
+
+classDiagram
+    class utilisateur {
+        +iduser PK
+        nom
+        idkoda FK
+    }
+    class conversation {
+        +id PK
+        question
+        reponce
+        date
+        typedequestion
+        iduser FK
+    }
+    class historique {
+        +id PK
+        created_at
+        question
+        reponce
+        type_question
+    }
+    class seeting {
+        +idkoda PK
+        name
+        sexe
+        date
+        motdepasse
+        etat
+        caractere
+        langue
+    }
+    class accompagnement {
+        +id PK
+        interets
+        synthese
+        point_cles
+        conseils
+        iduser FK
+    }
+    class imageuser {
+        +idimage PK
+        iduser FK
+        url
+    }
+
+    utilisateur "1" --> "0..*" conversation
+    utilisateur "1" --> "0..*" accompagnement
+    utilisateur "1" --> "0..*" imageuser
+    seeting "1" --> "0..*" utilisateur : idkoda

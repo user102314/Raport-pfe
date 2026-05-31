@@ -1,0 +1,49 @@
+@startuml koda_cycle2_n8n_sequence
+title Cycle 2 — Delegation du raisonnement au workflow n8n
+
+skinparam sequenceMessageAlign center
+skinparam responseMessageBelowArrow true
+
+participant "Robot ou\napplication mobile" as Client
+participant "Distributeur\n(FastAPI)" as DS
+database "PostgreSQL" as PG
+participant "Webhook n8n\n(Cycle 1)" as N8N
+participant "Services LLM\n/ outils n8n" as Tools
+
+Client -> DS : Requete utilisateur\n(vocale ou texte)
+activate DS
+
+DS -> PG : Charger identite,\nhistorique, notes
+activate PG
+PG --> DS : Contexte
+deactivate PG
+
+DS -> DS : Construire payload JSON\nnormalise
+
+DS -> N8N : HTTP POST webhook\n(timeout configurable)
+activate N8N
+N8N -> Tools : Enrichissement,\nclassification, generation
+activate Tools
+Tools --> N8N : Resultats intermediaires
+deactivate Tools
+N8N --> DS : {reponse, actions,\nmetadonnees}
+deactivate N8N
+
+alt Reponse valide
+  DS -> PG : Persister echange
+  activate PG
+  deactivate PG
+  DS --> Client : Reponse finale\n+ effets peripheriques
+else Timeout ou erreur webhook
+  DS --> Client : Message de repli\n+ log erreur
+end
+
+deactivate DS
+
+note over DS, N8N
+  Separation des responsabilites :
+  **n8n** = logique conversationnelle evolutive ;
+  **backend** = securite, persistance, materiel.
+end note
+
+@enduml

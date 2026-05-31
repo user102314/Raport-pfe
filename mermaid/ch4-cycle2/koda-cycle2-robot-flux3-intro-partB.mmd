@@ -1,0 +1,26 @@
+%% Flux 3 — PARTIE B : n8n Flux 3 TTS et restitution
+%% PNG : public/ch4-robot-flux3-intro-partB.png
+
+sequenceDiagram
+    autonumber
+    participant DS as Distributeur
+    participant N8N as n8n Flux 3
+    participant PG as PostgreSQL
+    participant TTS as Azure TTS
+    participant KODA as Robot KODA
+    actor U as Visiteur
+
+    Note over DS: Entree username acteur partie A
+
+    DS->>N8N: POST webhook Flux 3
+    N8N->>PG: Fiches Webhook 2 accompagnement
+    PG-->>N8N: interets synthese conseils
+    N8N->>N8N: AI Agent introduction personnalisee
+    N8N-->>DS: parole_du_robot emotion_visuelle
+
+    DS->>TTS: Synthese parole_du_robot
+    TTS-->>DS: audio pre-synthetise
+
+    DS-->>KODA: JSON + audio + emotion
+    KODA->>KODA: Lecture audio affichage Nextion
+    KODA-->>U: Introduction orale proactive
