@@ -1,0 +1,18 @@
+%% Cycle 5 — Chat et historique
+%% Export → public/ch5-chat-history-flow.png
+
+flowchart LR
+    U["Utilisateur"] --> CH["Écran Chat"]
+    CH --> API["POST /api/trigger-n8n"]
+    API --> BE["Distributeur FastAPI"]
+    BE --> N8N["Workflow n8n"]
+    N8N --> BE
+    BE --> CH
+    CH --> U
+
+    U2["Utilisateur"] --> HI["Écran History"]
+    HI --> GET["GET /api/conversations"]
+    GET --> PG[("PostgreSQL")]
+    PG --> HI
+
+    BE --> PG

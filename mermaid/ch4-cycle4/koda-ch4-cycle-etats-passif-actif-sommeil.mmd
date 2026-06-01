@@ -1,0 +1,27 @@
+%% Cycle 4 — Machine d'états logicielle
+%% Export → public/ch4-cycle-etats-passif-actif-sommeil.png
+
+stateDiagram-v2
+    direction TB
+    [*] --> BOOT
+    BOOT --> DIAGNOSTIC : config
+    DIAGNOSTIC --> PRET : checks OK
+    PRET --> PASSIF
+
+    PASSIF --> ORIENTATION : mot réveil
+    ORIENTATION --> SALUTATION : DOA
+    SALUTATION --> ECOUTE
+    ECOUTE --> TRAITEMENT : capture audio
+    TRAITEMENT --> REPONSE_VOCALE
+    TRAITEMENT --> MOUVEMENT
+    TRAITEMENT --> MUSIQUE
+    TRAITEMENT --> SOMMEIL
+    TRAITEMENT --> ERREUR
+
+    REPONSE_VOCALE --> PASSIF : fin tour
+    MOUVEMENT --> PASSIF
+    MUSIQUE --> PASSIF
+    SOMMEIL --> PASSIF
+    ERREUR --> PASSIF
+
+    PASSIF --> [*] : arrêt SIGINT

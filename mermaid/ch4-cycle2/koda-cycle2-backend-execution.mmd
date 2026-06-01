@@ -1,0 +1,17 @@
+%% Cycle 2 — Démarrage et exécution du backend
+%% Export → public/archiipy.png
+
+flowchart TB
+    START(["Démarrage serveur"]) --> ENV["Charger .env<br/>(URLs, clés, CORS)"]
+    ENV --> CFG["config/<br/>settings, database"]
+    CFG --> MAIN["main.py<br/>FastAPI app"]
+    MAIN --> MW["Middleware CORS<br/>+ validation JSON"]
+    MW --> ROUTES["controllers/<br/>routes REST + WebSocket"]
+    ROUTES --> UC["application/<br/>cas d'usage"]
+    UC --> DOM["domain/<br/>entités métier"]
+    UC --> INF["infrastructure/<br/>Supabase, Azure, n8n"]
+    UC --> DTO["presentation/<br/>DTO / serializers"]
+    INF --> EXT[("PostgreSQL<br/>Azure<br/>n8n")]
+    MAIN --> DOCS["/docs Swagger<br/>65 routes HTTP"]
+
+    MAIN -.- N["Point d'entrée unique :<br/>robot et mobile → même backend"]

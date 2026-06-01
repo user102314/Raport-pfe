@@ -39,182 +39,187 @@
 \contentsline {subsection}{\numberline {II.6.1}Environnement matériel}{20}{subsection.2.6.1}%
 \contentsline {section}{\numberline {II.7}Environnement logiciel}{20}{section.2.7}%
 \contentsline {subsection}{\numberline {II.7.1}Outils de développement et modélisation}{20}{subsection.2.7.1}%
-\contentsline {subsection}{\numberline {II.7.2}Langages et frameworks utilisés}{20}{subsection.2.7.2}%
+\contentsline {subsection}{\numberline {II.7.2}Langages et frameworks utilisés}{21}{subsection.2.7.2}%
 \contentsline {section}{\numberline {II.8}Conclusion}{21}{section.2.8}%
-\contentsline {chapter}{\numberline {III}Cycle 1 : ANALYSEUR ET RÉFLEXION}{22}{chapter.3}%
-\contentsline {section}{\numberline {III.1}Introduction}{23}{section.3.1}%
-\contentsline {section}{\numberline {III.2}Fondements Théoriques}{23}{section.3.2}%
-\contentsline {subsection}{\numberline {III.2.1}Que signifie «~théorie du double traitement~»~?}{23}{subsection.3.2.1}%
-\contentsline {subsection}{\numberline {III.2.2}Réflexion rapide et réflexion lente}{24}{subsection.3.2.2}%
-\contentsline {subsubsection}{\numberline {III.2.2.1}Réflexion rapide~: réutiliser la mémoire déjà présente}{24}{subsubsection.3.2.2.1}%
-\contentsline {subsubsection}{\numberline {III.2.2.2}Réflexion lente~: analyser la mémoire pour fabriquer une réponse}{24}{subsubsection.3.2.2.2}%
-\contentsline {subsection}{\numberline {III.2.3}Comment une question est comprise avant la réponse}{24}{subsection.3.2.3}%
-\contentsline {subsection}{\numberline {III.2.4}Intérêt pour un compagnon conversationnel comme KODA}{25}{subsection.3.2.4}%
-\contentsline {section}{\numberline {III.3}Définitions Fondamentales}{25}{section.3.3}%
-\contentsline {subsection}{\numberline {III.3.1}Grand modèle de langage (LLM)}{26}{subsection.3.3.1}%
-\contentsline {section}{\numberline {III.4}Modélisation globale du Cycle~1}{26}{section.3.4}%
-\contentsline {subsection}{\numberline {III.4.1}Vue d'ensemble des trois flux n8n}{27}{subsection.3.4.1}%
-\contentsline {subsection}{\numberline {III.4.2}Diagramme de cas d'utilisation général}{28}{subsection.3.4.2}%
-\contentsline {subsection}{\numberline {III.4.3}Schéma de classes général}{29}{subsection.3.4.3}%
-\contentsline {section}{\numberline {III.5}Fonctionnalités Techniques --- les trois flux}{29}{section.3.5}%
-\contentsline {subsection}{\numberline {III.5.1}Premier Flux — Webhook 1 : Analyse et Réponse}{29}{subsection.3.5.1}%
-\contentsline {subsubsection}{\numberline {III.5.1.1}Principe général et découpage en six parties}{29}{subsubsection.3.5.1.1}%
-\contentsline {subsubsection}{\numberline {III.5.1.2}Diagramme de séquence du Webhook~1}{30}{subsubsection.3.5.1.2}%
-\contentsline {subsubsection}{\numberline {III.5.1.3}Format de la Requête Entrante}{30}{subsubsection.3.5.1.3}%
-\contentsline {subsubsection}{\numberline {III.5.1.4}Les six parties du Webhook~1}{31}{subsubsection.3.5.1.4}%
-\contentsline {paragraph}{\numberline {III.5.1.4.1}Entrée fonctionnelle --- analyse du message et classification d'intention}{31}{paragraph.3.5.1.4.1}%
-\contentsline {subparagraph}{\numberline {III.5.1.4.1.1}Branche musique — SerpAPI comme outil de recherche Google.}{33}{subparagraph.3.5.1.4.1.1}%
-\contentsline {paragraph}{\numberline {III.5.1.4.2}Confrontation à l'historique --- vérification des cinq derniers messages}{34}{paragraph.3.5.1.4.2}%
-\contentsline {paragraph}{\numberline {III.5.1.4.3}Classification sémantique --- analyse de dépendance mémoire}{35}{paragraph.3.5.1.4.3}%
-\contentsline {subparagraph}{\numberline {III.5.1.4.3.1}Basic LLM Chain en lieu et place de l'AI Agent}{37}{subparagraph.3.5.1.4.3.1}%
-\contentsline {subparagraph}{\numberline {III.5.1.4.3.2}Configuration OpenRouter (modèle Gemini)}{37}{subparagraph.3.5.1.4.3.2}%
-\contentsline {subparagraph}{\numberline {III.5.1.4.3.3}OpenRouter --- agrégation et suivi d'usage}{37}{subparagraph.3.5.1.4.3.3}%
-\contentsline {subparagraph}{\numberline {III.5.1.4.3.4}Prompt Engineering — Analyseur de Dépendance Mémoire}{38}{subparagraph.3.5.1.4.3.4}%
-\contentsline {subparagraph}{\numberline {III.5.1.4.3.5}Détail des Types de Questions Classifiés}{40}{subparagraph.3.5.1.4.3.5}%
-\contentsline {paragraph}{\numberline {III.5.1.4.4}Gestion utilisateur (unkonu) : Reconnaissance et enregistrement de l'utilisateur}{41}{paragraph.3.5.1.4.4}%
-\contentsline {subparagraph}{\numberline {III.5.1.4.4.1}Routage par \textit {Switch1} (résultat du la classification sémantique).}{42}{subparagraph.3.5.1.4.4.1}%
-\contentsline {subparagraph}{\numberline {III.5.1.4.4.2}Diagramme de séquence --- gestion utilisateur (unkonu)}{43}{subparagraph.3.5.1.4.4.2}%
-\contentsline {paragraph}{\numberline {III.5.1.4.5}Réponse contextualisée : Récupération Contextuelle et Génération de la Réponse}{45}{paragraph.3.5.1.4.5}%
-\contentsline {subparagraph}{\numberline {III.5.1.4.5.1}Branche Mémorielle (\texttt {use\_memory = true})}{45}{subparagraph.3.5.1.4.5.1}%
-\contentsline {subparagraph}{\numberline {III.5.1.4.5.2}Branche Générale (\texttt {use\_memory = false})}{47}{subparagraph.3.5.1.4.5.2}%
-\contentsline {subsubsection}{\numberline {III.5.1.5}Vue Complète du Réponse contextualisée — Les Deux Branches}{48}{subsubsection.3.5.1.5}%
-\contentsline {paragraph}{\numberline {III.5.1.5.1}Notes et mémoire persistante : Notes, structuration et mise à jour de la mémoire}{49}{paragraph.3.5.1.5.1}%
-\contentsline {subparagraph}{\numberline {III.5.1.5.1.1}Partie 1 — Extraction structurée des \textit {notes} (conditionnel).}{49}{subparagraph.3.5.1.5.1.1}%
-\contentsline {subparagraph}{\numberline {III.5.1.5.1.2}Détection (\textit {If}) et \textit {Basic LLM Chain~2}.}{50}{subparagraph.3.5.1.5.1.2}%
-\contentsline {subparagraph}{\numberline {III.5.1.5.1.3}Partie 2 — Mise à jour de la mémoire et clôture du webhook.}{52}{subparagraph.3.5.1.5.1.3}%
-\contentsline {subsubsection}{\numberline {III.5.1.6}Conclusion du Webhook 1}{53}{subsubsection.3.5.1.6}%
-\contentsline {subsection}{\numberline {III.5.2}Deuxième Flux — Webhook 2 : Filtre et Synthèse Journalière}{54}{subsection.3.5.2}%
-\contentsline {subsubsection}{\numberline {III.5.2.1}Principe et Inspiration}{54}{subsubsection.3.5.2.1}%
-\contentsline {subsubsection}{\numberline {III.5.2.2}Diagrammes du Webhook~2}{54}{subsubsection.3.5.2.2}%
-\contentsline {subsubsection}{\numberline {III.5.2.3}Fonctionnement du Webhook 2}{55}{subsubsection.3.5.2.3}%
-\contentsline {subsubsection}{\numberline {III.5.2.4}Structure des Fiches de Synthèse Générées}{56}{subsubsection.3.5.2.4}%
-\contentsline {subsubsection}{\numberline {III.5.2.5}Persistance : relation \texttt {utilisateur} / \texttt {accompagnement}}{57}{subsubsection.3.5.2.5}%
-\contentsline {subsubsection}{\numberline {III.5.2.6}Impact sur le Système Global}{58}{subsubsection.3.5.2.6}%
-\contentsline {subsubsection}{\numberline {III.5.2.7}Conclusion du Webhook 2}{58}{subsubsection.3.5.2.7}%
-\contentsline {subsection}{\numberline {III.5.3}Troisième Flux — Webhook 3 : Spontanéité et Interaction Proactive}{59}{subsection.3.5.3}%
-\contentsline {subsubsection}{\numberline {III.5.3.1}Principe : la spontanéité comme dimension humaine}{59}{subsubsection.3.5.3.1}%
-\contentsline {subsubsection}{\numberline {III.5.3.2}Diagrammes du Webhook~3}{59}{subsubsection.3.5.3.2}%
-\contentsline {subsubsection}{\numberline {III.5.3.3}Déclenchement et entrées}{60}{subsubsection.3.5.3.3}%
-\contentsline {subsubsection}{\numberline {III.5.3.4}Préparation des données (nœud Code11)}{61}{subsubsection.3.5.3.4}%
-\contentsline {subsubsection}{\numberline {III.5.3.5}Génération de l'introduction et sortie JSON}{61}{subsubsection.3.5.3.5}%
-\contentsline {subsubsection}{\numberline {III.5.3.6}Conclusion du Webhook 3}{62}{subsubsection.3.5.3.6}%
-\contentsline {section}{\numberline {III.6}Synthèse cognitive du Cycle~1}{62}{section.3.6}%
-\contentsline {section}{\numberline {III.7}Conclusion}{62}{section.3.7}%
-\contentsline {chapter}{\numberline {IV}Cycle 2 : Distributeur de Services}{64}{chapter.4}%
-\contentsline {section}{\numberline {IV.1}Introduction}{65}{section.4.1}%
-\contentsline {paragraph}{\numberline {IV.1.0.0.1}Problématique technique.}{65}{paragraph.4.1.0.0.1}%
-\contentsline {paragraph}{\numberline {IV.1.0.0.2}Rôle global du Distributeur.}{65}{paragraph.4.1.0.0.2}%
-\contentsline {paragraph}{\numberline {IV.1.0.0.3}Objectifs et résultats attendus.}{65}{paragraph.4.1.0.0.3}%
-\contentsline {paragraph}{\numberline {IV.1.0.0.4}Organisation du chapitre.}{66}{paragraph.4.1.0.0.4}%
-\contentsline {section}{\numberline {IV.2}Fondements théoriques et positionnement du Distributeur}{66}{section.4.2}%
-\contentsline {subsection}{\numberline {IV.2.1}Le principe du point de liaison unique}{66}{subsection.4.2.1}%
-\contentsline {subsection}{\numberline {IV.2.2}Services backend et fonctionnalité globale du système}{67}{subsection.4.2.2}%
-\contentsline {subsection}{\numberline {IV.2.3}Communication vocale et applicative~: deux faces, un backend}{67}{subsection.4.2.3}%
-\contentsline {section}{\numberline {IV.3}Modélisation et place dans l'architecture}{68}{section.4.3}%
-\contentsline {subsection}{\numberline {IV.3.1}Diagramme de cas d'utilisation général}{68}{subsection.4.3.1}%
-\contentsline {subsection}{\numberline {IV.3.2}Architecture globale~: pivot de flexibilité et de disponibilité}{69}{subsection.4.3.2}%
-\contentsline {section}{\numberline {IV.4}Architecture interne du backend}{70}{section.4.4}%
-\contentsline {subsection}{\numberline {IV.4.1}Choix du langage : Python}{70}{subsection.4.4.1}%
-\contentsline {subsection}{\numberline {IV.4.2}Clean Architecture : principes et application}{71}{subsection.4.4.2}%
-\contentsline {subsection}{\numberline {IV.4.3}Structure des répertoires du projet}{72}{subsection.4.4.3}%
-\contentsline {section}{\numberline {IV.5}Services exposés et flux de communication}{73}{section.4.5}%
-\contentsline {subsection}{\numberline {IV.5.1}Interaction avec le système embarqué (robot)}{73}{subsection.4.5.1}%
-\contentsline {subsubsection}{\numberline {IV.5.1.1}Cas d'utilisation robot $\leftrightarrow $ backend}{74}{subsubsection.4.5.1.1}%
-\contentsline {subsubsection}{\numberline {IV.5.1.2}Action 1 --- Demander une réponse vocale (Flux~1)}{74}{subsubsection.4.5.1.2}%
-\contentsline {paragraph}{\numberline {IV.5.1.2.1}Lien avec le Cycle~1.}{76}{paragraph.4.5.1.2.1}%
-\contentsline {subsubsection}{\numberline {IV.5.1.3}Action 2 --- Demander une introduction de parole (Flux~3)}{76}{subsubsection.4.5.1.3}%
-\contentsline {paragraph}{\numberline {IV.5.1.3.1}Lien avec le Cycle~1.}{78}{paragraph.4.5.1.3.1}%
-\contentsline {subsubsection}{\numberline {IV.5.1.4}Chaîne vocale complète (Azure STT / TTS)}{78}{subsubsection.4.5.1.4}%
-\contentsline {subsubsection}{\numberline {IV.5.1.5}Reconnaissance des personnes}{80}{subsubsection.4.5.1.5}%
-\contentsline {subsection}{\numberline {IV.5.2}Interaction avec l'application mobile KodaMate (REST / JSON)}{81}{subsection.4.5.2}%
-\contentsline {subsubsection}{\numberline {IV.5.2.1}Contexte architectural}{81}{subsubsection.4.5.2.1}%
-\contentsline {subsubsection}{\numberline {IV.5.2.2}Principe de communication}{81}{subsubsection.4.5.2.2}%
-\contentsline {subsubsection}{\numberline {IV.5.2.3}Flux fonctionnels principaux}{82}{subsubsection.4.5.2.3}%
-\contentsline {paragraph}{\numberline {IV.5.2.3.1}Authentification.}{82}{paragraph.4.5.2.3.1}%
-\contentsline {paragraph}{\numberline {IV.5.2.3.2}Configuration et contrôle du robot.}{82}{paragraph.4.5.2.3.2}%
-\contentsline {paragraph}{\numberline {IV.5.2.3.3}Chat intelligent (délégation n8n).}{82}{paragraph.4.5.2.3.3}%
-\contentsline {paragraph}{\numberline {IV.5.2.3.4}Historique des conversations.}{82}{paragraph.4.5.2.3.4}%
-\contentsline {paragraph}{\numberline {IV.5.2.3.5}Données complémentaires (hors backend).}{82}{paragraph.4.5.2.3.5}%
-\contentsline {subsection}{\numberline {IV.5.3}Persistance et modèle de données (PostgreSQL / Supabase)}{83}{subsection.4.5.3}%
-\contentsline {subsubsection}{\numberline {IV.5.3.1}Modèle relationnel et rôle des tables}{84}{subsubsection.4.5.3.1}%
-\contentsline {subsection}{\numberline {IV.5.4}Délégation du raisonnement au workflow n8n}{84}{subsection.4.5.4}%
-\contentsline {section}{\numberline {IV.6}Catalogue des endpoints REST du Distributeur}{85}{section.4.6}%
-\contentsline {subsection}{\numberline {IV.6.1}Infrastructure et documentation (hors \texttt {/api})}{85}{subsection.4.6.1}%
-\contentsline {subsection}{\numberline {IV.6.2}Communication avec PostgreSQL (persistance Supabase)}{87}{subsection.4.6.2}%
-\contentsline {subsubsection}{\numberline {IV.6.2.1}Santé de la base}{87}{subsubsection.4.6.2.1}%
-\contentsline {subsubsection}{\numberline {IV.6.2.2}Entités persistées (CRUD)}{87}{subsubsection.4.6.2.2}%
-\contentsline {subsection}{\numberline {IV.6.3}Communication avec le système embarqué (Raspberry Pi)}{87}{subsection.4.6.3}%
-\contentsline {subsection}{\numberline {IV.6.4}Communication avec le workflow n8n (Cycle~1)}{87}{subsection.4.6.4}%
-\contentsline {subsection}{\numberline {IV.6.5}Communication avec l'application mobile (KodaMate)}{87}{subsection.4.6.5}%
-\contentsline {subsubsection}{\numberline {IV.6.5.1}Endpoints consommés à l'écran}{90}{subsubsection.4.6.5.1}%
-\contentsline {subsubsection}{\numberline {IV.6.5.2}Endpoints codés mais non branchés à l'interface}{90}{subsubsection.4.6.5.2}%
-\contentsline {subsubsection}{\numberline {IV.6.5.3}API externe et services locaux}{90}{subsubsection.4.6.5.3}%
-\contentsline {subsubsection}{\numberline {IV.6.5.4}Cartographie écran $\rightarrow $ endpoints}{90}{subsubsection.4.6.5.4}%
-\contentsline {section}{\numberline {IV.7}Problèmes rencontrés et solutions apportées}{90}{section.4.7}%
-\contentsline {subsection}{\numberline {IV.7.1}Conflit d'adressage Raspberry Pi / backend}{91}{subsection.4.7.1}%
-\contentsline {subsection}{\numberline {IV.7.2}Problème CORS entre backend et application mobile}{92}{subsection.4.7.2}%
-\contentsline {section}{\numberline {IV.8}Perspectives et évolutions futures}{92}{section.4.8}%
-\contentsline {section}{\numberline {IV.9}Conclusion}{93}{section.4.9}%
-\contentsline {chapter}{\numberline {V}Cycle 3 : Système Embarqué --- Partie Matérielle}{94}{chapter.5}%
-\contentsline {section}{\numberline {V.1}Introduction}{95}{section.5.1}%
-\contentsline {section}{\numberline {V.2}Architecture Matérielle Globale}{96}{section.5.2}%
-\contentsline {section}{\numberline {V.3}Conception mécanique et châssis 3D (Blender)}{97}{section.5.3}%
-\contentsline {section}{\numberline {V.4}Description Détaillée des Composants}{98}{section.5.4}%
-\contentsline {subsection}{\numberline {V.4.1}Unité Centrale~: Raspberry Pi 4 Model B}{98}{subsection.5.4.1}%
-\contentsline {subsection}{\numberline {V.4.2}Unité de Commande Moteur~: Arduino Uno + Shield L293D}{99}{subsection.5.4.2}%
-\contentsline {subsection}{\numberline {V.4.3}Système d'Actionneurs}{101}{subsection.5.4.3}%
-\contentsline {subsubsection}{\numberline {V.4.3.1}Moteurs DC --- Mobilité}{101}{subsubsection.5.4.3.1}%
-\contentsline {subsubsection}{\numberline {V.4.3.2}Servomoteurs --- Articulations}{101}{subsubsection.5.4.3.2}%
-\contentsline {subsection}{\numberline {V.4.4}Système Audio}{102}{subsection.5.4.4}%
-\contentsline {subsubsection}{\numberline {V.4.4.1}Entrée Audio~: ReSpeaker 4-Mic Array USB}{102}{subsubsection.5.4.4.1}%
-\contentsline {subsubsection}{\numberline {V.4.4.2}Sortie Audio~: double chaîne (jack filaire et Bluetooth)}{103}{subsubsection.5.4.4.2}%
-\contentsline {subsection}{\numberline {V.4.5}Système de Vision~: Caméra Raspberry Pi}{104}{subsection.5.4.5}%
-\contentsline {subsection}{\numberline {V.4.6}Interface d'Expression Faciale~: Nextion NX4832T035\_011}{105}{subsection.5.4.6}%
-\contentsline {subsection}{\numberline {V.4.7}Système d'Alimentation}{106}{subsection.5.4.7}%
-\contentsline {section}{\numberline {V.5}Schéma de Câblage Global}{107}{section.5.5}%
-\contentsline {section}{\numberline {V.6}Assemblage et points d'attention}{108}{section.5.6}%
-\contentsline {section}{\numberline {V.7}Validation matérielle — tests par composant}{108}{section.5.7}%
-\contentsline {subsection}{\numberline {V.7.1}Commandes de test par composant}{108}{subsection.5.7.1}%
-\contentsline {paragraph}{\numberline {V.7.1.0.1}Power Bank + Raspberry Pi.}{109}{paragraph.5.7.1.0.1}%
-\contentsline {paragraph}{\numberline {V.7.1.0.2}ReSpeaker 4-Mic Array USB.}{109}{paragraph.5.7.1.0.2}%
-\contentsline {paragraph}{\numberline {V.7.1.0.3}Sortie jack + amplificateur PAM8403.}{110}{paragraph.5.7.1.0.3}%
-\contentsline {paragraph}{\numberline {V.7.1.0.4}Sortie Bluetooth.}{110}{paragraph.5.7.1.0.4}%
-\contentsline {paragraph}{\numberline {V.7.1.0.5}Caméra Raspberry Pi (CSI).}{110}{paragraph.5.7.1.0.5}%
-\contentsline {paragraph}{\numberline {V.7.1.0.6}Écran Nextion (UART).}{111}{paragraph.5.7.1.0.6}%
-\contentsline {paragraph}{\numberline {V.7.1.0.7}Arduino + Shield L293D (commande série USB).}{111}{paragraph.5.7.1.0.7}%
-\contentsline {paragraph}{\numberline {V.7.1.0.8}Moteurs DC (M1, M3).}{112}{paragraph.5.7.1.0.8}%
-\contentsline {paragraph}{\numberline {V.7.1.0.9}Servomoteurs (S1, S2, S3).}{112}{paragraph.5.7.1.0.9}%
-\contentsline {paragraph}{\numberline {V.7.1.0.10}Alimentation 3~piles 3{,}7\,V (Vin shield).}{112}{paragraph.5.7.1.0.10}%
-\contentsline {subsection}{\numberline {V.7.2}Test d'intégration matérielle}{113}{subsection.5.7.2}%
-\contentsline {section}{\numberline {V.8}Conclusion}{113}{section.5.8}%
-\contentsline {chapter}{\numberline {VI}Cycle 4 : Système Embarqué --- Partie Logicielle Raspberry Pi}{114}{chapter.6}%
-\contentsline {section}{\numberline {VI.1}Introduction}{115}{section.6.1}%
-\contentsline {section}{\numberline {VI.2}Architecture logicielle globale}{115}{section.6.2}%
-\contentsline {section}{\numberline {VI.3}Architecture du code}{116}{section.6.3}%
-\contentsline {section}{\numberline {VI.4}Configuration et lancement}{118}{section.6.4}%
-\contentsline {section}{\numberline {VI.5}Démarrage et diagnostic matériel}{119}{section.6.5}%
-\contentsline {section}{\numberline {VI.6}Boucle principale et machine d'états}{120}{section.6.6}%
-\contentsline {section}{\numberline {VI.7}Pipeline vocal : mot de réveil, écoute et réponse}{121}{section.6.7}%
-\contentsline {section}{\numberline {VI.8}Gestion des actions retournées par le backend}{122}{section.6.8}%
-\contentsline {section}{\numberline {VI.9}Affichage Nextion et expressions}{122}{section.6.9}%
-\contentsline {section}{\numberline {VI.10}Mouvement, Arduino USB et orientation DOA}{123}{section.6.10}%
-\contentsline {section}{\numberline {VI.11}Robustesse et arrêt propre}{123}{section.6.11}%
-\contentsline {section}{\numberline {VI.12}Tests et validation logicielle}{124}{section.6.12}%
-\contentsline {section}{\numberline {VI.13}Limites et perspectives}{125}{section.6.13}%
-\contentsline {section}{\numberline {VI.14}Conclusion}{126}{section.6.14}%
-\contentsline {chapter}{\numberline {VII}Cycle 5 : Application Mobile Cross-Plateforme KodaMate}{127}{chapter.7}%
-\contentsline {section}{\numberline {VII.1}Introduction et objectif du cycle}{128}{section.7.1}%
-\contentsline {section}{\numberline {VII.2}Choix technologique et périmètre}{128}{section.7.2}%
-\contentsline {section}{\numberline {VII.3}Architecture logicielle globale}{129}{section.7.3}%
-\contentsline {section}{\numberline {VII.4}Architecture du code et modèle MVVM}{129}{section.7.4}%
-\contentsline {section}{\numberline {VII.5}Configuration, lancement et session}{131}{section.7.5}%
-\contentsline {section}{\numberline {VII.6}Cas d'utilisation et parcours utilisateur}{132}{section.7.6}%
-\contentsline {section}{\numberline {VII.7}Connexion et première configuration du robot}{133}{section.7.7}%
-\contentsline {section}{\numberline {VII.8}Tableau de bord Home}{133}{section.7.8}%
-\contentsline {section}{\numberline {VII.9}Chat KODA et historique des conversations}{136}{section.7.9}%
-\contentsline {section}{\numberline {VII.10}Paramètres, Wi-Fi et notifications}{137}{section.7.10}%
-\contentsline {section}{\numberline {VII.11}États applicatifs et robustesse}{137}{section.7.11}%
-\contentsline {section}{\numberline {VII.12}Tests et validation}{137}{section.7.12}%
-\contentsline {section}{\numberline {VII.13}Limites et perspectives}{140}{section.7.13}%
-\contentsline {section}{\numberline {VII.14}Conclusion}{140}{section.7.14}%
+\contentsline {chapter}{\numberline {III}Cycle 1 : ANALYSEUR ET RÉFLEXION}{23}{chapter.3}%
+\contentsline {section}{\numberline {III.1}Introduction}{24}{section.3.1}%
+\contentsline {section}{\numberline {III.2}Fondements Théoriques}{24}{section.3.2}%
+\contentsline {subsection}{\numberline {III.2.1}Que signifie «~théorie du double traitement~»~?}{24}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {III.2.2}Réflexion rapide et réflexion lente}{25}{subsection.3.2.2}%
+\contentsline {subsubsection}{\numberline {III.2.2.1}Réflexion rapide~: réutiliser la mémoire déjà présente}{25}{subsubsection.3.2.2.1}%
+\contentsline {subsubsection}{\numberline {III.2.2.2}Réflexion lente~: analyser la mémoire pour fabriquer une réponse}{25}{subsubsection.3.2.2.2}%
+\contentsline {subsection}{\numberline {III.2.3}Comment une question est comprise avant la réponse}{25}{subsection.3.2.3}%
+\contentsline {subsection}{\numberline {III.2.4}Intérêt pour un compagnon conversationnel comme KODA}{26}{subsection.3.2.4}%
+\contentsline {section}{\numberline {III.3}Définitions Fondamentales}{26}{section.3.3}%
+\contentsline {subsection}{\numberline {III.3.1}Grand modèle de langage (LLM)}{27}{subsection.3.3.1}%
+\contentsline {section}{\numberline {III.4}Modélisation globale du Cycle~1}{27}{section.3.4}%
+\contentsline {subsection}{\numberline {III.4.1}Vue d'ensemble des trois flux n8n}{28}{subsection.3.4.1}%
+\contentsline {subsection}{\numberline {III.4.2}Diagramme de cas d'utilisation général}{29}{subsection.3.4.2}%
+\contentsline {subsection}{\numberline {III.4.3}Schéma de classes général}{30}{subsection.3.4.3}%
+\contentsline {section}{\numberline {III.5}Fonctionnalités Techniques --- les trois flux}{30}{section.3.5}%
+\contentsline {subsection}{\numberline {III.5.1}Premier Flux — Webhook 1 : Analyse et Réponse}{30}{subsection.3.5.1}%
+\contentsline {subsubsection}{\numberline {III.5.1.1}Principe général et découpage en six parties}{30}{subsubsection.3.5.1.1}%
+\contentsline {subsubsection}{\numberline {III.5.1.2}Diagramme de séquence du Webhook~1}{31}{subsubsection.3.5.1.2}%
+\contentsline {subsubsection}{\numberline {III.5.1.3}Format de la Requête Entrante}{31}{subsubsection.3.5.1.3}%
+\contentsline {subsubsection}{\numberline {III.5.1.4}Les six parties du Webhook~1}{32}{subsubsection.3.5.1.4}%
+\contentsline {paragraph}{\numberline {III.5.1.4.1}Entrée fonctionnelle --- analyse du message et classification d'intention}{32}{paragraph.3.5.1.4.1}%
+\contentsline {subparagraph}{\numberline {III.5.1.4.1.1}Branche musique — SerpAPI comme outil de recherche Google.}{34}{subparagraph.3.5.1.4.1.1}%
+\contentsline {paragraph}{\numberline {III.5.1.4.2}Confrontation à l'historique --- vérification des cinq derniers messages}{35}{paragraph.3.5.1.4.2}%
+\contentsline {paragraph}{\numberline {III.5.1.4.3}Classification sémantique --- analyse de dépendance mémoire}{36}{paragraph.3.5.1.4.3}%
+\contentsline {subparagraph}{\numberline {III.5.1.4.3.1}Basic LLM Chain en lieu et place de l'AI Agent}{38}{subparagraph.3.5.1.4.3.1}%
+\contentsline {subparagraph}{\numberline {III.5.1.4.3.2}Configuration OpenRouter (modèle Gemini)}{38}{subparagraph.3.5.1.4.3.2}%
+\contentsline {subparagraph}{\numberline {III.5.1.4.3.3}OpenRouter --- agrégation et suivi d'usage}{38}{subparagraph.3.5.1.4.3.3}%
+\contentsline {subparagraph}{\numberline {III.5.1.4.3.4}Prompt Engineering — Analyseur de Dépendance Mémoire}{39}{subparagraph.3.5.1.4.3.4}%
+\contentsline {subparagraph}{\numberline {III.5.1.4.3.5}Détail des Types de Questions Classifiés}{41}{subparagraph.3.5.1.4.3.5}%
+\contentsline {paragraph}{\numberline {III.5.1.4.4}Gestion utilisateur (unkonu) : Reconnaissance et enregistrement de l'utilisateur}{42}{paragraph.3.5.1.4.4}%
+\contentsline {subparagraph}{\numberline {III.5.1.4.4.1}Routage par \textit {Switch1} (résultat du la classification sémantique).}{43}{subparagraph.3.5.1.4.4.1}%
+\contentsline {subparagraph}{\numberline {III.5.1.4.4.2}Diagramme de séquence --- gestion utilisateur (unkonu)}{44}{subparagraph.3.5.1.4.4.2}%
+\contentsline {paragraph}{\numberline {III.5.1.4.5}Réponse contextualisée : Récupération Contextuelle et Génération de la Réponse}{46}{paragraph.3.5.1.4.5}%
+\contentsline {subparagraph}{\numberline {III.5.1.4.5.1}Branche Mémorielle (\texttt {use\_memory = true})}{46}{subparagraph.3.5.1.4.5.1}%
+\contentsline {subparagraph}{\numberline {III.5.1.4.5.2}Branche Générale (\texttt {use\_memory = false})}{48}{subparagraph.3.5.1.4.5.2}%
+\contentsline {subsubsection}{\numberline {III.5.1.5}Vue Complète du Réponse contextualisée — Les Deux Branches}{49}{subsubsection.3.5.1.5}%
+\contentsline {paragraph}{\numberline {III.5.1.5.1}Notes et mémoire persistante : Notes, structuration et mise à jour de la mémoire}{50}{paragraph.3.5.1.5.1}%
+\contentsline {subparagraph}{\numberline {III.5.1.5.1.1}Partie 1 — Extraction structurée des \textit {notes} (conditionnel).}{50}{subparagraph.3.5.1.5.1.1}%
+\contentsline {subparagraph}{\numberline {III.5.1.5.1.2}Détection (\textit {If}) et \textit {Basic LLM Chain~2}.}{51}{subparagraph.3.5.1.5.1.2}%
+\contentsline {subparagraph}{\numberline {III.5.1.5.1.3}Partie 2 — Mise à jour de la mémoire et clôture du webhook.}{53}{subparagraph.3.5.1.5.1.3}%
+\contentsline {subsubsection}{\numberline {III.5.1.6}Conclusion du Webhook 1}{54}{subsubsection.3.5.1.6}%
+\contentsline {subsection}{\numberline {III.5.2}Deuxième Flux — Webhook 2 : Filtre et Synthèse Journalière}{55}{subsection.3.5.2}%
+\contentsline {subsubsection}{\numberline {III.5.2.1}Principe et Inspiration}{55}{subsubsection.3.5.2.1}%
+\contentsline {subsubsection}{\numberline {III.5.2.2}Diagrammes du Webhook~2}{55}{subsubsection.3.5.2.2}%
+\contentsline {subsubsection}{\numberline {III.5.2.3}Fonctionnement du Webhook 2}{56}{subsubsection.3.5.2.3}%
+\contentsline {subsubsection}{\numberline {III.5.2.4}Structure des Fiches de Synthèse Générées}{57}{subsubsection.3.5.2.4}%
+\contentsline {subsubsection}{\numberline {III.5.2.5}Persistance : relation \texttt {utilisateur} / \texttt {accompagnement}}{58}{subsubsection.3.5.2.5}%
+\contentsline {subsubsection}{\numberline {III.5.2.6}Impact sur le Système Global}{59}{subsubsection.3.5.2.6}%
+\contentsline {subsubsection}{\numberline {III.5.2.7}Conclusion du Webhook 2}{59}{subsubsection.3.5.2.7}%
+\contentsline {subsection}{\numberline {III.5.3}Troisième Flux — Webhook 3 : Spontanéité et Interaction Proactive}{60}{subsection.3.5.3}%
+\contentsline {subsubsection}{\numberline {III.5.3.1}Principe : la spontanéité comme dimension humaine}{60}{subsubsection.3.5.3.1}%
+\contentsline {subsubsection}{\numberline {III.5.3.2}Diagrammes du Webhook~3}{60}{subsubsection.3.5.3.2}%
+\contentsline {subsubsection}{\numberline {III.5.3.3}Déclenchement et entrées}{61}{subsubsection.3.5.3.3}%
+\contentsline {subsubsection}{\numberline {III.5.3.4}Préparation des données (nœud Code11)}{62}{subsubsection.3.5.3.4}%
+\contentsline {subsubsection}{\numberline {III.5.3.5}Génération de l'introduction et sortie JSON}{62}{subsubsection.3.5.3.5}%
+\contentsline {subsubsection}{\numberline {III.5.3.6}Conclusion du Webhook 3}{63}{subsubsection.3.5.3.6}%
+\contentsline {section}{\numberline {III.6}Synthèse cognitive du Cycle~1}{63}{section.3.6}%
+\contentsline {section}{\numberline {III.7}Conclusion}{64}{section.3.7}%
+\contentsline {chapter}{\numberline {IV}Cycle 2 : Distributeur de Services}{65}{chapter.4}%
+\contentsline {section}{\numberline {IV.1}Introduction}{66}{section.4.1}%
+\contentsline {paragraph}{\numberline {IV.1.0.0.1}Problématique.}{66}{paragraph.4.1.0.0.1}%
+\contentsline {paragraph}{\numberline {IV.1.0.0.2}Rôle global du Distributeur.}{66}{paragraph.4.1.0.0.2}%
+\contentsline {paragraph}{\numberline {IV.1.0.0.3}Objectifs et résultats attendus.}{67}{paragraph.4.1.0.0.3}%
+\contentsline {paragraph}{\numberline {IV.1.0.0.4}Organisation du chapitre.}{67}{paragraph.4.1.0.0.4}%
+\contentsline {section}{\numberline {IV.2}Fondements théoriques et positionnement du Distributeur}{67}{section.4.2}%
+\contentsline {subsection}{\numberline {IV.2.1}Le principe du point de liaison unique}{67}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {IV.2.2}Services backend et fonctionnalité globale du système}{68}{subsection.4.2.2}%
+\contentsline {subsection}{\numberline {IV.2.3}Communication vocale et applicative~: deux faces, un backend}{68}{subsection.4.2.3}%
+\contentsline {section}{\numberline {IV.3}Modélisation et place dans l'architecture}{69}{section.4.3}%
+\contentsline {subsection}{\numberline {IV.3.1}Diagramme de cas d'utilisation général}{69}{subsection.4.3.1}%
+\contentsline {subsection}{\numberline {IV.3.2}Architecture globale~: pivot de flexibilité et de disponibilité}{70}{subsection.4.3.2}%
+\contentsline {section}{\numberline {IV.4}Architecture interne du backend}{72}{section.4.4}%
+\contentsline {subsection}{\numberline {IV.4.1}Choix du langage : Python}{72}{subsection.4.4.1}%
+\contentsline {subsection}{\numberline {IV.4.2}Clean Architecture : principes et application}{73}{subsection.4.4.2}%
+\contentsline {subsection}{\numberline {IV.4.3}Structure des répertoires du projet}{74}{subsection.4.4.3}%
+\contentsline {section}{\numberline {IV.5}Services exposés et flux de communication}{75}{section.4.5}%
+\contentsline {subsection}{\numberline {IV.5.1}Interaction avec le système embarqué (robot)}{75}{subsection.4.5.1}%
+\contentsline {subsubsection}{\numberline {IV.5.1.1}Cas d'utilisation robot $\leftrightarrow $ backend}{76}{subsubsection.4.5.1.1}%
+\contentsline {subsubsection}{\numberline {IV.5.1.2}Action 1 --- Demander une réponse vocale (Flux~1)}{76}{subsubsection.4.5.1.2}%
+\contentsline {paragraph}{\numberline {IV.5.1.2.1}Lien avec le Cycle~1.}{78}{paragraph.4.5.1.2.1}%
+\contentsline {subsubsection}{\numberline {IV.5.1.3}Action 2 --- Demander une introduction de parole (Flux~3)}{78}{subsubsection.4.5.1.3}%
+\contentsline {paragraph}{\numberline {IV.5.1.3.1}Lien avec le Cycle~1.}{80}{paragraph.4.5.1.3.1}%
+\contentsline {subsubsection}{\numberline {IV.5.1.4}Canal WebSocket (temps réel)}{80}{subsubsection.4.5.1.4}%
+\contentsline {subsubsection}{\numberline {IV.5.1.5}Chaîne vocale complète (Azure STT / TTS)}{81}{subsubsection.4.5.1.5}%
+\contentsline {subsubsection}{\numberline {IV.5.1.6}Reconnaissance des personnes}{83}{subsubsection.4.5.1.6}%
+\contentsline {paragraph}{\numberline {IV.5.1.6.1}Principe et modèle de données.}{83}{paragraph.4.5.1.6.1}%
+\contentsline {paragraph}{\numberline {IV.5.1.6.2}Pipeline d'identification.}{83}{paragraph.4.5.1.6.2}%
+\contentsline {paragraph}{\numberline {IV.5.1.6.3}Cas particuliers.}{85}{paragraph.4.5.1.6.3}%
+\contentsline {paragraph}{\numberline {IV.5.1.6.4}Contraintes et intégration.}{86}{paragraph.4.5.1.6.4}%
+\contentsline {subsection}{\numberline {IV.5.2}Interaction avec l'application mobile KodaMate (REST / JSON)}{86}{subsection.4.5.2}%
+\contentsline {subsubsection}{\numberline {IV.5.2.1}Contexte architectural}{86}{subsubsection.4.5.2.1}%
+\contentsline {subsubsection}{\numberline {IV.5.2.2}Principe de communication}{86}{subsubsection.4.5.2.2}%
+\contentsline {subsubsection}{\numberline {IV.5.2.3}Flux fonctionnels principaux}{87}{subsubsection.4.5.2.3}%
+\contentsline {paragraph}{\numberline {IV.5.2.3.1}Authentification.}{87}{paragraph.4.5.2.3.1}%
+\contentsline {paragraph}{\numberline {IV.5.2.3.2}Configuration et contrôle du robot.}{87}{paragraph.4.5.2.3.2}%
+\contentsline {paragraph}{\numberline {IV.5.2.3.3}Chat intelligent (délégation n8n).}{88}{paragraph.4.5.2.3.3}%
+\contentsline {paragraph}{\numberline {IV.5.2.3.4}Historique des conversations.}{88}{paragraph.4.5.2.3.4}%
+\contentsline {paragraph}{\numberline {IV.5.2.3.5}Données complémentaires (hors backend).}{89}{paragraph.4.5.2.3.5}%
+\contentsline {subsection}{\numberline {IV.5.3}Persistance et modèle de données (PostgreSQL / Supabase)}{90}{subsection.4.5.3}%
+\contentsline {subsubsection}{\numberline {IV.5.3.1}Modèle relationnel et rôle des tables}{90}{subsubsection.4.5.3.1}%
+\contentsline {subsection}{\numberline {IV.5.4}Délégation du raisonnement au workflow n8n}{91}{subsection.4.5.4}%
+\contentsline {section}{\numberline {IV.6}Catalogue des endpoints REST du Distributeur}{93}{section.4.6}%
+\contentsline {subsection}{\numberline {IV.6.1}Infrastructure et documentation (hors \texttt {/api})}{93}{subsection.4.6.1}%
+\contentsline {subsection}{\numberline {IV.6.2}Communication avec PostgreSQL (persistance Supabase)}{94}{subsection.4.6.2}%
+\contentsline {subsubsection}{\numberline {IV.6.2.1}Santé de la base}{94}{subsubsection.4.6.2.1}%
+\contentsline {subsubsection}{\numberline {IV.6.2.2}Entités persistées (CRUD)}{94}{subsubsection.4.6.2.2}%
+\contentsline {subsection}{\numberline {IV.6.3}Communication avec le système embarqué (Raspberry Pi)}{94}{subsection.4.6.3}%
+\contentsline {subsection}{\numberline {IV.6.4}Communication avec le workflow n8n (Cycle~1)}{94}{subsection.4.6.4}%
+\contentsline {subsection}{\numberline {IV.6.5}Communication avec l'application mobile (KodaMate)}{94}{subsection.4.6.5}%
+\contentsline {subsubsection}{\numberline {IV.6.5.1}Endpoints consommés à l'écran}{97}{subsubsection.4.6.5.1}%
+\contentsline {subsubsection}{\numberline {IV.6.5.2}Endpoints codés mais non branchés à l'interface}{97}{subsubsection.4.6.5.2}%
+\contentsline {subsubsection}{\numberline {IV.6.5.3}API externe et services locaux}{97}{subsubsection.4.6.5.3}%
+\contentsline {subsubsection}{\numberline {IV.6.5.4}Cartographie écran $\rightarrow $ endpoints}{97}{subsubsection.4.6.5.4}%
+\contentsline {section}{\numberline {IV.7}Problèmes rencontrés et solutions apportées}{97}{section.4.7}%
+\contentsline {subsection}{\numberline {IV.7.1}Conflit d'adressage Raspberry Pi / backend}{98}{subsection.4.7.1}%
+\contentsline {subsection}{\numberline {IV.7.2}Problème CORS entre backend et application mobile}{99}{subsection.4.7.2}%
+\contentsline {section}{\numberline {IV.8}Perspectives et évolutions futures}{99}{section.4.8}%
+\contentsline {section}{\numberline {IV.9}Conclusion}{100}{section.4.9}%
+\contentsline {chapter}{\numberline {V}Cycle 3 : Système Embarqué --- Partie Matérielle}{101}{chapter.5}%
+\contentsline {section}{\numberline {V.1}Introduction}{102}{section.5.1}%
+\contentsline {section}{\numberline {V.2}Architecture Matérielle Globale}{103}{section.5.2}%
+\contentsline {section}{\numberline {V.3}Conception mécanique et châssis 3D (Blender)}{104}{section.5.3}%
+\contentsline {section}{\numberline {V.4}Description Détaillée des Composants}{105}{section.5.4}%
+\contentsline {subsection}{\numberline {V.4.1}Unité Centrale~: Raspberry Pi 4 Model B}{105}{subsection.5.4.1}%
+\contentsline {subsection}{\numberline {V.4.2}Unité de Commande Moteur~: Arduino Uno + Shield L293D}{106}{subsection.5.4.2}%
+\contentsline {subsection}{\numberline {V.4.3}Système d'Actionneurs}{108}{subsection.5.4.3}%
+\contentsline {subsubsection}{\numberline {V.4.3.1}Moteurs DC --- Mobilité}{108}{subsubsection.5.4.3.1}%
+\contentsline {subsubsection}{\numberline {V.4.3.2}Servomoteurs --- Articulations}{108}{subsubsection.5.4.3.2}%
+\contentsline {subsection}{\numberline {V.4.4}Système Audio}{109}{subsection.5.4.4}%
+\contentsline {subsubsection}{\numberline {V.4.4.1}Entrée Audio~: ReSpeaker 4-Mic Array USB}{109}{subsubsection.5.4.4.1}%
+\contentsline {subsubsection}{\numberline {V.4.4.2}Sortie Audio~: double chaîne (jack filaire et Bluetooth)}{110}{subsubsection.5.4.4.2}%
+\contentsline {subsection}{\numberline {V.4.5}Système de Vision~: Caméra Raspberry Pi}{111}{subsection.5.4.5}%
+\contentsline {subsection}{\numberline {V.4.6}Interface d'Expression Faciale~: Nextion NX4832T035\_011}{112}{subsection.5.4.6}%
+\contentsline {subsection}{\numberline {V.4.7}Système d'Alimentation}{113}{subsection.5.4.7}%
+\contentsline {section}{\numberline {V.5}Schéma de Câblage Global}{114}{section.5.5}%
+\contentsline {section}{\numberline {V.6}Assemblage et points d'attention}{115}{section.5.6}%
+\contentsline {section}{\numberline {V.7}Validation matérielle — tests par composant}{115}{section.5.7}%
+\contentsline {subsection}{\numberline {V.7.1}Commandes de test par composant}{115}{subsection.5.7.1}%
+\contentsline {paragraph}{\numberline {V.7.1.0.1}Power Bank + Raspberry Pi.}{116}{paragraph.5.7.1.0.1}%
+\contentsline {paragraph}{\numberline {V.7.1.0.2}ReSpeaker 4-Mic Array USB.}{116}{paragraph.5.7.1.0.2}%
+\contentsline {paragraph}{\numberline {V.7.1.0.3}Sortie jack + amplificateur PAM8403.}{117}{paragraph.5.7.1.0.3}%
+\contentsline {paragraph}{\numberline {V.7.1.0.4}Sortie Bluetooth.}{117}{paragraph.5.7.1.0.4}%
+\contentsline {paragraph}{\numberline {V.7.1.0.5}Caméra Raspberry Pi (CSI).}{117}{paragraph.5.7.1.0.5}%
+\contentsline {paragraph}{\numberline {V.7.1.0.6}Écran Nextion (UART).}{118}{paragraph.5.7.1.0.6}%
+\contentsline {paragraph}{\numberline {V.7.1.0.7}Arduino + Shield L293D (commande série USB).}{118}{paragraph.5.7.1.0.7}%
+\contentsline {paragraph}{\numberline {V.7.1.0.8}Moteurs DC (M1, M3).}{119}{paragraph.5.7.1.0.8}%
+\contentsline {paragraph}{\numberline {V.7.1.0.9}Servomoteurs (S1, S2, S3).}{119}{paragraph.5.7.1.0.9}%
+\contentsline {paragraph}{\numberline {V.7.1.0.10}Alimentation 3~piles 3{,}7\,V (Vin shield).}{119}{paragraph.5.7.1.0.10}%
+\contentsline {subsection}{\numberline {V.7.2}Test d'intégration matérielle}{120}{subsection.5.7.2}%
+\contentsline {section}{\numberline {V.8}Conclusion}{120}{section.5.8}%
+\contentsline {chapter}{\numberline {VI}Cycle 4 : Système Embarqué --- Partie Logicielle Raspberry Pi}{121}{chapter.6}%
+\contentsline {section}{\numberline {VI.1}Introduction}{122}{section.6.1}%
+\contentsline {section}{\numberline {VI.2}Architecture logicielle globale}{122}{section.6.2}%
+\contentsline {section}{\numberline {VI.3}Architecture du code}{123}{section.6.3}%
+\contentsline {section}{\numberline {VI.4}Configuration et lancement}{124}{section.6.4}%
+\contentsline {section}{\numberline {VI.5}Démarrage et diagnostic matériel}{125}{section.6.5}%
+\contentsline {section}{\numberline {VI.6}Boucle principale et machine d'états}{126}{section.6.6}%
+\contentsline {section}{\numberline {VI.7}Pipeline vocal : mot de réveil, écoute et réponse}{128}{section.6.7}%
+\contentsline {section}{\numberline {VI.8}Gestion des actions retournées par le backend}{128}{section.6.8}%
+\contentsline {section}{\numberline {VI.9}Affichage Nextion et expressions}{128}{section.6.9}%
+\contentsline {section}{\numberline {VI.10}Mouvement, Arduino USB et orientation DOA}{131}{section.6.10}%
+\contentsline {section}{\numberline {VI.11}Robustesse et arrêt propre}{131}{section.6.11}%
+\contentsline {section}{\numberline {VI.12}Tests et validation logicielle}{132}{section.6.12}%
+\contentsline {section}{\numberline {VI.13}Limites et perspectives}{133}{section.6.13}%
+\contentsline {section}{\numberline {VI.14}Conclusion}{134}{section.6.14}%
+\contentsline {chapter}{\numberline {VII}Cycle 5 : Application Mobile Cross-Plateforme KodaMate}{135}{chapter.7}%
+\contentsline {section}{\numberline {VII.1}Introduction et objectif du cycle}{136}{section.7.1}%
+\contentsline {section}{\numberline {VII.2}Choix technologique et périmètre}{136}{section.7.2}%
+\contentsline {section}{\numberline {VII.3}Architecture logicielle globale}{137}{section.7.3}%
+\contentsline {section}{\numberline {VII.4}Architecture du code et modèle MVVM}{137}{section.7.4}%
+\contentsline {section}{\numberline {VII.5}Configuration, lancement et session}{139}{section.7.5}%
+\contentsline {section}{\numberline {VII.6}Cas d'utilisation et parcours utilisateur}{140}{section.7.6}%
+\contentsline {section}{\numberline {VII.7}Connexion et première configuration du robot}{141}{section.7.7}%
+\contentsline {section}{\numberline {VII.8}Tableau de bord Home}{141}{section.7.8}%
+\contentsline {section}{\numberline {VII.9}Chat KODA et historique des conversations}{145}{section.7.9}%
+\contentsline {section}{\numberline {VII.10}Paramètres, Wi-Fi et notifications}{146}{section.7.10}%
+\contentsline {section}{\numberline {VII.11}États applicatifs et robustesse}{146}{section.7.11}%
+\contentsline {section}{\numberline {VII.12}Tests et validation}{146}{section.7.12}%
+\contentsline {section}{\numberline {VII.13}Limites et perspectives}{149}{section.7.13}%
+\contentsline {section}{\numberline {VII.14}Conclusion}{149}{section.7.14}%
 \contentsfinish 

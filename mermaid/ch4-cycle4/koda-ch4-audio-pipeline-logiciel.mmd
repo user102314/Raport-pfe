@@ -1,0 +1,18 @@
+%% Cycle 4 — Pipeline audio portrait, lisible
+%% Export → public/ch4-audio-pipeline-logiciel.png
+
+flowchart TB
+    S1["① Voix utilisateur"]
+    S2["② ReSpeaker 4-Mic USB"]
+    S3["③ Flux PCM local<br/>(arecord)"]
+    S4["④ Vosk — mot de réveil<br/>(traitement local)"]
+    S5["⑤ VAD sox<br/>capture jusqu'au silence"]
+    S6["⑥ Fichier WAV question"]
+    S7["⑦ Backend FastAPI<br/>STT → n8n → TTS"]
+    S8["⑧ ActionResult JSON<br/>+ audio"]
+    S9["⑨ Sortie audio<br/>Bluetooth / jack"]
+    S10["⑩ Réponse vocale"]
+
+    S1 --> S2 --> S3 --> S4 --> S5 --> S6 --> S7 --> S8 --> S9 --> S10
+
+    S4 -.- NOTE["Aucun appel cloud<br/>avant détection du mot de réveil"]

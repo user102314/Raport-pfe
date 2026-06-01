@@ -1,0 +1,22 @@
+%% Cycle 5 — Tableau de bord opérationnel (schéma)
+%% Export → public/ch5-kodamate-operational-dashboard.png
+
+flowchart TB
+    subgraph MOB["KodaMate — Accueil"]
+        PWR["Bouton Power<br/>on / off"]
+        ETAT["État robot<br/>connecté / déconnecté"]
+        MET["Météo locale<br/>Open-Meteo"]
+        WIFI["Indicateur Wi-Fi"]
+        NAV["Navigation<br/>Home · Chat · History · Settings"]
+    end
+
+    subgraph BACK["Backend"]
+        DS["Distributeur FastAPI<br/>/api/settings · power-on/off"]
+    end
+
+    subgraph ROB["Robot KODA"]
+        RPI["Raspberry Pi"]
+    end
+
+    MOB -->|REST Wi-Fi| DS
+    DS --> RPI

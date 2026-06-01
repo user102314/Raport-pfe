@@ -1,0 +1,25 @@
+%% Chapitre II — Environnement matériel de développement
+%% Export → public/ch2-environnement-materiel.png (prévisualisation avant insertion LaTeX)
+
+flowchart TB
+    subgraph DEV["Poste de développement"]
+        PC["PC développeur<br/>IDE · Docker · Git<br/>8 Go+ RAM"]
+        NET["Internet<br/>Supabase · OpenRouter<br/>SerpAPI · Azure"]
+    end
+
+    subgraph EMB["Cible embarquée"]
+        RPI["Raspberry Pi 4<br/>tests robot"]
+        ROB["Prototype KODA<br/>audio · caméra · Nextion"]
+    end
+
+    subgraph MOB["Cible mobile"]
+        PH["Smartphone / émulateur<br/>KodaMate .NET MAUI"]
+    end
+
+    PC --> RPI
+    PC --> PH
+    PC --> NET
+    RPI --> ROB
+    PH -.->|"Wi-Fi LAN"| PC
+
+    PC -.- N["Environnement de test intégré<br/>backend FastAPI + n8n + base"]

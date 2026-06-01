@@ -2280,10 +2280,10 @@ Le chapitre suivant, \textbf{«\,Préparation du Projet\,»}, formalise les beso
 		\label{tab:correspondance_cognitive}
 	\end{table}
 	
-	% ----------------------------------------------------------------
-	% IMAGE À INSÉRER : Architecture cognitive globale de KODA
-	% Légende : "Architecture cognitive globale de KODA — Interaction entre les trois webhooks"
-	% ----------------------------------------------------------------
+	\IfFileExists{public/ch3-architecture-cognitive-globale.png}{%
+		\kodafigureL[0.78\textwidth]{public/ch3-architecture-cognitive-globale.png}{Architecture cognitive globale de KODA --- interaction entre les trois webhooks}{fig:ch3-architecture-cognitive-globale}
+	}{}
+	\FloatBarrier
 	
 	\noindent\underline{\textbf{Référence :} Russell, S. \& Norvig, P. (2010). \textit{Artificial Intelligence: A Modern Approach}, 3rd ed. Prentice Hall.}
 	
@@ -2317,39 +2317,45 @@ Le chapitre suivant, \textbf{«\,Préparation du Projet\,»}, formalise les beso
 	%------------------------------------------------------------------
 	
 	Le \textbf{chapitre~IV} documente le \textbf{Cycle~2} du projet KODA~: la conception,
-	le développement et la validation du \textbf{Distributeur de Services}, backend
-	\textbf{Python / FastAPI} qui constitue la \textbf{couche de services} de l'écosystème.
-	Ce cycle intervient après le \textbf{Cycle~1} (moteur de réflexion n8n) et précède
-	les cycles embarqué (matériel et logiciel Raspberry Pi) et mobile (KodaMate).
+	le développement et la validation du \textbf{Distributeur de Services}, composant
+	central qui constitue la \textbf{couche de services} de l'écosystème. Ce cycle
+	intervient après le \textbf{Cycle~1} (moteur de réflexion n8n) et précède les cycles
+	embarqué (matériel et logiciel Raspberry Pi) et mobile (KodaMate).
 	
-	\paragraph{Problématique technique.}
-	KODA doit interagir avec l'utilisateur de deux manières complémentaires~:
-	\textbf{vocalement} via le robot physique, et \textbf{via l'application mobile} pour
-	la configuration, l'agenda et le suivi. Par ailleurs, le raisonnement conversationnel
-	est délégué à n8n, la mémoire durable est confiée à PostgreSQL, et les capacités
-	vocales et cognitives passent par des services cloud (Azure, Gemini). Sans couche
-	intermédiaire, chaque composant devrait connaître les adresses, protocoles et clés
-	de tous les autres~: couplage fort, secrets exposés sur l'embarqué, évolutions
-	impossibles en parallèle.
+	\paragraph{Problématique.}
+	KODA vise une relation d'accompagnement personnalisée~: le robot doit \textbf{reconnaître}
+	l'interlocuteur, \textbf{se souvenir} des échanges passés et \textbf{répondre} de
+	manière adaptée, que l'utilisateur s'exprime à voix haute ou via son téléphone. Or
+	ces capacités ne peuvent pas être confiées à un seul composant~: la réflexion
+	conversationnelle, la mémoire durable, la voix et la vision mobilisent des briques
+	techniques distinctes, hébergées à des endroits différents. Sans médiateur, le système
+	manquerait de \textbf{cohérence}~: chaque interaction risquerait d'être isolée, chaque
+	composant devrait connaître tous les autres, et l'évolution du projet deviendrait
+	fragmentée.
 	
 	\paragraph{Rôle global du Distributeur.}
-	Le Distributeur résout cette fragmentation en offrant au système un \textbf{point
-	d'accès unique et homogène} aux ressources partagées. Concrètement, il~:
-	\begin{itemize}[noitemsep]
-		\item reçoit l'audio et les événements du \textbf{robot}, orchestre la transcription,
-		la consultation de n8n et la synthèse vocale, puis renvoie un \textbf{output cohérent}
-		(parole, commandes moteur, expressions)~;
-		\item expose des \textbf{API REST sécurisées} à l'\textbf{application mobile} pour
-		l'authentification, les profils, l'agenda et l'historique~;
-		\item assure la \textbf{persistances} des conversations, profils et paramètres via
-		PostgreSQL (Supabase)~;
-		\item délègue le \textbf{raisonnement} à n8n tout en gardant le contrôle de la
-		sécurité, de la validation et de la journalisation.
-	\end{itemize}
-	Le backend n'est donc pas un simple relais HTTP~: il \textbf{matérialise la
-	fonctionnalité globale} du système en assemblant des services techniques (vocal,
-	visage, persistance, orchestration) pour produire une expérience utilisateur unifiée,
-	que l'interaction soit vocale ou applicative.
+	Le Distributeur de Services n'est pas qu'un relais technique~: il joue le rôle de
+	\textbf{pivot fonctionnel} de KODA. Théoriquement, il assure trois fonctions
+	indissociables~:
+	\begin{description}[leftmargin=!, style=nextline, itemsep=0.35em]
+		\item[\textbf{Unification}] Il traduit des interactions hétérogènes (parole du robot,
+		saisie mobile, événements de présence) en un \textbf{langage commun} que le reste
+		du système peut traiter~: identité de l'interlocuteur, contexte mémoriel, demande
+		formulée.
+		\item[\textbf{Personnalisation}] Il garantit que chaque réponse s'appuie sur le
+		\textbf{même profil utilisateur}, quelle que soit la voie d'accès~: une question
+		posée au robot et une saisie dans l'application mobile alimentent la même mémoire
+		et le même moteur de réflexion.
+		\item[\textbf{Continuité}] Il maintient la \textbf{expérience utilisateur} dans le
+		temps~: accueil proactif lors d'une détection de présence, dialogue vocal, suivi
+		depuis le mobile~--- le robot et l'application ne sont que deux \emph{faces} d'un
+		même compagnon, et le Distributeur en est le garant.
+	\end{description}
+	En ce sens, le backend \textbf{matérialise la fonctionnalité globale} de KODA~: il
+	assemble des capacités techniques (vocal, visage, persistance, orchestration) pour
+	produire une relation utilisateur--robot \textbf{cohérente, mémorisée et évolutive}.
+	L'implémentation concrète (FastAPI, PostgreSQL, Azure, n8n) est détaillée dans les
+	sections suivantes~; l'introduction se limite ici au \textbf{pourquoi} de ce composant.
 	
 	\paragraph{Objectifs et résultats attendus.}
 	À l'issue de ce cycle, nous visons~: \textbf{(i)} un backend déployable et testable
@@ -2461,14 +2467,9 @@ Le chapitre suivant, \textbf{«\,Préparation du Projet\,»}, formalise les beso
 	
 	\subsection{Diagramme de cas d'utilisation général}
 	
-	\IfFileExists{public/ducgc4.png}{%
-		\kodafigureL[\textwidth]{public/ducgc4.png}{Cycle~2 --- diagramme de cas d'utilisation général du Distributeur de services}{fig:ducgc4-cycle2}
-	}{%
-		\IfFileExists{public/ducg.png}{%
-			\kodafigureL[\textwidth]{public/ducg.png}{Cycle~2 --- diagramme de cas d'utilisation général du Distributeur de services}{fig:ducgc4-cycle2}
-		}{%
-		}%
-	}
+	\IfFileExists{public/ducg.png}{%
+		\kodafigureL[\textwidth]{public/ducg.png}{Cycle~2 --- diagramme de cas d'utilisation général du Distributeur de services}{fig:ducgc4-cycle2}
+	}{}
 	
 	\IfFileExists{public/ch4-schema-classes.png}{%
 		\kodafigureL[0.95\textwidth]{public/ch4-schema-classes.png}{Cycle~2 --- schéma de classes général du backend (persistance PostgreSQL)}{fig:ch4-classes-schema}
@@ -2483,6 +2484,7 @@ Le chapitre suivant, \textbf{«\,Préparation du Projet\,»}, formalise les beso
 	Le diagramme de cas d'utilisation regroupe les interactions typiques~: traitement
 	vocal, session WebSocket robot, reconnaissance faciale, authentification mobile,
 	persistance et délégation n8n. Il sert de \textbf{carte de lecture} pour les
+	sections~\ref{sec:ch4-services} et~\ref{sec:ch4-endpoints}.
 	
 	Le schéma de classes (figure~\ref{fig:ch4-classes-schema}, placé sous le cas
 	d'utilisation) matérialise les entités persistées par le Distributeur~:
@@ -2508,8 +2510,15 @@ Le chapitre suivant, \textbf{«\,Préparation du Projet\,»}, formalise les beso
 	une modification de la base, d'un webhook n8n ou d'une clé Azure se fait au même
 	endroit, ce qui respecte le modèle en spirale (cycle~2 livrable et testable sans
 	réécrire le robot ni les workflows). Les cycles~1, 3, 4 et~5 s'appuient sur des
-	\textbf{interfaces stables} exposées par ce backend. Le diagramme de composants
-	détaillé (pivot central) est présenté dans la section modélisation.
+	\textbf{interfaces stables} exposées par ce backend. La
+	figure~\ref{fig:ch4-hub-architecture} détaille ce pivot central~: seul le
+	Distributeur connaît n8n, PostgreSQL et les services cloud~; robot et mobile
+	ne maintiennent qu'une connexion vers lui.
+	
+	\IfFileExists{public/ch4-hub-architecture.png}{%
+		\kodafigureL[0.95\textwidth]{public/ch4-hub-architecture.png}{Cycle~2 --- Distributeur pivot central (composants et flux)}{fig:ch4-hub-architecture}
+	}{}
+	\FloatBarrier
 	
 	%------------------------------------------------------------------
 	\section{Architecture interne du backend}
@@ -2618,8 +2627,9 @@ Le chapitre suivant, \textbf{«\,Préparation du Projet\,»}, formalise les beso
 	\FloatBarrier
 	
 	\IfFileExists{public/archiipy.png}{%
-		\kodafigureL[0.55\textwidth]{public/archiipy.png}{Exécution du programme backend (Distributeur)}{fig:ch4-archiipy}
+		\kodafigureL[0.72\textwidth]{public/archiipy.png}{Exécution du programme backend (Distributeur)}{fig:ch4-archiipy}
 	}{}
+	\FloatBarrier
 	
 	La figure~\ref{fig:ch4-archipy} résume le flux de dépendances~:
 	\texttt{config} $\rightarrow$ \texttt{main.py} $\rightarrow$ \texttt{controllers}
@@ -2743,6 +2753,21 @@ Le chapitre suivant, \textbf{«\,Préparation du Projet\,»}, formalise les beso
 	robot~: il traduit l'appel embarqué en webhook n8n, puis en réponse audio exploitable
 	par l'embarqué.
 	
+	\subsubsection{Canal WebSocket (temps réel)}
+	\label{sec:ch4-websocket}
+	
+	Outre les requêtes HTTP du pipeline vocal, le robot maintient un canal
+	\textbf{WebSocket} persistant avec le Distributeur pour les acquittements, le suivi
+	d'état et l'envoi de commandes moteur ou d'expressions en temps quasi réel. Le
+	protocole repose sur des messages JSON typés (\texttt{status}, \texttt{action},
+	\texttt{command\_result})~; en cas de coupure réseau, le client embarqué applique
+	une \textbf{reconnexion avec backoff exponentiel} (cf. tableau~\ref{tab:problemes}).
+	
+	\IfFileExists{public/ch4-websocket-sequence.png}{%
+		\kodafigureL[0.95\textwidth]{public/ch4-websocket-sequence.png}{Cycle~2 --- échanges WebSocket robot $\leftrightarrow$ Distributeur (temps réel)}{fig:ch4-websocket-sequence}
+	}{}
+	\FloatBarrier
+	
 	\subsubsection{Chaîne vocale complète (Azure STT / TTS)}
 	
 	La dimension vocale est au c\oe{}ur de l'expérience KODA. Le robot \textbf{capture}
@@ -2774,18 +2799,77 @@ Le chapitre suivant, \textbf{«\,Préparation du Projet\,»}, formalise les beso
 	}{}
 	
 	\subsubsection{Reconnaissance des personnes}
+	\label{sec:ch4-reconnaissance-faciale}
 	
-	La \textbf{reconnaissance faciale} (\texttt{face\_recognition} / dlib) permet
-	d'identifier un visiteur connu~: encodages 128D enregistrés à l'inscription, comparaison
-	à la volée sur image caméra. Le robot envoie la capture~; le Distributeur calcule et
-	renvoie l'identité et un score de confiance.
+	La reconnaissance faciale constitue le \textbf{service d'identité} du Distributeur.
+	Son rôle théorique est de transformer une \textbf{présence physique} devant le robot
+	en une \textbf{identité numérique} exploitable par le reste du système~: sans cette
+	étape, KODA ne pourrait ni personnaliser la salutation, ni retrouver l'historique
+	conversationnel, ni orienter le raisonnement n8n vers le bon profil
+	(\texttt{accompagnement}, notes, préférences).
 	
-	\IfFileExists{public/dataset.png}{%
-		\kodafigure[0.95\textwidth]{public/dataset.png}{Exemple d'images de référence en mémoire (profils utilisateurs)}
+	\paragraph{Principe et modèle de données.}
+	L'identification repose sur une \textbf{bibliothèque de visages connus}~: à
+	l'inscription (depuis l'application mobile ou un flux d'enregistrement), plusieurs
+	photos de référence sont capturées et converties en \textbf{encodages vectoriels}
+	(128 dimensions) stockés dans la table \texttt{imageuser}, liée à
+	\texttt{utilisateur}. Lors d'une interaction, le robot transmet une capture caméra au
+	Distributeur via \texttt{POST /api/identify-face}~; le backend détecte le visage,
+	calcule son encodage et le compare à la base de référence. L'identité retenue est
+	celle dont la \textbf{distance euclidienne} est minimale, sous réserve d'un
+	\textbf{seuil de confiance} (0{,}5 dans notre configuration).
+	
+	\paragraph{Pipeline d'identification.}
+	Le traitement suit quatre étapes conceptuelles~:
+	\begin{enumerate}[leftmargin=*, itemsep=0.25em]
+		\item \textbf{Capture}~: le Raspberry Pi envoie une image (\texttt{multipart})~;
+		\item \textbf{Détection et encodage}~: extraction du visage et calcul du vecteur
+		128D (\texttt{face\_recognition} / dlib)~;
+		\item \textbf{Comparaison}~: recherche du profil le plus proche dans PostgreSQL~;
+		\item \textbf{Décision}~: retour du \texttt{username} identifié et d'un score, ou
+		de l'état \texttt{unkonu} (personne inconnue) déclenchant un scénario d'accueil
+		générique ou d'invitation à se présenter (Flux~3, chapitre~III).
+	\end{enumerate}
+	Ce pipeline intervient en \textbf{amont} de chaque dialogue vocal (Action~1,
+	figure~\ref{fig:ch4-robot-flux1-partA}) et lors de la détection de présence
+	(Action~2, figure~\ref{fig:ch4-robot-flux3-partA})~: l'identité conditionne le ton,
+	le contenu et le routage vers n8n.
+	
+	\IfFileExists{public/ch4-face-recognition-pipeline.png}{%
+		\kodafigureL[0.92\textwidth]{public/ch4-face-recognition-pipeline.png}{Pipeline de reconnaissance faciale --- de la capture caméra à l'identité utilisateur}{fig:ch4-face-pipeline}
 	}{}
 	
+	\IfFileExists{public/ch4-face-recognition-sequence.png}{%
+		\kodafigureL[0.95\textwidth]{public/ch4-face-recognition-sequence.png}{Diagramme de séquence --- identification faciale (robot, Distributeur, base de référence)}{fig:ch4-face-sequence}
+	}{}
+	
+	\IfFileExists{public/dataset.png}{%
+		\kodafigure[0.95\textwidth]{public/dataset.png}{Exemple d'images de référence en mémoire (profils utilisateurs)}{fig:ch4-face-dataset}
+	}{}
+	
+	\paragraph{Cas particuliers.}
+	Trois situations méritent d'être distinguées~:
+	\begin{itemize}[noitemsep]
+		\item \textbf{Personne connue}~: match sous le seuil $\rightarrow$ personnalisation
+		immédiate (salutation par le prénom, contexte \texttt{accompagnement})~;
+		\item \textbf{Personne inconnue}~: aucun match satisfaisant $\rightarrow$ état
+		\texttt{unkonu}, accueil générique et possibilité d'enregistrement ultérieur~;
+		\item \textbf{Enregistrement}~: création d'un profil \texttt{utilisateur} et de ses
+		encodages via les endpoints CRUD (\texttt{/api/users},
+		\texttt{/api/user-images}), sans intervention directe du robot sur la base.
+	\end{itemize}
+	
+	\paragraph{Contraintes et intégration.}
+	Le calcul d'encodage étant \textbf{CPU-intensif}, le traitement est délégué à un
+	\texttt{ThreadPoolExecutor} (\texttt{run\_in\_executor}) afin de ne pas bloquer la
+	boucle asynchrone FastAPI (cf. tableau~\ref{tab:problemes}). Les encodages fréquents
+	peuvent être mis en cache (Redis) pour réduire la latence sous charge. Le robot ne
+	charge \textbf{jamais} la bibliothèque de vision~: seul le Distributeur détient les
+	modèles et les références, ce qui respecte le principe du point de liaison unique
+	(§~\ref{sec:ch4-fondements}).
+	
 	\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black,
-		title=\textbf{Précision du système de reconnaissance}]
+		title=\textbf{Résultats de validation}]
 		Tests en conditions réelles~: taux de reconnaissance supérieur à
 		\textbf{94\,\%} (seuil de distance 0{,}5), temps moyen \textbf{180\,ms} par image
 		sur le serveur de déploiement.
@@ -2844,6 +2928,10 @@ Le chapitre suivant, \textbf{«\,Préparation du Projet\,»}, formalise les beso
 	identifiants et renvoie \texttt{\{idproduit, emailclient, idkoda\}}. Ces données
 	alimentent la configuration robot, le chat et l'historique.
 	
+	\IfFileExists{public/ch4-mobile-auth.png}{%
+		\kodafigureL[0.92\textwidth]{public/ch4-mobile-auth.png}{Authentification mobile --- séquence \texttt{POST /api/auth/login}}{fig:ch4-mobile-auth}
+	}{}
+	
 	\paragraph{Configuration et contrôle du robot.}
 	\begin{itemize}[noitemsep]
 		\item lecture des paramètres~: \texttt{GET /api/settings} (nom, langue, état
@@ -2868,11 +2956,20 @@ Le chapitre suivant, \textbf{«\,Préparation du Projet\,»}, formalise les beso
 	Le mobile \textbf{ne connaît pas} l'URL n8n~: seul le Distributeur y accède, ce
 	qui respecte le principe du point de liaison unique (§~\ref{sec:ch4-fondements}).
 	
+	\IfFileExists{public/ch4-mobile-chat.png}{%
+		\kodafigureL[0.92\textwidth]{public/ch4-mobile-chat.png}{Chat mobile --- séquence \texttt{POST /api/trigger-n8n}}{fig:ch4-mobile-chat}
+	}{}
+	
 	\paragraph{Historique des conversations.}
 	L'onglet Historique charge les échanges via \texttt{GET /api/conversations} (filtres
 	optionnels \texttt{date\_from}, \texttt{date\_to}), ou en secours
 	\texttt{GET /api/conversations/last100}. Les messages s'affichent en bulles
 	(question utilisateur à droite, réponse KODA à gauche), groupés par date.
+	
+	\IfFileExists{public/ch4-mobile-settings.png}{%
+		\kodafigureL[0.95\textwidth]{public/ch4-mobile-settings.png}{Paramètres, power et historique --- séquences REST KodaMate}{fig:ch4-mobile-settings}
+	}{}
+	\FloatBarrier
 	
 	\paragraph{Données complémentaires (hors backend).}
 	\begin{itemize}[noitemsep]
@@ -2943,6 +3040,12 @@ figure~\ref{fig:ch4-classes-schema} (§~\ref{sec:ch4-modelisation}).
 	
 	Sur le plan qualité, cette interface inclut la gestion des \textit{timeouts}, le
 	contrôle des erreurs de webhook et la validation du schéma de réponse.
+	
+	\IfFileExists{public/ch4-n8n-sequence.png}{%
+		\kodafigureL[0.95\textwidth]{public/ch4-n8n-sequence.png}{Délégation au workflow n8n --- séquence robot ou mobile $\rightarrow$ Distributeur $\rightarrow$ n8n}{fig:ch4-n8n-sequence}
+	}{}
+	\FloatBarrier
+	
 	\IfFileExists{public/captureworkflowinput.png}{%
 		\kodafigureL[0.95\textwidth]{public/captureworkflowinput.png}{Communication avec n8n --- exemple de payload en entrée de webhook}{fig:ch4-n8n-input}
 	}{}
@@ -3319,7 +3422,11 @@ figure~\ref{fig:ch4-classes-schema} (§~\ref{sec:ch4-modelisation}).
 	\texttt{.env} partagé entre environnements (dev LAN, staging, production), tests
 	de connectivité (\texttt{curl} / ping WebSocket) avant chaque session robot, et
 	documentation d'une \textbf{base URL unique} consommée par l'embarqué (Cycle~4).
-	problème et sa résolution.
+	
+	\IfFileExists{public/ch4-deployment-network.png}{%
+		\kodafigureL[0.92\textwidth]{public/ch4-deployment-network.png}{Conflit d'adressage et CORS --- topologie réseau et solutions}{fig:ch4-deployment-network}
+	}{}
+	\FloatBarrier
 	
 	\subsection{Problème CORS entre backend et application mobile}
 	
@@ -4420,23 +4527,14 @@ python -m app.main
 	du backend décide ensuite du comportement : réponse vocale, musique, mouvement,
 	sommeil ou erreur.
 	
-	\IfFileExists{public/ch4-cycle-etats-passif-actif-sommeil.png}{%
-		\begin{figure}[htbp]
-			\centering
-			\includegraphics[width=0.95\textwidth]{public/ch4-cycle-etats-passif-actif-sommeil.png}
-			\caption{Cycle~4 --- cycle passif, actif et sommeil du robot}
-			\label{fig:ch4-state-machine}
-		\end{figure}
-	}{%
-		\IfFileExists{public/koda-cycle4-state-machine.png}{%
+	\IfFileExists{public/koda-cycle4-state-machine.png}{%
 			\begin{figure}[htbp]
 				\centering
 				\includegraphics[width=0.78\textwidth]{public/koda-cycle4-state-machine.png}
 				\caption{Cycle~4 --- machine d'états logicielle du robot}
 				\label{fig:ch4-state-machine}
 			\end{figure}
-		}{}
-	}
+	}{}
 	
 	%------------------------------------------------------------------
 	\section{Pipeline vocal : mot de réveil, écoute et réponse}
@@ -4463,7 +4561,7 @@ python -m app.main
 	\IfFileExists{public/ch4-audio-pipeline-logiciel.png}{%
 		\begin{figure}[htbp]
 			\centering
-			\includegraphics[width=0.95\textwidth]{public/ch4-audio-pipeline-logiciel.png}
+			\includegraphics[width=0.72\textwidth]{public/ch4-audio-pipeline-logiciel.png}
 			\caption{Cycle~4 --- pipeline audio logiciel du Raspberry Pi}
 			\label{fig:ch4-audio-pipeline}
 		\end{figure}
@@ -4885,23 +4983,14 @@ python -m app.main
 	ajouter le port \texttt{:8000} lorsque l'utilisateur saisit une adresse privée
 	sans port.
 	
-	\IfFileExists{public/ch5-session-security-flow.png}{%
+	\IfFileExists{public/koda-cycle5-navigation-flow.png}{%
 		\begin{figure}[htbp]
 			\centering
-			\includegraphics[width=0.95\textwidth]{public/ch5-session-security-flow.png}
-			\caption{Cycle~5 --- validation de session et choix du parcours initial}
+			\includegraphics[width=0.92\textwidth]{public/koda-cycle5-navigation-flow.png}
+			\caption{Cycle~5 --- navigation et bootstrap de KodaMate}
 			\label{fig:ch5-navigation-flow}
 		\end{figure}
-	}{%
-		\IfFileExists{public/koda-cycle5-navigation-flow.png}{%
-			\begin{figure}[htbp]
-				\centering
-				\includegraphics[width=0.92\textwidth]{public/koda-cycle5-navigation-flow.png}
-				\caption{Cycle~5 --- navigation et bootstrap de KodaMate}
-				\label{fig:ch5-navigation-flow}
-			\end{figure}
-		}{}
-	}
+	}{}
 	
 	Les données persistées localement restent volontairement limitées : état de
 	connexion, email, identifiant produit, identifiant KODA, indicateur de
@@ -4919,23 +5008,14 @@ python -m app.main
 	aux onglets \textbf{Home}, \textbf{Chat}, \textbf{Historique} et
 	\textbf{Settings}.
 	
-	\IfFileExists{public/ch5-kodamate-navigation-map.png}{%
+	\IfFileExists{public/koda-cycle5-use-cases.png}{%
 		\begin{figure}[htbp]
 			\centering
-			\includegraphics[width=0.95\textwidth,height=0.78\textheight,keepaspectratio]{public/ch5-kodamate-navigation-map.png}
-			\caption{Cycle~5 --- parcours utilisateur KodaMate}
+			\includegraphics[width=0.98\textwidth,height=0.78\textheight,keepaspectratio]{public/koda-cycle5-use-cases.png}
+			\caption{Cycle~5 --- diagramme de cas d'utilisation KodaMate}
 			\label{fig:ch5-use-cases}
 		\end{figure}
-	}{%
-		\IfFileExists{public/koda-cycle5-use-cases.png}{%
-			\begin{figure}[htbp]
-				\centering
-				\includegraphics[width=0.98\textwidth,height=0.78\textheight,keepaspectratio]{public/koda-cycle5-use-cases.png}
-				\caption{Cycle~5 --- diagramme de cas d'utilisation KodaMate}
-				\label{fig:ch5-use-cases}
-			\end{figure}
-		}{}
-	}
+	}{}
 	
 	Le shell déclenche \texttt{OnAppearingAsync} sur le ViewModel actif lorsque
 	l'utilisateur change d'onglet. Ainsi, l'accueil rafraîchit l'état du robot et la
@@ -5025,23 +5105,14 @@ python -m app.main
 	\texttt{text}, \texttt{message} ou \texttt{reply}, afin de rester compatible
 	avec les variations de sortie du workflow.
 	
-	\IfFileExists{public/ch5-chat-history-flow.png}{%
+	\IfFileExists{public/koda-cycle5-chat-sequence.png}{%
 		\begin{figure}[htbp]
 			\centering
-			\includegraphics[width=0.95\textwidth]{public/ch5-chat-history-flow.png}
-			\caption{Cycle~5 --- flux chat et historique des conversations}
+			\includegraphics[width=0.98\textwidth]{public/koda-cycle5-chat-sequence.png}
+			\caption{Cycle~5 --- séquence chat KodaMate vers n8n}
 			\label{fig:ch5-chat-sequence}
 		\end{figure}
-	}{%
-		\IfFileExists{public/koda-cycle5-chat-sequence.png}{%
-			\begin{figure}[htbp]
-				\centering
-				\includegraphics[width=0.98\textwidth]{public/koda-cycle5-chat-sequence.png}
-				\caption{Cycle~5 --- séquence chat KodaMate vers n8n}
-				\label{fig:ch5-chat-sequence}
-			\end{figure}
-		}{}
-	}
+	}{}
 	
 	La fonction photo utilise \texttt{MediaPicker.CapturePhotoAsync}. L'image est
 	affichée localement dans la conversation, puis l'application envoie pour

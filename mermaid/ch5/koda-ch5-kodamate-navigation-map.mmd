@@ -1,0 +1,18 @@
+%% Cycle 5 — Parcours utilisateur KodaMate
+%% Export → public/ch5-kodamate-navigation-map.png
+
+flowchart TB
+    L["Loading"] --> LG["Login"]
+    LG --> RS["Robot Setup"]
+    RS --> AS["AppShell"]
+
+    subgraph NAV["Navigation principale"]
+        H["Home"]
+        C["Chat"]
+        HI["History"]
+        ST["Settings"]
+        NO["Notifications"]
+    end
+
+    AS --> NAV
+    LG -.->|session existante| H

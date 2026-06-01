@@ -1,0 +1,43 @@
+@startuml koda_cycle2_face_recognition
+title Cycle 2 — Identification faciale (robot → Distributeur → base)
+
+skinparam sequenceMessageAlign center
+skinparam responseMessageBelowArrow true
+
+participant "Raspberry Pi\n(caméra)" as RPI
+participant "Distributeur\n(FastAPI)" as DS
+participant "Service\nreconnaissance faciale" as FR
+database "PostgreSQL\n(imageuser / utilisateur)" as DB
+participant "n8n\n(contexte)" as N8N
+
+RPI -> DS : POST /api/identify-face\n(image multipart)
+activate DS
+
+DS -> FR : getUserName(image)\n[ThreadPoolExecutor]
+activate FR
+
+FR -> FR : Détection visage\nEncodage 128D
+
+FR -> DB : Lire encodages de référence
+activate DB
+DB --> FR : Vecteurs par utilisateur
+deactivate DB
+
+FR -> FR : Distance euclidienne\n(seuil 0,5)
+
+alt Personne connue
+  FR --> DS : username + score
+  DS --> RPI : {username, confidence}
+  opt Pipeline vocal ou Flux 3
+    DS -> N8N : Contexte profil\n(accompagnement)
+    N8N --> DS : Réponse personnalisée
+  end
+else Personne inconnue (unkonu)
+  FR --> DS : unkonu
+  DS --> RPI : {username: unkonu}
+end
+
+deactivate FR
+deactivate DS
+
+@enduml

@@ -1,0 +1,22 @@
+%% Cycle 4 — Raspberry Pi comme corps opérationnel
+%% Export → public/ch4-raspberry-corps-operationnel.png
+
+flowchart TB
+    subgraph CORE["Logiciel Raspberry Pi"]
+        EAR["Oreille<br/>Wake word + VAD"]
+        ORI["Orientation<br/>DOA"]
+        VOI["Voix<br/>TTS + lecture"]
+        FAC["Visage<br/>Nextion"]
+        BOD["Corps<br/>Arduino USB"]
+    end
+
+    BE["Backend FastAPI"] --> N8N["n8n + Supabase"]
+
+    EAR --> BE
+    BE --> VOI
+    BE --> BOD
+    BE --> FAC
+    ORI --> BOD
+    N8N --> BE
+
+    CORE -.- N["Le Pi transforme les décisions<br/>backend/n8n en comportements physiques"]

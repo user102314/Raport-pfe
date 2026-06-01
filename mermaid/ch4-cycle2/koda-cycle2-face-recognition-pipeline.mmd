@@ -1,0 +1,36 @@
+%% Cycle 2 — Pipeline reconnaissance faciale
+%% Export → public/ch4-face-recognition-pipeline.png
+
+flowchart LR
+    subgraph ROB["Robot (Raspberry Pi)"]
+        CAM["Caméra\n(capture image)"]
+    end
+
+    subgraph DS["Distributeur de Services"]
+        API["POST /api/identify-face"]
+        DET["Détection visage\n(face_recognition)"]
+        ENC["Encodage 128D"]
+        CMP["Comparaison\n(distance euclidienne)"]
+        DEC{"Score <\nseuil 0,5 ?"}
+    end
+
+    subgraph DB["PostgreSQL (Supabase)"]
+        REF["Encodages de référence\n(table imageuser)"]
+        USR["Profils utilisateurs\n(table utilisateur)"]
+    end
+
+    subgraph OUT["Décision"]
+        KN["Personne connue\n→ username"]
+        UNK["Personne inconnue\n→ unkonu"]
+    end
+
+    CAM -->|"multipart image"| API
+    API --> DET --> ENC
+    REF --> CMP
+    ENC --> CMP
+    CMP --> DEC
+    DEC -->|Oui| KN
+    DEC -->|Non| UNK
+    KN --> USR
+    KN --> N8N["Enrichissement n8n\n(accompagnement, historique)"]
+    UNK --> FL3["Flux 3 — accueil\ngénérique"]

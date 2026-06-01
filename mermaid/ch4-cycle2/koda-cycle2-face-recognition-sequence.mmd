@@ -1,0 +1,33 @@
+%% Cycle 2 — Séquence reconnaissance faciale
+%% Export → public/ch4-face-recognition-sequence.png
+
+sequenceDiagram
+    autonumber
+    participant RPI as Raspberry Pi
+    participant DS as Distributeur (FastAPI)
+    participant FR as Service reconnaissance faciale
+    participant DB as PostgreSQL (encodages)
+    participant N8N as n8n (optionnel)
+
+    RPI->>DS: POST /api/identify-face (image multipart)
+    activate DS
+    DS->>FR: getUserName(image) via ThreadPoolExecutor
+    activate FR
+    FR->>FR: Détection visage + encodage 128D
+    FR->>DB: Charger encodages de référence
+    activate DB
+    DB-->>FR: Vecteurs imageuser
+    deactivate DB
+    FR->>FR: Comparer distances (seuil 0,5)
+    alt Personne connue
+        FR-->>DS: username + score confiance
+        DS-->>RPI: JSON {username, confidence}
+        opt Dialogue vocal en cours
+            DS->>N8N: Contexte enrichi (profil, accompagnement)
+        end
+    else Personne inconnue
+        FR-->>DS: unkonu
+        DS-->>RPI: JSON {username: unkonu}
+    end
+    deactivate FR
+    deactivate DS

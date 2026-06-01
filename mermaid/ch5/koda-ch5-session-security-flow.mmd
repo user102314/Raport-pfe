@@ -1,0 +1,18 @@
+%% Cycle 5 — Flux session et sécurité
+%% Export → public/ch5-session-security-flow.png
+
+flowchart TD
+    START(["Démarrage app"]) --> PREF{"Session locale<br/>Preferences ?"}
+    PREF -->|Non| LOGIN["Écran Login"]
+    PREF -->|Oui| PING["GET / — ping backend"]
+    PING -->|OK| SETTINGS["GET /api/settings"]
+    PING -->|Échec| LOGIN
+    SETTINGS --> ROUTE{"idkoda configuré ?"}
+    ROUTE -->|Non| SETUP["Robot Setup"]
+    ROUTE -->|Oui| SHELL["AppShell<br/>Home · Chat · History"]
+    LOGIN --> AUTH["POST /api/auth/login"]
+    AUTH -->|Succès| SHELL
+    AUTH -->|Échec| LOGIN
+    SETUP --> SHELL
+
+    SHELL -.- N["JWT / session locale : email, idproduit, idkoda"]

@@ -1,0 +1,42 @@
+%% Chapitre III — Portrait, lisible
+%% Export → public/ch3-architecture-cognitive-globale.png
+
+flowchart TB
+    U["① Utilisateur<br/>question ou présence"] --> W1
+    BE["② Backend<br/>trigger planifié (fin de journée)"] --> W2
+
+    subgraph W1["Webhook 1 — Temps réel"]
+        direction TB
+        T1["Analyse · historique court"]
+        T1b["Réponse immédiate"]
+    end
+
+    subgraph W2["Webhook 2 — Consolidation"]
+        direction TB
+        T2["Synthèse journalière"]
+        T2b["Fiches accompagnement"]
+    end
+
+    subgraph W3["Webhook 3 — Spontanéité"]
+        direction TB
+        T3["Accueil proactif"]
+        T3b["parole_du_robot + emotion"]
+    end
+
+    subgraph DB["PostgreSQL — mémoire partagée"]
+        direction TB
+        H["historique · conversations"]
+        A["accompagnement"]
+    end
+
+    W1 --> H
+    W1 --> A
+    H --> W2
+    W2 --> A
+    A --> W3
+    U --> W3
+    W3 --> U
+
+    W1 -.- R1["Réflexion rapide / lente"]
+    W2 -.- R2["Mémoire long terme"]
+    W3 -.- R3["Initiative du robot"]

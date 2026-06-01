@@ -1,0 +1,27 @@
+%% Cycle 5 — Stack MAUI cross-platform
+%% Export → public/ch5-maui-cross-platform-stack.png
+
+flowchart TB
+    subgraph PLAT["Plateformes cibles"]
+        A["Android"]
+        I["iOS"]
+        W["Windows"]
+        M["macOS"]
+    end
+
+    subgraph APP["KodaMate — .NET MAUI 8"]
+        UI["XAML Views<br/>Home · Chat · History · Settings"]
+        VM["ViewModels MVVM"]
+        SVC["Services HTTP"]
+        PREF["Preferences locales"]
+    end
+
+    subgraph SERVEUR["Serveurs distants"]
+        API["Distributeur FastAPI"]
+        N8N["n8n"]
+    end
+
+    PLAT --> UI
+    UI --> VM --> SVC --> API
+    SVC --> N8N
+    VM --> PREF
