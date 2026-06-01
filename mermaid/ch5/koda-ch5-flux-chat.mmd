@@ -1,0 +1,21 @@
+%% Chapitre 5 — Flux Chat (portrait)
+%% Export → public/ch5-preview/ch5-flux-chat.png
+
+flowchart TB
+    U["Utilisateur saisit<br/>un message"]
+    UI["Interface Chat<br/>affichage bulles"]
+    APP["KodaMate"]
+    DS["Distributeur<br/>FastAPI"]
+    N8N["Workflow n8n<br/>Cycle 1"]
+    PG[("PostgreSQL<br/>contexte")]
+    R["Réponse affichée<br/>dans le Chat"]
+
+    U --> UI --> APP
+    APP -->|"POST déclenchement"| DS
+    DS -->|"enrichissement"| PG
+    DS --> N8N
+    N8N --> PG
+    N8N --> DS
+    DS --> APP --> UI --> R
+
+    APP -.- N["L'application ne connaît pas<br/>l'URL du workflow"]

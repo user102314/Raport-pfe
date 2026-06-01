@@ -102,15 +102,14 @@
 \contentsline {section}{\numberline {III.7}Conclusion}{64}{section.3.7}%
 \contentsline {chapter}{\numberline {IV}Cycle 2 : Distributeur de Services}{65}{chapter.4}%
 \contentsline {section}{\numberline {IV.1}Introduction}{66}{section.4.1}%
-\contentsline {paragraph}{\numberline {IV.1.0.0.1}Problématique.}{66}{paragraph.4.1.0.0.1}%
-\contentsline {paragraph}{\numberline {IV.1.0.0.2}Rôle global du Distributeur.}{66}{paragraph.4.1.0.0.2}%
-\contentsline {paragraph}{\numberline {IV.1.0.0.3}Objectifs et résultats attendus.}{67}{paragraph.4.1.0.0.3}%
-\contentsline {paragraph}{\numberline {IV.1.0.0.4}Organisation du chapitre.}{67}{paragraph.4.1.0.0.4}%
+\contentsline {paragraph}{\numberline {IV.1.0.0.1}Rôle global du Distributeur.}{66}{paragraph.4.1.0.0.1}%
+\contentsline {paragraph}{\numberline {IV.1.0.0.2}Objectifs et résultats attendus.}{66}{paragraph.4.1.0.0.2}%
+\contentsline {paragraph}{\numberline {IV.1.0.0.3}Organisation du chapitre.}{67}{paragraph.4.1.0.0.3}%
 \contentsline {section}{\numberline {IV.2}Fondements théoriques et positionnement du Distributeur}{67}{section.4.2}%
 \contentsline {subsection}{\numberline {IV.2.1}Le principe du point de liaison unique}{67}{subsection.4.2.1}%
 \contentsline {subsection}{\numberline {IV.2.2}Services backend et fonctionnalité globale du système}{68}{subsection.4.2.2}%
 \contentsline {subsection}{\numberline {IV.2.3}Communication vocale et applicative~: deux faces, un backend}{68}{subsection.4.2.3}%
-\contentsline {section}{\numberline {IV.3}Modélisation et place dans l'architecture}{69}{section.4.3}%
+\contentsline {section}{\numberline {IV.3}Modélisation et place dans l'architecture}{68}{section.4.3}%
 \contentsline {subsection}{\numberline {IV.3.1}Diagramme de cas d'utilisation général}{69}{subsection.4.3.1}%
 \contentsline {subsection}{\numberline {IV.3.2}Architecture globale~: pivot de flexibilité et de disponibilité}{70}{subsection.4.3.2}%
 \contentsline {section}{\numberline {IV.4}Architecture interne du backend}{72}{section.4.4}%
@@ -118,7 +117,7 @@
 \contentsline {subsection}{\numberline {IV.4.2}Clean Architecture : principes et application}{73}{subsection.4.4.2}%
 \contentsline {subsection}{\numberline {IV.4.3}Structure des répertoires du projet}{74}{subsection.4.4.3}%
 \contentsline {section}{\numberline {IV.5}Services exposés et flux de communication}{75}{section.4.5}%
-\contentsline {subsection}{\numberline {IV.5.1}Interaction avec le système embarqué (robot)}{75}{subsection.4.5.1}%
+\contentsline {subsection}{\numberline {IV.5.1}Service dédié vers le système embarqué (robot)}{75}{subsection.4.5.1}%
 \contentsline {subsubsection}{\numberline {IV.5.1.1}Cas d'utilisation robot $\leftrightarrow $ backend}{76}{subsubsection.4.5.1.1}%
 \contentsline {subsubsection}{\numberline {IV.5.1.2}Action 1 --- Demander une réponse vocale (Flux~1)}{76}{subsubsection.4.5.1.2}%
 \contentsline {paragraph}{\numberline {IV.5.1.2.1}Lien avec le Cycle~1.}{78}{paragraph.4.5.1.2.1}%
@@ -131,7 +130,7 @@
 \contentsline {paragraph}{\numberline {IV.5.1.6.2}Pipeline d'identification.}{83}{paragraph.4.5.1.6.2}%
 \contentsline {paragraph}{\numberline {IV.5.1.6.3}Cas particuliers.}{85}{paragraph.4.5.1.6.3}%
 \contentsline {paragraph}{\numberline {IV.5.1.6.4}Contraintes et intégration.}{86}{paragraph.4.5.1.6.4}%
-\contentsline {subsection}{\numberline {IV.5.2}Interaction avec l'application mobile KodaMate (REST / JSON)}{86}{subsection.4.5.2}%
+\contentsline {subsection}{\numberline {IV.5.2}Service dédié vers l'application mobile (KodaMate)}{86}{subsection.4.5.2}%
 \contentsline {subsubsection}{\numberline {IV.5.2.1}Contexte architectural}{86}{subsubsection.4.5.2.1}%
 \contentsline {subsubsection}{\numberline {IV.5.2.2}Principe de communication}{86}{subsubsection.4.5.2.2}%
 \contentsline {subsubsection}{\numberline {IV.5.2.3}Flux fonctionnels principaux}{87}{subsubsection.4.5.2.3}%
@@ -140,9 +139,9 @@
 \contentsline {paragraph}{\numberline {IV.5.2.3.3}Chat intelligent (délégation n8n).}{88}{paragraph.4.5.2.3.3}%
 \contentsline {paragraph}{\numberline {IV.5.2.3.4}Historique des conversations.}{88}{paragraph.4.5.2.3.4}%
 \contentsline {paragraph}{\numberline {IV.5.2.3.5}Données complémentaires (hors backend).}{89}{paragraph.4.5.2.3.5}%
-\contentsline {subsection}{\numberline {IV.5.3}Persistance et modèle de données (PostgreSQL / Supabase)}{90}{subsection.4.5.3}%
+\contentsline {subsection}{\numberline {IV.5.3}Service dédié vers la base de données (PostgreSQL / Supabase)}{90}{subsection.4.5.3}%
 \contentsline {subsubsection}{\numberline {IV.5.3.1}Modèle relationnel et rôle des tables}{90}{subsubsection.4.5.3.1}%
-\contentsline {subsection}{\numberline {IV.5.4}Délégation du raisonnement au workflow n8n}{91}{subsection.4.5.4}%
+\contentsline {subsection}{\numberline {IV.5.4}Service dédié vers le workflow n8n (Cycle~1)}{91}{subsection.4.5.4}%
 \contentsline {section}{\numberline {IV.6}Catalogue des endpoints REST du Distributeur}{93}{section.4.6}%
 \contentsline {subsection}{\numberline {IV.6.1}Infrastructure et documentation (hors \texttt {/api})}{93}{subsection.4.6.1}%
 \contentsline {subsection}{\numberline {IV.6.2}Communication avec PostgreSQL (persistance Supabase)}{94}{subsection.4.6.2}%
@@ -208,18 +207,33 @@
 \contentsline {section}{\numberline {VI.13}Limites et perspectives}{133}{section.6.13}%
 \contentsline {section}{\numberline {VI.14}Conclusion}{134}{section.6.14}%
 \contentsline {chapter}{\numberline {VII}Cycle 5 : Application Mobile Cross-Plateforme KodaMate}{135}{chapter.7}%
-\contentsline {section}{\numberline {VII.1}Introduction et objectif du cycle}{136}{section.7.1}%
-\contentsline {section}{\numberline {VII.2}Choix technologique et périmètre}{136}{section.7.2}%
-\contentsline {section}{\numberline {VII.3}Architecture logicielle globale}{137}{section.7.3}%
-\contentsline {section}{\numberline {VII.4}Architecture du code et modèle MVVM}{137}{section.7.4}%
-\contentsline {section}{\numberline {VII.5}Configuration, lancement et session}{139}{section.7.5}%
-\contentsline {section}{\numberline {VII.6}Cas d'utilisation et parcours utilisateur}{140}{section.7.6}%
-\contentsline {section}{\numberline {VII.7}Connexion et première configuration du robot}{141}{section.7.7}%
-\contentsline {section}{\numberline {VII.8}Tableau de bord Home}{141}{section.7.8}%
-\contentsline {section}{\numberline {VII.9}Chat KODA et historique des conversations}{145}{section.7.9}%
-\contentsline {section}{\numberline {VII.10}Paramètres, Wi-Fi et notifications}{146}{section.7.10}%
-\contentsline {section}{\numberline {VII.11}États applicatifs et robustesse}{146}{section.7.11}%
-\contentsline {section}{\numberline {VII.12}Tests et validation}{146}{section.7.12}%
-\contentsline {section}{\numberline {VII.13}Limites et perspectives}{149}{section.7.13}%
-\contentsline {section}{\numberline {VII.14}Conclusion}{149}{section.7.14}%
+\contentsline {section}{\numberline {VII.1}Introduction : pourquoi une application compagnon ?}{136}{section.7.1}%
+\contentsline {section}{\numberline {VII.2}Place de KodaMate dans l'écosystème}{137}{section.7.2}%
+\contentsline {section}{\numberline {VII.3}Parcours et principes d'expérience}{138}{section.7.3}%
+\contentsline {section}{\numberline {VII.4}Les interfaces utilisateur}{140}{section.7.4}%
+\contentsline {subsection}{\numberline {VII.4.1}Interface de chargement}{140}{subsection.7.4.1}%
+\contentsline {subsection}{\numberline {VII.4.2}Interface de connexion}{141}{subsection.7.4.2}%
+\contentsline {subsection}{\numberline {VII.4.3}Interface de configuration du robot}{143}{subsection.7.4.3}%
+\contentsline {subsection}{\numberline {VII.4.4}Interface d'accueil (Home)}{145}{subsection.7.4.4}%
+\contentsline {subsection}{\numberline {VII.4.5}Interface de dialogue (Chat)}{147}{subsection.7.4.5}%
+\contentsline {subsection}{\numberline {VII.4.6}Interface d'historique}{148}{subsection.7.4.6}%
+\contentsline {subsection}{\numberline {VII.4.7}Interface de paramètres}{150}{subsection.7.4.7}%
+\contentsline {section}{\numberline {VII.5}Organisation technique du projet}{151}{section.7.5}%
+\contentsline {section}{\numberline {VII.6}Fiabilité et session}{152}{section.7.6}%
+\contentsline {section}{\numberline {VII.7}Tests et validation}{152}{section.7.7}%
+\contentsline {section}{\numberline {VII.8}Limites et perspectives}{153}{section.7.8}%
+\contentsline {section}{\numberline {VII.9}Conclusion}{154}{section.7.9}%
+\contentsline {chapter}{\numberline {VIII}Conclusion générale et synthèse du projet}{155}{chapter.8}%
+\contentsline {section}{\numberline {VIII.1}Du constat initial à la solution réalisée}{156}{section.8.1}%
+\contentsline {section}{\numberline {VIII.2}Vue d'ensemble : les cinq cycles et leurs rôles}{156}{section.8.2}%
+\contentsline {section}{\numberline {VIII.3}Les cinq piliers du système KODA}{157}{section.8.3}%
+\contentsline {subsection}{\numberline {VIII.3.1}Le cerveau conversationnel (Cycle~1)}{157}{subsection.8.3.1}%
+\contentsline {subsection}{\numberline {VIII.3.2}Le système nerveux central (Cycle~2)}{158}{subsection.8.3.2}%
+\contentsline {subsection}{\numberline {VIII.3.3}Le corps du compagnon (Cycles~3 et~4)}{158}{subsection.8.3.3}%
+\contentsline {subsection}{\numberline {VIII.3.4}La relation à distance (Cycle~5)}{158}{subsection.8.3.4}%
+\contentsline {section}{\numberline {VIII.4}Comment lire l'ensemble : un scénario type}{158}{section.8.4}%
+\contentsline {section}{\numberline {VIII.5}Apports du projet}{159}{section.8.5}%
+\contentsline {section}{\numberline {VIII.6}Limites et enseignements}{160}{section.8.6}%
+\contentsline {section}{\numberline {VIII.7}Perspectives}{160}{section.8.7}%
+\contentsline {section}{\numberline {VIII.8}Conclusion finale}{160}{section.8.8}%
 \contentsfinish 

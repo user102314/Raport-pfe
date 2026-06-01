@@ -1,0 +1,25 @@
+%% Chapitre 5 — Parcours des interfaces (portrait)
+%% Export → public/ch5-preview/ch5-parcours-interfaces.png
+
+flowchart TB
+    START(["Ouverture KodaMate"])
+    LOAD["Écran de chargement<br/>validation session"]
+    LOGIN["Interface Connexion<br/>authentification"]
+    SETUP["Interface Configuration<br/>premier paramétrage robot"]
+    SHELL["Application principale"]
+
+    subgraph NAV["Onglets quotidiens"]
+        HOME["Accueil — supervision"]
+        CHAT["Chat — dialogue texte"]
+        HIST["Historique — mémoire"]
+        SET["Paramètres — profil & réseau"]
+    end
+
+    START --> LOAD
+    LOAD -->|session invalide| LOGIN
+    LOAD -->|robot non configuré| SETUP
+    LOAD -->|OK| SHELL
+    LOGIN --> SETUP
+    LOGIN --> SHELL
+    SETUP --> SHELL
+    SHELL --> NAV

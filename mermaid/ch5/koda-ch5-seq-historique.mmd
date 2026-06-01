@@ -1,0 +1,18 @@
+%% Cycle 5 — Séquence historique des conversations (portrait)
+sequenceDiagram
+    autonumber
+    actor U as Utilisateur
+    participant App as Application mobile
+    participant BE as Backend Distributeur
+    participant DB as Base de données
+
+    U->>App: Ouvrir l'onglet Historique
+    App->>BE: Demander les conversations
+    BE->>DB: Récupérer les échanges récents
+    DB-->>BE: Conversations
+    BE-->>App: Liste des dialogues
+    App-->>U: Afficher par jour
+
+    U->>App: Filtrer ou rechercher
+    Note over App: Filtrage local sur dates et mots-clés
+    App-->>U: Liste mise à jour

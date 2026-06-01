@@ -1,0 +1,19 @@
+Diagrammes Cycle 5 — état d'intégration dans finalyearrapport.tex
+
+Insérés dans le rapport (public/) :
+  ch5-cas-utilisation.png, ch5-place-ecosysteme.png, ch5-parcours-interfaces.png
+  ch5-seq-auth.png, ch5-seq-configuration.png, ch5-seq-home.png, ch5-seq-chat.png
+  ch5-seq-bootstrap.png, ch5-seq-historique.png, ch5-seq-wifi.png
+  (+ captures ch5-ecran-*.png)
+
+Optionnel (aperçu seulement) :
+  ch5-preview/ch5-flux-chat.png — flux chat alternatif
+
+Captures intégrées dans public/ (chapitre 5) :
+  ch5-ecran-login.png, ch5-ecran-setup.png, ch5-ecran-setup-suite.png,
+  ch5-ecran-home.png, ch5-ecran-home-deconnecte.png, ch5-ecran-home-actif.png,
+  ch5-ecran-chat.png, ch5-ecran-historique.png,
+  ch5-ecran-settings-profil.png, ch5-ecran-settings-wifi.png,
+  ch5-ecran-settings-compte.png
+
+Manquant : ch5-ecran-chargement.png (écran de démarrage avec logo seul)

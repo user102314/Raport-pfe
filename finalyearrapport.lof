@@ -112,13 +112,22 @@
 \contentsline {figure}{\numberline {VI.9}{\ignorespaces Cycle~4 --- séquence mot de réveil, écoute et réponse}}{130}{figure.caption.56}%
 \contentsline {figure}{\numberline {VI.10}{\ignorespaces Cycle~4 --- dispatch des actions retournées par le backend}}{130}{figure.caption.57}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {VII.1}{\ignorespaces Cycle~5 --- pile cross-plateforme de KodaMate}}{138}{figure.caption.61}%
-\contentsline {figure}{\numberline {VII.2}{\ignorespaces Cycle~5 --- classes principales MVVM et services}}{139}{figure.caption.63}%
-\contentsline {figure}{\numberline {VII.3}{\ignorespaces Cycle~5 --- navigation et bootstrap de KodaMate}}{140}{figure.caption.64}%
-\contentsline {figure}{\numberline {VII.4}{\ignorespaces Cycle~5 --- diagramme de cas d'utilisation KodaMate}}{142}{figure.caption.65}%
-\contentsline {figure}{\numberline {VII.5}{\ignorespaces Cycle~5 --- séquence de connexion et création de session}}{143}{figure.caption.66}%
-\contentsline {figure}{\numberline {VII.6}{\ignorespaces Cycle~5 --- séquence de configuration et paramètres robot}}{143}{figure.caption.67}%
-\contentsline {figure}{\numberline {VII.7}{\ignorespaces Cycle~5 --- tableau de bord opérationnel KodaMate}}{144}{figure.caption.68}%
-\contentsline {figure}{\numberline {VII.8}{\ignorespaces Cycle~5 --- séquence chat KodaMate vers n8n}}{145}{figure.caption.69}%
-\contentsline {figure}{\numberline {VII.9}{\ignorespaces Cycle~5 --- machine d'états applicative KodaMate}}{147}{figure.caption.70}%
+\contentsline {figure}{\numberline {VII.1}{\ignorespaces Cycle~5 --- cas d'utilisation de KodaMate (vue utilisateur)}}{137}{figure.caption.60}%
+\contentsline {figure}{\numberline {VII.2}{\ignorespaces Cycle~5 --- place de KodaMate entre l'utilisateur, le Distributeur, la cognition n8n et le corps du robot}}{138}{figure.caption.61}%
+\contentsline {figure}{\numberline {VII.3}{\ignorespaces Cycle~5 --- parcours utilisateur de KodaMate}}{139}{figure.caption.62}%
+\contentsline {figure}{\numberline {VII.4}{\ignorespaces Cycle~5 --- séquence de démarrage et orientation de l'utilisateur}}{141}{figure.caption.64}%
+\contentsline {figure}{\numberline {VII.5}{\ignorespaces Cycle~5 --- connexion et test du serveur Distributeur}}{142}{figure.caption.65}%
+\contentsline {figure}{\numberline {VII.6}{\ignorespaces Cycle~5 --- séquence d'authentification utilisateur}}{143}{figure.caption.66}%
+\contentsline {figure}{\numberline {VII.7}{\ignorespaces Cycle~5 --- configuration initiale : identité du robot (gauche) et voix, langue et état d'allumage (droite)}}{144}{figure.caption.67}%
+\contentsline {figure}{\numberline {VII.8}{\ignorespaces Cycle~5 --- séquence de lecture et mise à jour de la configuration}}{145}{figure.caption.68}%
+\contentsline {figure}{\numberline {VII.9}{\ignorespaces Cycle~5 --- accueil : veille et environnement (gauche), réseau déconnecté (centre), robot actif (droite)}}{146}{figure.caption.69}%
+\contentsline {figure}{\numberline {VII.10}{\ignorespaces Cycle~5 --- séquence de supervision : état KODA, météo et marche/arrêt}}{146}{figure.caption.70}%
+\contentsline {figure}{\numberline {VII.11}{\ignorespaces Cycle~5 --- dialogue texte avec KODA}}{147}{figure.caption.71}%
+\contentsline {figure}{\numberline {VII.12}{\ignorespaces Cycle~5 --- séquence d'envoi d'une question et affichage de la réponse}}{148}{figure.caption.72}%
+\contentsline {figure}{\numberline {VII.13}{\ignorespaces Cycle~5 --- historique des conversations avec filtre et recherche}}{149}{figure.caption.73}%
+\contentsline {figure}{\numberline {VII.14}{\ignorespaces Cycle~5 --- séquence de consultation de l'historique}}{149}{figure.caption.74}%
+\contentsline {figure}{\numberline {VII.15}{\ignorespaces Cycle~5 --- paramètres : profil robot (gauche), Wi-Fi et préférences (centre), informations et déconnexion (droite)}}{150}{figure.caption.75}%
+\contentsline {figure}{\numberline {VII.16}{\ignorespaces Cycle~5 --- séquence de sélection d'un réseau Wi-Fi (simulation locale)}}{151}{figure.caption.76}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {VIII.1}{\ignorespaces Vue synthétique de l'écosystème KODA au terme du projet}}{157}{figure.caption.80}%
 \contentsfinish 

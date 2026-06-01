@@ -1,0 +1,24 @@
+%% Cycle 5 — Séquence démarrage / chargement (portrait)
+sequenceDiagram
+    autonumber
+    actor U as Utilisateur
+    participant App as Application mobile
+    participant BE as Backend Distributeur
+    participant S as Session locale
+
+    U->>App: Lancer KodaMate
+    App-->>U: Écran de chargement
+    App->>S: Lire la session
+    alt Session absente ou invalide
+        App-->>U: Redirection connexion
+    else Session valide
+        App->>BE: Vérifier joignabilité et paramètres
+        alt Backend injoignable
+            App->>S: Effacer la session
+            App-->>U: Redirection connexion
+        else Robot non configuré
+            App-->>U: Redirection configuration
+        else Tout est OK
+            App-->>U: Ouvrir les onglets principaux
+        end
+    end

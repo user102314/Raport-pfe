@@ -1,0 +1,21 @@
+%% Cycle 5 — Séquence Wi-Fi simulé (portrait)
+sequenceDiagram
+    autonumber
+    actor U as Utilisateur
+    participant App as Application mobile
+    participant OS as Système Android
+    participant P as Préférences locales
+
+    U->>App: Ouvrir Paramètres puis Réseaux
+    App->>OS: Demander autorisation localisation
+    OS-->>App: Autorisation accordée
+    App->>OS: Scanner les SSID disponibles
+    alt Scan réussi
+        OS-->>App: Liste des réseaux
+    else Scan impossible
+        App-->>App: Liste de démonstration
+    end
+    App-->>U: Afficher la modale Wi-Fi
+    U->>App: Choisir un réseau
+    App->>P: Enregistrer le SSID
+    App-->>U: Indicateur Wi-Fi vert

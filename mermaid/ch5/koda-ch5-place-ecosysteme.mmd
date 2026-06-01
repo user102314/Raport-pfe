@@ -1,0 +1,37 @@
+%% Chapitre 5 — Place de KodaMate (portrait)
+%% Export → public/ch5-preview/ch5-place-ecosysteme.png
+
+flowchart TB
+    subgraph USER["Utilisateur"]
+        U["Téléphone / tablette"]
+    end
+
+    subgraph APP["KodaMate — Cycle 5"]
+        KM["Interface compagnon<br/>configuration · supervision · dialogue"]
+    end
+
+    subgraph BACK["Cycle 2 — Distributeur"]
+        DS["Backend FastAPI<br/>point d'accès unique"]
+    end
+
+    subgraph COG["Cycle 1 — n8n"]
+        N8N["Raisonnement · mémoire<br/>accompagnement"]
+    end
+
+    subgraph ROB["Cycles 3–4 — Robot"]
+        RPI["Corps KODA<br/>voix · vision · action"]
+    end
+
+    subgraph DB["Mémoire PostgreSQL"]
+        PG["Profils · conversations<br/>paramètres"]
+    end
+
+    U --> KM
+    KM -->|"REST / JSON"| DS
+    DS --> N8N
+    DS --> PG
+    DS -->|"orchestration"| RPI
+    N8N --> PG
+
+    KM -.- L1["Ne contacte jamais n8n ni la base directement"]
+    RPI -.- L2["Dialogue vocal parallèle<br/>même backend"]

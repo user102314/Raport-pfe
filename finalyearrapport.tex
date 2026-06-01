@@ -2322,17 +2322,6 @@ Le chapitre suivant, \textbf{«\,Préparation du Projet\,»}, formalise les beso
 	intervient après le \textbf{Cycle~1} (moteur de réflexion n8n) et précède les cycles
 	embarqué (matériel et logiciel Raspberry Pi) et mobile (KodaMate).
 	
-	\paragraph{Problématique.}
-	KODA vise une relation d'accompagnement personnalisée~: le robot doit \textbf{reconnaître}
-	l'interlocuteur, \textbf{se souvenir} des échanges passés et \textbf{répondre} de
-	manière adaptée, que l'utilisateur s'exprime à voix haute ou via son téléphone. Or
-	ces capacités ne peuvent pas être confiées à un seul composant~: la réflexion
-	conversationnelle, la mémoire durable, la voix et la vision mobilisent des briques
-	techniques distinctes, hébergées à des endroits différents. Sans médiateur, le système
-	manquerait de \textbf{cohérence}~: chaque interaction risquerait d'être isolée, chaque
-	composant devrait connaître tous les autres, et l'évolution du projet deviendrait
-	fragmentée.
-	
 	\paragraph{Rôle global du Distributeur.}
 	Le Distributeur de Services n'est pas qu'un relais technique~: il joue le rôle de
 	\textbf{pivot fonctionnel} de KODA. Théoriquement, il assure trois fonctions
@@ -2646,7 +2635,7 @@ Le chapitre suivant, \textbf{«\,Préparation du Projet\,»}, formalise les beso
 	décrit \textbf{concrètement} chaque flux~: protocoles, séquences et rôle dans
 	l'expérience utilisateur (vocale ou applicative).
 	
-	\subsection{Interaction avec le système embarqué (robot)}
+	\subsection{Service dédié vers le système embarqué (robot)}
 	\label{sec:ch4-robot-interaction}
 	
 	L'interface avec le \textbf{robot physique} (Raspberry Pi et microcontrôleurs) repose
@@ -2875,7 +2864,7 @@ Le chapitre suivant, \textbf{«\,Préparation du Projet\,»}, formalise les beso
 		sur le serveur de déploiement.
 	\end{tcolorbox}
 	
-	\subsection{Interaction avec l'application mobile KodaMate (REST / JSON)}
+	\subsection{Service dédié vers l'application mobile (KodaMate)}
 	\label{sec:ch4-mobile-interaction}
 	
 	L'application \textbf{KodaMate} (.NET MAUI~8, Cycle~5) constitue l'interface
@@ -2984,7 +2973,7 @@ Le chapitre suivant, \textbf{«\,Préparation du Projet\,»}, formalise les beso
 		\kodafigure[0.90\textwidth]{public/exucution.png}{Exécution de quelques endpoints (tests manuels)}
 	}{}
 	
-	\subsection{Persistance et modèle de données (PostgreSQL / Supabase)}
+	\subsection{Service dédié vers la base de données (PostgreSQL / Supabase)}
 	
 	La couche de persistance repose sur \textbf{PostgreSQL} hébergé sur
 	\textbf{Supabase} (interface d'administration, SQL, gestion des accès).
@@ -3016,7 +3005,7 @@ Le chapitre suivant, \textbf{«\,Préparation du Projet\,»}, formalise les beso
 \noindent Le détail des relations entre tables est donné par la
 figure~\ref{fig:ch4-classes-schema} (§~\ref{sec:ch4-modelisation}).
 	
-	\subsection{Délégation du raisonnement au workflow n8n}
+	\subsection{Service dédié vers le workflow n8n (Cycle~1)}
 	
 	Le moteur de workflow \textbf{n8n} (Cycle~1) joue le rôle d'\textbf{orchestrateur
 	cognitif}~: il reçoit une question enrichie, applique la logique de traitement et
@@ -4804,380 +4793,434 @@ python -m app.main
 	\chapter{Cycle 5 : Application Mobile Cross-Plateforme KodaMate}
 	\chaptermark{Cycle 5 --- KodaMate}
 	
-	%------------------------------------------------------------------
-	\section{Introduction et objectif du cycle}
-	%------------------------------------------------------------------
-	
-	Après la mise en place du backend, du workflow intelligent, de la mécanique du
-	robot et du logiciel embarqué Raspberry Pi, le Cycle~5 se concentre sur
-	l'interface compagnon utilisée par l'utilisateur final. Cette application,
-	nommée \textbf{KodaMate}, sert de point d'entrée mobile et desktop pour
-	configurer, superviser et commander KODA.
-	
-	Le code actuel de KodaMate se trouve dans le projet
-	\texttt{KodaMate/KodaMate}. Il s'agit d'une application \textbf{.NET MAUI 8}
-	développée en C\# et XAML, organisée selon le modèle \textbf{MVVM}. Elle cible
-	Android, iOS, macOS Catalyst et Windows à partir d'un projet unique. Le cycle
-	documenté ici décrit donc l'état réel de l'application : authentification
-	auprès du backend Distributeur, première configuration du robot, tableau de
-	bord, chat avec KODA, historique, paramètres, Wi-Fi simulé et gestion de
-	session locale.
-	
-	\begin{tcolorbox}[colback=blue!5!white, colframe=blue!60!black,
-		title=\textbf{Objectif du Cycle 5}]
-		Concevoir et intégrer une application cross-plateforme capable de relier
-		l'utilisateur à l'écosystème KODA sans dupliquer la logique du backend ni du
-		Raspberry Pi. KodaMate doit offrir une interface simple pour la connexion,
-		la configuration, le contrôle, la conversation et la supervision du robot.
-	\end{tcolorbox}
-	
-	%------------------------------------------------------------------
-	\section{Choix technologique et périmètre}
-	%------------------------------------------------------------------
-	
-	Le choix de \textbf{.NET MAUI} répond à un besoin central du projet : maintenir
-	une seule base de code pour plusieurs plateformes. Les écrans sont décrits en
-	XAML, la logique d'interface est portée par des ViewModels C\#, et les services
-	sont injectés par le conteneur de dépendances configuré dans
-	\texttt{MauiProgram.cs}.
-	
-	Le fichier projet \texttt{KodaMate.csproj} active le mode MAUI et déclare les
-	cibles suivantes : \texttt{net8.0-android}, \texttt{net8.0-ios},
-	\texttt{net8.0-maccatalyst} et, sur Windows,
-	\texttt{net8.0-windows10.0.19041.0}. Cette approche rend l'application
-	testable sur poste de développement tout en conservant la possibilité d'un
-	déploiement mobile.
-	
-	\begin{table}[H]
-		\centering
-		\caption{Périmètre fonctionnel de KodaMate}
-		\label{tab:ch5-perimetre}
-		\renewcommand{\arraystretch}{1.25}
-		\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.4cm}|>{\raggedright\arraybackslash}X|}
-			\hline
-			\textbf{Fonction} & \textbf{Rôle dans le Cycle 5} \\
-			\hline
-			Connexion & Authentifier l'utilisateur sur \texttt{/api/auth/login} et stocker la session locale. \\
-			\hline
-			Configuration robot & Lire et modifier les paramètres du robot via \texttt{/api/settings}. \\
-			\hline
-			Accueil & Afficher l'état de KODA, la météo, le Wi-Fi et le bouton marche/arrêt. \\
-			\hline
-			Chat & Envoyer une question au backend sur \texttt{/api/trigger-n8n} et afficher la réponse. \\
-			\hline
-			Historique & Charger, filtrer et rechercher les conversations stockées côté backend. \\
-			\hline
-			Paramètres & Modifier les informations du robot, gérer le Wi-Fi simulé et se déconnecter. \\
-			\hline
-			Notifications & Présenter des notifications de démonstration via le service mock actuel. \\
-			\hline
-		\end{tabularx}
-	\end{table}
-	
-	%------------------------------------------------------------------
-	\section{Architecture logicielle globale}
-	%------------------------------------------------------------------
-	
-	KodaMate n'essaie pas de piloter directement le Raspberry Pi. L'application
-	communique avec le \textbf{backend Distributeur FastAPI} en HTTP REST. Ce choix
-	garde une séparation claire : le mobile gère l'expérience utilisateur, le
-	backend centralise les données et l'orchestration, et le Raspberry Pi reste le
-	corps opérationnel du robot.
-	
-	Les principales dépendances externes sont :
-	\begin{itemize}
-		\item le backend FastAPI, utilisé pour l'authentification, les paramètres,
-		l'état marche/arrêt, le chat, les notes et les conversations ;
-		\item le workflow n8n, appelé indirectement par le backend pour produire les
-		réponses du chat ;
-		\item l'API Open-Meteo, utilisée par \texttt{WeatherService} pour afficher la
-		météo d'Alger ;
-		\item les API de plateforme MAUI, notamment \texttt{Preferences},
-		\texttt{MediaPicker}, le retour haptique et, sur Android, le scan Wi-Fi.
-	\end{itemize}
-	
-	\IfFileExists{public/ch5-maui-cross-platform-stack.png}{%
-		\begin{figure}[htbp]
-			\centering
-			\includegraphics[width=0.95\textwidth]{public/ch5-maui-cross-platform-stack.png}
-			\caption{Cycle~5 --- pile cross-plateforme de KodaMate}
-			\label{fig:ch5-maui-stack}
-		\end{figure}
-	}{%
-		\IfFileExists{public/koda-cycle5-global-architecture.png}{%
-			\begin{figure}[htbp]
-				\centering
-				\includegraphics[width=0.98\textwidth]{public/koda-cycle5-global-architecture.png}
-				\caption{Cycle~5 --- architecture globale de KodaMate}
-				\label{fig:ch5-maui-stack}
-			\end{figure}
-		}{}
+	% Figures Cycle~5 : captures compactes, diagrammes lisibles sans saturer la page A4
+	\newcommand{\ChFiveCapture}[1]{%
+		\includegraphics[width=0.34\textwidth,keepaspectratio]{#1}%
+	}
+	\newcommand{\ChFiveCapturePair}[2]{%
+		\begin{minipage}[t]{0.48\textwidth}\centering
+			\includegraphics[width=0.92\linewidth,keepaspectratio]{#1}%
+		\end{minipage}\hfill
+		\begin{minipage}[t]{0.48\textwidth}\centering
+			\includegraphics[width=0.92\linewidth,keepaspectratio]{#2}%
+		\end{minipage}%
+	}
+	\newcommand{\ChFiveCaptureTrio}[3]{%
+		\begin{minipage}[t]{0.31\textwidth}\centering
+			\includegraphics[width=\linewidth,keepaspectratio]{#1}%
+		\end{minipage}\hfill
+		\begin{minipage}[t]{0.31\textwidth}\centering
+			\includegraphics[width=\linewidth,keepaspectratio]{#2}%
+		\end{minipage}\hfill
+		\begin{minipage}[t]{0.31\textwidth}\centering
+			\includegraphics[width=\linewidth,keepaspectratio]{#3}%
+		\end{minipage}%
+	}
+	% Diagrammes : occuper tout l'espace utile de la page (largeur + hauteur max, sans déformation)
+	\newcommand{\ChFiveDiagram}[1]{%
+		\includegraphics[width=\linewidth,height=0.72\textheight,keepaspectratio]{#1}%
 	}
 	
 	%------------------------------------------------------------------
-	\section{Architecture du code et modèle MVVM}
+	\section{Introduction : pourquoi une application compagnon ?}
 	%------------------------------------------------------------------
 	
-	Le projet suit une séparation classique \textbf{Views / ViewModels / Services /
-	Models}. Les pages XAML décrivent les écrans et les bindings. Les ViewModels
-	exposent les propriétés observables et les commandes. Les services encapsulent
-	les accès réseau, la session locale, la météo, la navigation et les fonctions
-	dépendantes de la plateforme.
+	KODA a été conçu comme un \textbf{compagnon de vie} : présence, dialogue,
+	mémoire et personnalisation (chapitre~I). Sur le plan matériel et cognitif, les
+	cycles précédents ont donné au robot une voix, un corps et une capacité de
+	réflexion. Il reste pourtant une attente essentielle côté humain : pouvoir
+	\textbf{habiter la relation} avec son compagnon au-delà du salon --- le
+	configurer, le suivre, lui écrire, retrouver ce qui a été dit, même lorsque
+	l'on n'est pas face au robot.
+	
+	C'est le \textbf{besoin} que répond \textbf{KodaMate}. L'application n'est pas
+	le « cerveau » de KODA : elle est le \textbf{prolongement relationnel} de
+	l'écosystème, accessible depuis un téléphone ou un ordinateur. Elle permet à
+	l'utilisateur de rester acteur de la vie de son compagnon : lui donner une
+	identité, vérifier qu'il est disponible, échanger par écrit lorsque la voix
+	n'est pas adaptée, et consulter la mémoire des conversations comme on relirait
+	un carnet de bord partagé.
+	
+	\textbf{Rôle de KodaMate} dans le projet :
+	\begin{itemize}
+		\item \textbf{Continuité :} maintenir le lien utilisateur--compagnon entre
+		deux présences physiques du robot ;
+		\item \textbf{Personnalisation :} traduire l'intention « mon KODA à moi » en
+		paramètres concrets (nom, langue, caractère) ;
+		\item \textbf{Supervision bienveillante :} savoir si le compagnon est actif ou
+		au repos, sans confondre affichage local et réalité du système ;
+		\item \textbf{Dialogue écrit :} offrir un canal complémentaire à la parole,
+		aligné sur la même mémoire que le dialogue vocal ;
+		\item \textbf{Confiance d'accès :} n'ouvrir les fonctions sensibles qu'après
+		identification de l'utilisateur.
+	\end{itemize}
+	
+	Ces besoins reprennent explicitement ceux formulés au chapitre~II
+	(\emph{pilotage à distance}, \emph{dialogue par message}, \emph{personnalisation}).
+	KodaMate en est la réponse concrète du Cycle~5.
+	
+	\begin{tcolorbox}[colback=blue!5!white, colframe=blue!60!black,
+		title=\textbf{Objectif du Cycle 5}]
+		Offrir une expérience mobile et desktop simple, continue et sécurisée, pour
+		configurer, superviser et converser avec KODA --- sans remplacer le robot ni
+		dupliquer son intelligence, mais en prolongeant la relation déjà construite
+		dans les cycles précédents.
+	\end{tcolorbox}
+	
+	La figure~\ref{fig:ch5-cas-utilisation} résume les capacités attendues du
+	point de vue de l'utilisateur ; la plupart supposent une authentification
+	préalable, ce qui traduit l'exigence de confiance énoncée ci-dessus.
+	
+	\begin{figure}[H]
+		\centering
+		\ChFiveDiagram{public/ch5-cas-utilisation.png}
+		\caption{Cycle~5 --- cas d'utilisation de KodaMate (vue utilisateur)}
+		\label{fig:ch5-cas-utilisation}
+	\end{figure}
+	
+	%------------------------------------------------------------------
+	\section{Place de KodaMate dans l'écosystème}
+	%------------------------------------------------------------------
+	
+	Dans la vision globale du projet, KodaMate occupe la place du \textbf{interlocuteur
+	à distance} : l'utilisateur exprime une intention (lire l'état, modifier un
+	réglage, poser une question), et le système central --- déjà présenté au
+	chapitre~IV --- se charge de la réaliser en s'appuyant sur la mémoire et le
+	raisonnement du chapitre~III. Le robot physique reste le lieu de la présence ;
+	l'application reste le lieu du \textbf{pilotage et du suivi}.
+	
+	\begin{figure}[H]
+		\centering
+		\ChFiveDiagram{public/ch5-place-ecosysteme.png}
+		\caption{Cycle~5 --- place de KodaMate entre l'utilisateur, le Distributeur,
+			la cognition n8n et le corps du robot}
+		\label{fig:ch5-place-ecosysteme}
+	\end{figure}
+	
+	Cette répartition évite de fragmenter la relation : un même profil, une même
+	histoire de conversations, que l'échange soit oral sur le robot ou écrit depuis
+	le téléphone.
+	
+	%------------------------------------------------------------------
+	\section{Parcours et principes d'expérience}
+	%------------------------------------------------------------------
+	
+	Avant d'aborder chaque écran, il est utile de décrire le \textbf{parcours
+	vécu} par l'utilisateur. Celui-ci commence par une phase d'entrée (connexion,
+	éventuelle première configuration), puis bascule vers un usage quotidien en
+	quatre espaces : accueil, dialogue, historique et paramètres
+	(figure~\ref{fig:ch5-parcours-interfaces}).
+	
+	\begin{figure}[H]
+		\centering
+		\ChFiveDiagram{public/ch5-parcours-interfaces.png}
+		\caption{Cycle~5 --- parcours utilisateur de KodaMate}
+		\label{fig:ch5-parcours-interfaces}
+	\end{figure}
 	
 	\begin{table}[H]
 		\centering
-		\caption{Organisation du code KodaMate}
-		\label{tab:ch5-code-architecture}
+		\caption{Interfaces KodaMate et rôles utilisateur}
+		\label{tab:ch5-perimetre}
 		\renewcommand{\arraystretch}{1.25}
-		\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{4cm}|>{\raggedright\arraybackslash}X|}
+		\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.6cm}|>{\raggedright\arraybackslash}X|}
 			\hline
-			\textbf{Élément} & \textbf{Responsabilité} \\
+			\textbf{Interface} & \textbf{Rôle pour l'utilisateur} \\
 			\hline
-			\texttt{App.xaml.cs} & Bootstrap applicatif, page de chargement, validation de session et choix de la page initiale. \\
+			Chargement & Accueillir l'utilisateur et orienter vers la bonne étape (connexion, configuration ou usage). \\
 			\hline
-			\texttt{AppShell.xaml} & Navigation par onglets : Home, Chat, Historique, Settings et routes cachées. \\
+			Connexion & Lier le compte utilisateur au Distributeur et mémoriser la session. \\
 			\hline
-			\texttt{Views/} & Écrans XAML liés aux ViewModels par data binding. \\
+			Configuration initiale & Personnaliser KODA (identité, langue, caractère) avant le premier usage. \\
 			\hline
-			\texttt{ViewModels/} & Logique de présentation, commandes utilisateur et états visibles. \\
+			Accueil & Superviser l'état du robot, la météo locale et la commande marche/arrêt. \\
 			\hline
-			\texttt{Services/} & Communication REST, session, météo, Wi-Fi, navigation et services mock. \\
+			Chat & Dialoguer par texte avec KODA, sur le même fond mémoriel que la voix. \\
 			\hline
-			\texttt{Models/} & Objets de transfert : login, chat, historique, météo, notes, notifications. \\
+			Historique & Retrouver et filtrer les conversations passées. \\
 			\hline
-			\texttt{Platforms/Android/} & Manifeste Android, permissions réseau, Wi-Fi, localisation, vibration et trafic HTTP clair en développement. \\
+			Paramètres & Ajuster le profil, le réseau (simulation Wi-Fi) et quitter la session. \\
 			\hline
 		\end{tabularx}
 	\end{table}
 	
-	Le conteneur de dépendances est configuré dans \texttt{MauiProgram.cs}. Les
-	services partagés comme \texttt{SessionService}, \texttt{DistributeurApiService},
-	\texttt{WeatherService} et \texttt{NavigationService} sont enregistrés puis
-	injectés dans les ViewModels. Cette injection limite le couplage et facilite le
-	remplacement futur d'un service mock par une implémentation réelle.
+	Chaque onglet de la phase quotidienne recharge ses informations lorsqu'il
+	redevient visible, afin de refléter l'état réel du compagnon sans effort
+	supplémentaire de l'utilisateur.
 	
-	\IfFileExists{public/koda-cycle5-classes-mvvm.png}{%
-		\begin{figure}[htbp]
+	%------------------------------------------------------------------
+	\section{Les interfaces utilisateur}
+	%------------------------------------------------------------------
+	
+	Cette section décrit chaque écran selon le même fil : \emph{rôle},
+	\emph{fonctionnement}, puis \emph{illustration} (capture d'écran lorsque le
+	fichier est disponible dans \texttt{public/}).
+	
+	%------------------------------------------------------------------
+	\subsection{Interface de chargement}
+	%------------------------------------------------------------------
+	
+	\textbf{Rôle.} C'est la première impression de KodaMate : un écran sobre avec
+	le logo KODA, qui laisse le temps de vérifier si l'utilisateur peut entrer
+	directement dans l'application ou doit se reconnecter.
+	
+	\textbf{Fonctionnement.} Au lancement, l'application contrôle la session
+	enregistrée localement, teste la disponibilité du serveur, puis interroge les
+	paramètres du robot. Si la chaîne de vérification échoue, la session est
+	effacée et l'utilisateur est renvoyé vers la connexion ; si le robot n'a
+	jamais été configuré, vers l'écran de configuration ; sinon, vers les onglets
+	principaux. L'adresse du serveur peut être saisie ou mémorisée ; en
+	développement sur réseau local, elle est normalisée automatiquement (port,
+	émulateur Android).
+	
+	\begin{figure}[H]
+		\centering
+		\ChFiveDiagram{public/ch5-seq-bootstrap.png}
+		\caption{Cycle~5 --- séquence de démarrage et orientation de l'utilisateur}
+		\label{fig:ch5-seq-bootstrap}
+	\end{figure}
+	
+	\IfFileExists{public/ch5-ecran-chargement.png}{%
+		\begin{figure}[H]
 			\centering
-			\includegraphics[width=0.98\textwidth]{public/koda-cycle5-classes-mvvm.png}
-			\caption{Cycle~5 --- classes principales MVVM et services}
-			\label{fig:ch5-classes-mvvm}
+			\ChFiveCapture{public/ch5-ecran-chargement.png}
+			\caption{Cycle~5 --- interface de chargement KodaMate}
+			\label{fig:ch5-ecran-chargement}
 		\end{figure}
 	}{}
 	
 	%------------------------------------------------------------------
-	\section{Configuration, lancement et session}
+	\subsection{Interface de connexion}
 	%------------------------------------------------------------------
 	
-	Au démarrage, l'application affiche une page de chargement sombre avec le logo
-	KODA, puis exécute \texttt{SessionBootstrap.ValidateStoredSessionAsync}. Cette
-	méthode vérifie d'abord la session locale, teste la joignabilité du backend, puis
-	lit \texttt{/api/settings}. Si une étape échoue, la session est supprimée et
-	l'utilisateur revient vers la page de connexion.
+	\textbf{Rôle.} Établir le lien de confiance entre l'utilisateur et le
+	Distributeur : sans connexion valide, aucune autre fonction n'est accessible.
 	
-	L'URL du backend est centralisée dans \texttt{AppConfig}. Elle peut provenir
-	d'une préférence locale \texttt{km\_api\_base\_url} ou d'une valeur par défaut
-	selon la plateforme. Sur Android, le code distingue le cas émulateur
-	(\texttt{10.0.2.2}) du téléphone physique sur le réseau local. Le service
-	\texttt{ApiBaseUrlNormalizer} corrige aussi les URL LAN de développement pour
-	ajouter le port \texttt{:8000} lorsque l'utilisateur saisit une adresse privée
-	sans port.
+	\textbf{Fonctionnement.} L'utilisateur saisit l'adresse du Distributeur sur le
+	réseau local (IP du poste de développement), peut \emph{tester le serveur}
+	avant de se connecter, puis s'authentifie par email et mot de passe. En cas
+	d'échec réseau, un message explicite guide la vérification (backend actif,
+	même Wi-Fi, adresse IP). Après connexion réussie, l'application mémorise les
+	identifiants nécessaires aux appels suivants.
 	
-	\IfFileExists{public/koda-cycle5-navigation-flow.png}{%
-		\begin{figure}[htbp]
-			\centering
-			\includegraphics[width=0.92\textwidth]{public/koda-cycle5-navigation-flow.png}
-			\caption{Cycle~5 --- navigation et bootstrap de KodaMate}
-			\label{fig:ch5-navigation-flow}
-		\end{figure}
-	}{}
+	\begin{figure}[H]
+		\centering
+		\ChFiveCapture{public/ch5-ecran-login.png}
+		\caption{Cycle~5 --- connexion et test du serveur Distributeur}
+		\label{fig:ch5-ecran-login}
+	\end{figure}
 	
-	Les données persistées localement restent volontairement limitées : état de
-	connexion, email, identifiant produit, identifiant KODA, indicateur de
-	configuration robot, URL backend et SSID Wi-Fi simulé. La suppression de session
-	retire aussi le SSID simulé afin de revenir à un état cohérent après
-	déconnexion.
+	\begin{figure}[H]
+		\centering
+		\ChFiveDiagram{public/ch5-seq-auth.png}
+		\caption{Cycle~5 --- séquence d'authentification utilisateur}
+		\label{fig:ch5-seq-auth}
+	\end{figure}
 	
 	%------------------------------------------------------------------
-	\section{Cas d'utilisation et parcours utilisateur}
+	\subsection{Interface de configuration du robot}
 	%------------------------------------------------------------------
 	
-	Le parcours utilisateur est organisé autour de deux phases : une phase
-	d'entrée, composée de la connexion et de la première configuration, puis une
-	phase d'usage quotidien portée par \texttt{AppShell}. Cette dernière donne accès
-	aux onglets \textbf{Home}, \textbf{Chat}, \textbf{Historique} et
-	\textbf{Settings}.
+	\textbf{Rôle.} Transformer un compte technique en \emph{compagnon nommé} :
+	nom, langue, caractère, date de naissance symbolique, etc. Cette étape
+	matérialise la personnalisation évoquée au Cycle~2 et prépare le dialogue n8n.
 	
-	\IfFileExists{public/koda-cycle5-use-cases.png}{%
-		\begin{figure}[htbp]
-			\centering
-			\includegraphics[width=0.98\textwidth,height=0.78\textheight,keepaspectratio]{public/koda-cycle5-use-cases.png}
-			\caption{Cycle~5 --- diagramme de cas d'utilisation KodaMate}
-			\label{fig:ch5-use-cases}
-		\end{figure}
-	}{}
+	\textbf{Fonctionnement.} L'écran charge les paramètres existants depuis le
+	backend, permet de les modifier, puis enregistre l'ensemble en une seule
+	sauvegarde. Une fois validée, l'application marque le robot comme configuré et
+	autorise l'accès aux onglets quotidiens. Les mêmes champs restent modifiables
+	ultérieurement depuis l'écran Paramètres.
 	
-	Le shell déclenche \texttt{OnAppearingAsync} sur le ViewModel actif lorsque
-	l'utilisateur change d'onglet. Ainsi, l'accueil rafraîchit l'état du robot et la
-	météo, le chat met à jour son indicateur Wi-Fi, l'historique recharge les
-	conversations, et les paramètres relisent la configuration courante.
+	\begin{figure}[H]
+		\centering
+		\ChFiveCapturePair{public/ch5-ecran-setup.png}{public/ch5-ecran-setup-suite.png}
+		\caption{Cycle~5 --- configuration initiale : identité du robot (gauche) et
+			voix, langue et état d'allumage (droite)}
+		\label{fig:ch5-ecran-setup}
+	\end{figure}
 	
-	%------------------------------------------------------------------
-	\section{Connexion et première configuration du robot}
-	%------------------------------------------------------------------
-	
-	L'écran de connexion est piloté par \texttt{LoginViewModel}. L'utilisateur peut
-	saisir l'URL du serveur, tester sa joignabilité, puis envoyer ses identifiants.
-	La connexion appelle \texttt{BackendReachability.PingAsync} avant
-	\texttt{DistributeurApiService.LoginAsync}. En cas de succès, la réponse
-	\texttt{AuthLoginResponse} fournit l'email, l'\texttt{idProduit} et
-	l'\texttt{idKoda}, qui sont stockés dans \texttt{SessionService}.
-	
-	\IfFileExists{public/koda-cycle5-login-sequence.png}{%
-		\begin{figure}[htbp]
-			\centering
-			\includegraphics[width=0.98\textwidth]{public/koda-cycle5-login-sequence.png}
-			\caption{Cycle~5 --- séquence de connexion et création de session}
-			\label{fig:ch5-login-sequence}
-		\end{figure}
-	}{}
-	
-	Si le robot n'est pas encore marqué comme configuré, l'application affiche
-	\texttt{RobotSetupPage}. Cette page lit les paramètres existants avec
-	\texttt{GET /api/settings}, puis sauvegarde le nom du robot, le sexe, la date,
-	le mot de passe, le caractère, la langue et l'état marche/arrêt via
-	\texttt{PUT /api/settings}. Une fois la sauvegarde réussie,
-	\texttt{SessionService.SetRobotConfigured(true)} permet d'ouvrir l'application
-	principale.
-	
-	\IfFileExists{public/koda-cycle5-settings-sequence.png}{%
-		\begin{figure}[htbp]
-			\centering
-			\includegraphics[width=0.98\textwidth]{public/koda-cycle5-settings-sequence.png}
-			\caption{Cycle~5 --- séquence de configuration et paramètres robot}
-			\label{fig:ch5-settings-sequence}
-		\end{figure}
-	}{}
+	\begin{figure}[H]
+		\centering
+		\ChFiveDiagram{public/ch5-seq-configuration.png}
+		\caption{Cycle~5 --- séquence de lecture et mise à jour de la configuration}
+		\label{fig:ch5-seq-configuration}
+	\end{figure}
 	
 	%------------------------------------------------------------------
-	\section{Tableau de bord Home}
+	\subsection{Interface d'accueil (Home)}
 	%------------------------------------------------------------------
 	
-	L'écran \textbf{Home} représente le poste de supervision rapide. Il affiche le
-	nom du robot, la ville, la météo, l'état de connexion, la vitesse du vent, la
-	température, l'humidité, l'heure du dernier rafraîchissement et un bouton
-	central marche/arrêt. Le ViewModel associé, \texttt{HomeViewModel}, combine deux
-	sources de données :
+	\textbf{Rôle.} Constituer le \textbf{tableau de bord} du compagnon : en un
+	coup d'œil, l'utilisateur voit si KODA est joignable, dans quel état il se
+	trouve, et peut agir sur l'alimentation logique (marche/arrêt). La météo
+	d'Alger apporte un contexte ambiental léger, distinct du cœur métier mais utile
+	pour l'expérience d'accueil.
+	
+	\textbf{Fonctionnement.} L'écran combine deux sources : le Distributeur pour
+	l'état réel du robot (lecture des paramètres, commandes d'allumage/extinction
+	confirmées par relecture serveur) et l'API Open-Meteo pour la météo. En cas
+	d'indisponibilité réseau, l'interface passe en mode hors ligne plutôt que
+	d'afficher un état fictif. Le rafraîchissement intervient à chaque retour sur
+	l'onglet.
+	
+	\begin{figure}[H]
+		\centering
+		\ChFiveCaptureTrio{public/ch5-ecran-home.png}{public/ch5-ecran-home-deconnecte.png}{public/ch5-ecran-home-actif.png}
+		\caption{Cycle~5 --- accueil : veille et environnement (gauche), réseau
+			déconnecté (centre), robot actif (droite)}
+		\label{fig:ch5-ecran-home}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\ChFiveDiagram{public/ch5-seq-home.png}
+		\caption{Cycle~5 --- séquence de supervision : état KODA, météo et marche/arrêt}
+		\label{fig:ch5-seq-home}
+	\end{figure}
+	
+	%------------------------------------------------------------------
+	\subsection{Interface de dialogue (Chat)}
+	%------------------------------------------------------------------
+	
+	\textbf{Rôle.} Offrir un canal textuel avec KODA, complémentaire de la voix.
+	L'utilisateur formule une question ; la réponse s'appuie sur le même
+	raisonnement n8n que le Cycle~1, orchestré par le Distributeur.
+	
+	\textbf{Fonctionnement.} Le message de l'utilisateur apparaît immédiatement
+	dans la conversation ; l'application transmet la question au système central,
+	qui déclenche l'analyse et la réflexion (chapitre~III), enregistre l'échange
+	en mémoire, puis renvoie une réponse formulée pour l'affichage. La capture
+	photo prépare l'envoi multimodal ; l'intégration complète avec la
+	reconnaissance faciale reste une évolution prévue.
+	
+	\begin{figure}[H]
+		\centering
+		\ChFiveCapture{public/ch5-ecran-chat.png}
+		\caption{Cycle~5 --- dialogue texte avec KODA}
+		\label{fig:ch5-ecran-chat}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\ChFiveDiagram{public/ch5-seq-chat.png}
+		\caption{Cycle~5 --- séquence d'envoi d'une question et affichage de la réponse}
+		\label{fig:ch5-seq-chat}
+	\end{figure}
+	
+	%------------------------------------------------------------------
+	\subsection{Interface d'historique}
+	%------------------------------------------------------------------
+	
+	\textbf{Rôle.} Donner de la \textbf{continuité mémorielle} à l'usage : retrouver
+	ce qui a été dit, filtrer par période, rechercher un mot-clé. Cette fonction
+	s'aligne sur la mémoire PostgreSQL alimentée par le Cycle~1 et exposée par le
+	Distributeur.
+	
+	\textbf{Fonctionnement.} L'écran charge les dernières conversations depuis le
+	backend, propose des filtres temporels (\textit{aujourd'hui}, \textit{hier},
+	\textit{cette semaine}, date au choix), puis affine localement par recherche
+	textuelle sur la question, la réponse et le type d'échange. Les résultats sont
+	regroupés par jour pour faciliter la lecture.
+	
+	\begin{figure}[H]
+		\centering
+		\ChFiveCapture{public/ch5-ecran-historique.png}
+		\caption{Cycle~5 --- historique des conversations avec filtre et recherche}
+		\label{fig:ch5-ecran-historique}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\ChFiveDiagram{public/ch5-seq-historique.png}
+		\caption{Cycle~5 --- séquence de consultation de l'historique}
+		\label{fig:ch5-seq-historique}
+	\end{figure}
+	
+	%------------------------------------------------------------------
+	\subsection{Interface de paramètres}
+	%------------------------------------------------------------------
+	
+	\textbf{Rôle.} Centraliser les réglages durables : profil du robot, préférences
+	d'interface, réseau Wi-Fi (simulation ou scan Android), notifications de
+	démonstration et déconnexion.
+	
+	\textbf{Fonctionnement.} Les champs liés au robot sont synchronisés avec le
+	backend comme lors de la configuration initiale. Le choix d'un SSID Wi-Fi est
+	enregistré localement pour l'indicateur visuel ; sur Android, un scan peut
+	lister les réseaux visibles après autorisation de localisation. Certaines
+	options (voix, notifications avancées) sont visibles dans l'interface mais
+	encore partiellement déconnectées du backend. La déconnexion efface la session
+	et le SSID mémorisé pour repartir d'un état neutre.
+	
+	\begin{figure}[H]
+		\centering
+		\ChFiveCaptureTrio{public/ch5-ecran-settings-profil.png}{public/ch5-ecran-settings-wifi.png}{public/ch5-ecran-settings-compte.png}
+		\caption{Cycle~5 --- paramètres : profil robot (gauche), Wi-Fi et préférences
+			(centre), informations et déconnexion (droite)}
+		\label{fig:ch5-ecran-settings}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\ChFiveDiagram{public/ch5-seq-wifi.png}
+		\caption{Cycle~5 --- séquence de sélection d'un réseau Wi-Fi (simulation locale)}
+		\label{fig:ch5-seq-wifi}
+	\end{figure}
+	
+	%------------------------------------------------------------------
+	\section{Organisation technique du projet}
+	%------------------------------------------------------------------
+	
+	Au-delà des écrans, le code respecte une séparation \textbf{Views /
+	ViewModels / Services / Models}. Le bootstrap (\texttt{App.xaml.cs}) choisit la
+	page initiale ; \texttt{AppShell.xaml} porte la navigation par onglets ;
+	\texttt{DistributeurApiService} regroupe les appels REST ; \texttt{SessionService}
+	et les préférences MAUI conservent un minimum local (session, URL serveur,
+	indicateur de configuration, SSID Wi-Fi).
+	
+	\begin{table}[H]
+		\centering
+		\caption{Correspondance services principaux et besoins utilisateur}
+		\label{tab:ch5-code-architecture}
+		\renewcommand{\arraystretch}{1.25}
+		\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{4.2cm}|>{\raggedright\arraybackslash}X|}
+			\hline
+			\textbf{Composant} & \textbf{Usage dans KodaMate} \\
+			\hline
+			\texttt{DistributeurApiService} & Authentification, paramètres, chat, historique, marche/arrêt. \\
+			\hline
+			\texttt{SessionService} & Persistance de la session et du statut « robot configuré ». \\
+			\hline
+			\texttt{WeatherService} & Météo d'accueil via Open-Meteo (Alger). \\
+			\hline
+			\texttt{WifiNetworkService} & Scan ou liste de démonstration des réseaux. \\
+			\hline
+			\texttt{MockFirebaseService} & Données de démonstration pour les notifications. \\
+			\hline
+		\end{tabularx}
+	\end{table}
+	
+	Sur Android, le manifeste autorise réseau, Wi-Fi, localisation et vibration ;
+	le trafic HTTP clair facilite les tests en LAN et devra être remplacé par
+	HTTPS en déploiement public.
+	
+	%------------------------------------------------------------------
+	\section{Fiabilité et session}
+	%------------------------------------------------------------------
+	
+	La robustesse repose sur des règles simples mais strictes :
 	\begin{itemize}
-		\item \texttt{IDistributeurService}, pour obtenir l'état réel de KODA via
-		\texttt{/api/settings} et appeler \texttt{/api/power-on} ou
-		\texttt{/api/power-off} ;
-		\item \texttt{IWeatherService}, pour récupérer la météo actuelle depuis
-		Open-Meteo avec les coordonnées d'Alger.
+		\item aucun accès aux onglets sans session valide vérifiée au démarrage ;
+		\item effacement automatique de la session si le backend ne répond plus ;
+		\item délais d'attente sur les appels HTTP (backend et météo) ;
+		\item messages d'erreur explicites sur chaque écran ;
+		\item confirmation serveur après une commande marche/arrêt ;
+		\item normalisation de l'URL en environnement de développement.
 	\end{itemize}
 	
-	Le bouton de puissance ne se contente pas d'inverser une variable locale. Après
-	l'appel au backend, l'application relit l'état avec
-	\texttt{GetRobotPowerStateAsync} afin d'afficher la valeur confirmée par le
-	serveur. En cas de délai ou d'erreur HTTP, le ViewModel place l'accueil dans un
-	état hors ligne au lieu de supposer que le robot est disponible.
-	
-	\IfFileExists{public/ch5-kodamate-operational-dashboard.png}{%
-		\begin{figure}[htbp]
-			\centering
-			\includegraphics[width=0.9\textwidth]{public/ch5-kodamate-operational-dashboard.png}
-			\caption{Cycle~5 --- tableau de bord opérationnel KodaMate}
-			\label{fig:ch5-dashboard}
-		\end{figure}
-	}{}
-	
-	%------------------------------------------------------------------
-	\section{Chat KODA et historique des conversations}
-	%------------------------------------------------------------------
-	
-	Le module \textbf{Chat} offre à l'utilisateur une interaction textuelle avec
-	KODA. \texttt{ChatViewModel} maintient une collection observable de
-	\texttt{ChatMessage}. Lors de l'envoi, le message utilisateur est ajouté
-	immédiatement à l'interface, puis l'application appelle
-	\texttt{DistributeurApiService.SendToN8nAsync}. Le service envoie un JSON au
-	backend sur \texttt{/api/trigger-n8n}. La réponse peut contenir plusieurs noms
-	de champs possibles, comme \texttt{response}, \texttt{answer}, \texttt{output},
-	\texttt{text}, \texttt{message} ou \texttt{reply}, afin de rester compatible
-	avec les variations de sortie du workflow.
-	
-	\IfFileExists{public/koda-cycle5-chat-sequence.png}{%
-		\begin{figure}[htbp]
-			\centering
-			\includegraphics[width=0.98\textwidth]{public/koda-cycle5-chat-sequence.png}
-			\caption{Cycle~5 --- séquence chat KodaMate vers n8n}
-			\label{fig:ch5-chat-sequence}
-		\end{figure}
-	}{}
-	
-	La fonction photo utilise \texttt{MediaPicker.CapturePhotoAsync}. L'image est
-	affichée localement dans la conversation, puis l'application envoie pour
-	l'instant une description textuelle au backend. Cette implémentation permet de
-	garder l'expérience utilisateur prête côté mobile, tout en laissant l'envoi
-	multimodal réel comme amélioration future.
-	
-	L'écran \textbf{Historique} exploite \texttt{GetAllConversationsAsync}. Il
-	prend en charge les filtres \textit{Tous}, \textit{Aujourd'hui}, \textit{Hier},
-	\textit{Cette semaine} et \textit{Choisir une date}. Le filtrage par texte
-	s'applique ensuite localement sur la question, la réponse et le type de
-	\texttt{/api/conversations/last100} pour conserver un affichage utilisable.
-	
-	%------------------------------------------------------------------
-	\section{Paramètres, Wi-Fi et notifications}
-	%------------------------------------------------------------------
-	
-	L'écran \textbf{Settings} réutilise les mêmes endpoints que la première
-	configuration : \texttt{GET /api/settings} au chargement et
-	\texttt{PUT /api/settings} à la sauvegarde. Il expose aussi des options
-	d'interface comme la voix sélectionnée, l'état des notifications et le suivi
-	santé. Dans l'état actuel du code, ces options sont présentes dans l'interface
-	mais ne sont pas encore toutes persistées côté backend.
-	
-	La gestion Wi-Fi est encapsulée dans \texttt{WifiNetworkService} et
-	\texttt{WifiModalService}. Sur Android, le service demande la permission de
-	localisation nécessaire au scan Wi-Fi, puis lit les SSID disponibles. Sur les
-	autres plateformes, ou si le scan échoue, il retourne une liste de réseaux de
-	démonstration. Le choix d'un SSID est sauvegardé dans
-	\texttt{Preferences} sous la clé \texttt{km\_wifi\_saved\_ssid}. Cette étape
-	est donc une simulation applicative, pas une connexion Wi-Fi système complète.
-	
-	Les notifications et certaines données secondaires utilisent encore
-	\texttt{MockFirebaseService}. Ce service fournit des éléments de démonstration
-	pour stabiliser les écrans avant l'intégration d'une source temps réel.
-	
-	%------------------------------------------------------------------
-	\section{États applicatifs et robustesse}
-	%------------------------------------------------------------------
-	
-	La robustesse de KodaMate repose sur plusieurs mécanismes :
-	\begin{itemize}
-		\item validation de la session au lancement avant d'afficher les onglets ;
-		\item suppression automatique de la session si le backend ne répond plus ;
-		\item timeouts HTTP sur les appels au backend et à Open-Meteo ;
-		\item messages d'erreur explicites dans les ViewModels ;
-		\item normalisation de l'URL serveur pour limiter les erreurs de saisie en
-		développement ;
-		\item indicateur Wi-Fi rouge ou vert selon la présence d'un SSID enregistré.
-	\end{itemize}
-	
-	\IfFileExists{public/koda-cycle5-state-machine.png}{%
-		\begin{figure}[htbp]
-			\centering
-			\includegraphics[width=0.96\textwidth]{public/koda-cycle5-state-machine.png}
-			\caption{Cycle~5 --- machine d'états applicative KodaMate}
-			\label{fig:ch5-state-machine}
-		\end{figure}
-	}{}
-	
-	Sur Android, le manifeste déclare les permissions réseau, Wi-Fi, localisation,
-	Internet et vibration. L'attribut \texttt{usesCleartextTraffic="true"} est
-	cohérent avec les tests locaux sur un backend HTTP en réseau LAN. Pour un
-	déploiement final, cette configuration devra être remplacée par HTTPS et une
-	politique de sécurité plus stricte.
+	Les données locales restent volontairement limitées : elles ne remplacent pas
+	la base PostgreSQL, elles permettent seulement de reprendre l'expérience entre
+	deux ouvertures de l'application.
 	
 	%------------------------------------------------------------------
 	\section{Tests et validation}
@@ -5190,34 +5233,32 @@ python -m app.main
 	
 	\begin{table}[H]
 		\centering
-		\caption{Tests de validation de KodaMate}
+		\caption{Tests de validation par interface}
 		\label{tab:ch5-tests}
 		\renewcommand{\arraystretch}{1.25}
 		\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.3cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}p{3.2cm}|}
 			\hline
-			\textbf{Type de test} & \textbf{Procédure} & \textbf{Critère OK} \\
+			\textbf{Interface} & \textbf{Procédure} & \textbf{Critère OK} \\
 			\hline
-			Compilation & Construire le projet MAUI sur la plateforme disponible & Build sans erreur \\
+			Projet MAUI & Compiler sur la plateforme disponible & Build sans erreur \\
 			\hline
-			URL serveur & Saisir une URL LAN puis lancer le test serveur & Backend détecté ou erreur claire \\
+			Connexion & Tester l'URL LAN puis se connecter & Backend joignable, session créée \\
 			\hline
-			Connexion & Appeler \texttt{/api/auth/login} avec un compte valide & Session créée et page suivante affichée \\
+			Chargement & Redémarrer avec session existante & Orientation correcte (config. ou onglets) \\
 			\hline
-			Bootstrap & Redémarrer l'application avec session existante & Redirection vers RobotSetup ou AppShell \\
+			Configuration & Modifier le profil puis enregistrer & Paramètres visibles après rechargement \\
 			\hline
-			Configuration robot & Modifier les champs puis sauvegarder & \texttt{/api/settings} mis à jour \\
+			Accueil & Ouvrir l'onglet Home & État robot et météo affichés \\
 			\hline
-			Accueil & Rafraîchir l'écran Home & État robot et météo affichés \\
+			Accueil & Action marche/arrêt & État confirmé après rafraîchissement \\
 			\hline
-			Power & Appuyer sur le bouton marche/arrêt & État confirmé par le backend \\
+			Chat & Envoyer un message à KODA & Réponse affichée ou erreur lisible \\
 			\hline
-			Chat & Envoyer une question à KODA & Réponse affichée ou erreur réseau lisible \\
+			Historique & Filtrer et rechercher & Liste cohérente par jour \\
 			\hline
-			Historique & Filtrer par date et rechercher un mot & Liste cohérente et regroupée par jour \\
+			Paramètres & Choisir un SSID Wi-Fi & Indicateur vert, SSID mémorisé \\
 			\hline
-			Wi-Fi & Ouvrir la modale et choisir un SSID & Indicateur vert et SSID enregistré localement \\
-			\hline
-			Déconnexion & Utiliser le bouton logout & Session et SSID supprimés \\
+			Paramètres & Déconnexion & Retour à l'écran de connexion \\
 			\hline
 		\end{tabularx}
 	\end{table}
@@ -5253,27 +5294,276 @@ dotnet build KodaMate/KodaMate/KodaMate.csproj
 	\section{Conclusion}
 	%------------------------------------------------------------------
 	
-	Le Cycle~5 complète l'écosystème KODA par une application compagnon exploitable
-	sur plusieurs plateformes. Grâce à .NET MAUI, KodaMate mutualise les écrans, la
-	navigation, la logique MVVM et les services d'accès au backend dans une seule
-	base de code.
+	Le Cycle~5 achève la boucle utilisateur de l'écosystème KODA : après la
+	cognition (Cycle~1), l'orchestration (Cycle~2) et l'incarnation physique
+	(Cycles~3--4), \textbf{KodaMate} offre une présence numérique quotidienne.
+	Chaque interface répond à un besoin précis --- entrer, configurer, superviser,
+	dialoguer, se souvenir, régler --- sans court-circuiter le Distributeur.
 	
-	L'application assure les fonctions essentielles côté utilisateur : connexion,
-	configuration initiale du robot, supervision de l'état, commande marche/arrêt,
-	dialogue textuel avec KODA, consultation de l'historique et gestion des
-	paramètres. Elle s'intègre au backend Distributeur par HTTP REST et respecte la
-	séparation des responsabilités définie dans les cycles précédents.
+	Structurée par écran et fondée sur une base MAUI unique, l'application traduit
+	en expérience tangible la continuité promise par les chapitres précédents :
+	un même compagnon, une même mémoire, plusieurs modalités d'interaction.
 	
 	\begin{tcolorbox}[colback=blue!5!white, colframe=blue!60!black,
 		title=\textbf{Points clés du Cycle 5}]
 		\begin{itemize}[noitemsep]
-			\item Application \textbf{.NET MAUI 8} cross-plateforme avec architecture MVVM
-			\item Navigation Shell : Home, Chat, Historique, Settings et routes internes
-			\item Communication backend en HTTP REST via \texttt{DistributeurApiService}
-			\item Session et configuration locale gérées par \texttt{Preferences}
-			\item Chat relié au workflow n8n par \texttt{/api/trigger-n8n}
-			\item Météo Open-Meteo, Wi-Fi simulé/scanné et paramètres robot synchronisés
+			\item \textbf{Compagnon utilisateur} : canal mobile/desktop complémentaire de la voix
+			\item \textbf{Sept interfaces} : chargement, connexion, configuration, accueil, chat, historique, paramètres
+			\item \textbf{Passage unique} par le Distributeur ; n8n et PostgreSQL restent centralisés
+			\item \textbf{Supervision et dialogue} : état du robot, marche/arrêt, chat texte, mémoire consultable
+			\item \textbf{Évolutions identifiées} : notifications temps réel, multimodal photo, HTTPS en production
 		\end{itemize}
 	\end{tcolorbox}
+	
+	%==================================================================
+	%  CONCLUSION GÉNÉRALE
+	%==================================================================
+	\chapter{Conclusion générale et synthèse du projet}
+	\chaptermark{Conclusion générale}
+	
+	%------------------------------------------------------------------
+	\section{Du constat initial à la solution réalisée}
+	%------------------------------------------------------------------
+	
+	Ce rapport a documenté la conception et la réalisation de \textbf{KODA}, un
+	compagnon robotique intelligent visant à dépasser les limites des assistants
+	génériques~: absence de personnalité durable, froideur des réponses, dépendance
+	à des clouds fermés et faible intégration entre la voix, le corps du robot et le
+	pilotage utilisateur (chapitre~I).
+	
+	La réponse apportée repose sur une \textbf{architecture distribuée} articulée
+	autour de cinq briques complémentaires, développées selon un \textbf{modèle en
+	spirale} (chapitre~II)~: à chaque tour, une partie du système est précisée,
+	construite, testée et raccordée au reste, jusqu'à former un écosystème cohérent.
+	Le présent chapitre en donne une \textbf{lecture d'ensemble}, pour que le lecteur
+	puisse comprendre, en un seul passage, le rôle de chaque cycle et la manière dont
+	les composants coopèrent.
+	
+	%------------------------------------------------------------------
+	\section{Vue d'ensemble : les cinq cycles et leurs rôles}
+	%------------------------------------------------------------------
+	
+	Le tableau~\ref{tab:conclusion-cycles} résume la contribution de chaque cycle.
+	En dessous, chaque pilier est rappelé dans le langage du besoin utilisateur, puis
+	dans celui de la réalisation technique.
+	
+	\begin{table}[H]
+		\centering
+		\caption{Synthèse des cycles KODA --- besoin couvert et composant principal}
+		\label{tab:conclusion-cycles}
+		\renewcommand{\arraystretch}{1.3}
+		\begin{tabularx}{\textwidth}{|c|>{\raggedright\arraybackslash}p{2.8cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}p{3.4cm}|}
+			\hline
+			\textbf{N°} & \textbf{Cycle} & \textbf{Besoin adressé} & \textbf{Composant} \\
+			\hline
+			0 & Cadre \& préparation (ch.~I--II) & Cadrer le projet, formaliser les exigences et la méthode & Besoins, architecture cible, environnements \\
+			\hline
+			1 & Analyseur et réflexion & Comprendre, mémoriser et prendre l'initiative de parler & Workflows \textbf{n8n} (3 webhooks) \\
+			\hline
+			2 & Distributeur de services & Unifier les accès données, voix, mobile et robot & Backend \textbf{FastAPI} (pivot central) \\
+			\hline
+			3 & Embarqué matériel & Donner un corps mobile, expressif et sensoriel au compagnon & \textbf{Raspberry Pi} + \textbf{Arduino} + capteurs/actionneurs \\
+			\hline
+			4 & Embarqué logiciel & Écouter, parler, afficher, bouger et dialoguer avec le backend & Logiciel \textbf{Python} sur Raspberry Pi \\
+			\hline
+			5 & Application KodaMate & Configurer, superviser et converser à distance & Application \textbf{.NET MAUI} \\
+			\hline
+		\end{tabularx}
+	\end{table}
+	
+	\IfFileExists{public/ch5-place-ecosysteme.png}{%
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width=\linewidth,height=0.72\textheight,keepaspectratio]{public/ch5-place-ecosysteme.png}
+			\caption{Vue synthétique de l'écosystème KODA au terme du projet}
+			\label{fig:conclusion-ecosysteme}
+		\end{figure}
+	}{%
+		\IfFileExists{public/ch2-architecture-systeme.png}{%
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=0.94\textwidth,height=0.28\textheight,keepaspectratio]{public/ch2-architecture-systeme.png}
+				\caption{Architecture multicouche de KODA --- rappel synthétique}
+				\label{fig:conclusion-ecosysteme}
+			\end{figure}
+		}{}}
+	
+	%------------------------------------------------------------------
+	\section{Les cinq piliers du système KODA}
+	%------------------------------------------------------------------
+	
+	\subsection{Le cerveau conversationnel (Cycle~1)}
+	
+	Le \textbf{Cycle~1} répond à la question~: \emph{comment KODA réfléchit-il et se
+	souvient-il ?} Trois workflows n8n structurent la cognition~:
+	\begin{itemize}
+		\item \textbf{Webhook~1}~: traitement des questions en temps réel (classification
+		sémantique, confrontation à l'historique, réponse contextualisée, notes) ;
+		\item \textbf{Webhook~2}~: consolidation mémorielle journalière (synthèses
+		d'accompagnement) ;
+		\item \textbf{Webhook~3}~: spontanéité --- KODA peut \emph{prendre la parole} en
+		s'appuyant sur la mémoire consolidée.
+	\end{itemize}
+	Ce cycle incarne le passage d'un assistant qui \og répond \fg{} à un compagnon qui
+	\og réfléchit \fg{}, en s'appuyant sur PostgreSQL et des services d'IA (OpenRouter,
+	SerpAPI, etc.). Sans lui, le robot n'aurait ni personnalité évolutive ni continuité
+	dans la relation.
+	
+	\subsection{Le système nerveux central (Cycle~2)}
+	
+	Le \textbf{Cycle~2} répond à la question~: \emph{comment tout le monde communique-t-il
+	sans se perdre ?} Le \textbf{Distributeur FastAPI} est le \textbf{seul pivot} entre
+	le robot, l'application mobile, la base de données, n8n et les services cloud
+	(Azure pour la voix et la vision, Supabase/PostgreSQL pour la mémoire). Il expose
+	un catalogue d'endpoints REST et WebSocket, gère l'authentification, la
+	reconnaissance faciale, le pipeline vocal et le déclenchement des workflows.
+	
+	\textbf{À retenir}~: ni le téléphone ni le Raspberry Pi n'appellent n8n
+	directement~; ils passent par le Distributeur, ce qui garantit cohérence des
+	données, sécurité et évolutivité.
+	
+	\subsection{Le corps du compagnon (Cycles~3 et~4)}
+	
+	Les \textbf{Cycles~3 et~4} répondent à la question~: \emph{comment KODA est-il
+	présent physiquement ?}
+	
+	Le \textbf{Cycle~3} a posé la plateforme matérielle~: architecture biprocesseur
+	(Raspberry Pi pour l'intelligence, Arduino pour le temps réel moteur), mobilité,
+	capture audio/vidéo, écran Nextion pour l'expression émotionnelle, alimentation et
+	tests d'intégration mécanique.
+	
+	Le \textbf{Cycle~4} a animé ce corps par un logiciel Python asynchrone~: mot de
+	réveil (Vosk), écoute par détection d'activité vocale, envoi des requêtes au
+	backend, synthèse et lecture audio, commandes de mouvement vers l'Arduino, affichage
+	des émotions sur Nextion, diagnostics matériels et arrêt propre. C'est le cycle qui
+	transforme l'assemblage électronique en \textbf{compagnon interactif sur site}.
+	
+	\subsection{La relation à distance (Cycle~5)}
+	
+	Le \textbf{Cycle~5} répond à la question~: \emph{comment l'utilisateur habite-t-il
+	sa relation avec KODA au quotidien, même loin du robot ?} L'application
+	\textbf{KodaMate} (.NET MAUI) offre sept espaces fonctionnels (chargement,
+	connexion, configuration, accueil, chat, historique, paramètres). Elle prolonge
+	les besoins du chapitre~II --- pilotage à distance, dialogue par message,
+	personnalisation --- sans dupliquer l'intelligence du Cycle~1.
+	
+	%------------------------------------------------------------------
+	\section{Comment lire l'ensemble : un scénario type}
+	%------------------------------------------------------------------
+	
+	Pour \textbf{comprendre le rapport dans sa globalité}, imaginez un utilisateur qui
+	revient chez lui le soir~:
+	\begin{enumerate}
+		\item Sur son téléphone, il ouvre \textbf{KodaMate}, consulte l'\textbf{accueil}
+		(état du robot, météo) et envoie un message dans le \textbf{chat}.
+		\item \textbf{KodaMate} transmet la demande au \textbf{Distributeur}, qui enrichit
+		le contexte depuis \textbf{PostgreSQL} et déclenche le \textbf{workflow n8n}.
+		\item La réponse est enregistrée en mémoire et renvoyée à l'application~; elle
+		sera visible plus tard dans l'\textbf{historique}.
+		\item Sur place, le \textbf{Raspberry Pi} détecte le mot de réveil, capture la
+		voix, obtient la même logique via le backend, fait parler KODA, affiche une
+		émotion sur \textbf{Nextion} et peut actionner les \textbf{moteurs} via
+		\textbf{Arduino}.
+	\end{enumerate}
+	
+	Ce scénario montre que KODA n'est pas une juxtaposition de modules, mais une
+	\textbf{chaîne de présence}~: cognition centralisée, orchestration unique, corps
+	local, lien mobile --- chaque cycle couvre un maillon, aucun ne le remplace.
+	
+	%------------------------------------------------------------------
+	\section{Apports du projet}
+	%------------------------------------------------------------------
+	
+	\begin{tcolorbox}[colback=blue!5!white, colframe=blue!60!black,
+		title=\textbf{Synthèse --- ce qu'il faut retenir du rapport}]
+		\begin{enumerate}[noitemsep]
+			\item \textbf{Problème}~: concevoir un compagnon personnalisé, mémoriel et
+			supervisable, au-delà des assistants génériques.
+			\item \textbf{Méthode}~: développement en spirale, six cycles thématiques,
+			intégration incrémentale et tests à chaque tour.
+			\item \textbf{Cognition (C1)}~: trois webhooks n8n --- réponse, mémoire,
+			proactivité.
+			\item \textbf{Orchestration (C2)}~: Distributeur FastAPI = point d'accès unique
+			(robot, mobile, BDD, n8n, cloud).
+			\item \textbf{Incarnation (C3--C4)}~: matériel biprocesseur + logiciel embarqué
+			vocal et expressif.
+			\item \textbf{Relation utilisateur (C5)}~: KodaMate pour configurer, superviser
+			et dialoguer à distance.
+			\item \textbf{Fil rouge}~: une seule mémoire, une seule personnalité, plusieurs
+			modalités d'interaction (voix, texte, présence physique).
+		\end{enumerate}
+	\end{tcolorbox}
+	
+	Sur le plan \textbf{ingénierie}, le projet démontre la faisabilité d'un système
+	robotique distribué à coût maîtrisé (Raspberry Pi, APIs ouvertes, workflows
+	modifiables) tout en respectant une séparation claire des responsabilités. Sur le
+	plan \textbf{humain}, il explore une relation d'accompagnement où l'utilisateur
+	reste maître de la configuration de son compagnon --- nom, langue, caractère ---
+	et peut suivre son activité sans expertise technique.
+	
+	%------------------------------------------------------------------
+	\section{Limites et enseignements}
+	%------------------------------------------------------------------
+	
+	Comme tout prototype de fin d'études, KODA présente des limites assumées, déjà
+	identifiées dans les chapitres de cycles~:
+	\begin{itemize}
+		\item \textbf{Environnement de démonstration}~: tests souvent réalisés en réseau
+		local (HTTP, adresse IP manuelle dans KodaMate), ce qui diffère d'un déploiement
+		grand public sécurisé (HTTPS, découverte automatique des services).
+		\item \textbf{Maturité mobile}~: certaines fonctions (notifications temps réel,
+		envoi photo vers la reconnaissance faciale) restent partielles ou simulées.
+		\item \textbf{Robustesse embarquée}~: dépendance au backend pour la cognition~;
+		modes dégradés limités en cas de coupure prolongée.
+		\item \textbf{Validation globale}~: le \textbf{Cycle~6} (tests et validation
+		bout-en-bout formalisés) est présent dans la méthodologie du chapitre~II mais
+		reste à renforcer par une campagne de recette utilisateur plus systématique.
+	\end{itemize}
+	
+	Ces limites ne remettent pas en cause la \textbf{cohérence architecturale} du
+	projet~; elles définissent une feuille de route réaliste pour une industrialisation
+	future.
+	
+	%------------------------------------------------------------------
+	\section{Perspectives}
+	%------------------------------------------------------------------
+	
+	Les évolutions prioritaires découlent naturellement de la synthèse ci-dessus~:
+	\begin{itemize}
+		\item \textbf{Production}~: HTTPS, durcissement sécurité (JWT, rate limiting),
+		déploiement conteneurisé du backend et observabilité (métriques, traces n8n).
+		\item \textbf{Expérience utilisateur}~: notifications push depuis le Distributeur
+		vers KodaMate, multimodalité complète (photo $\rightarrow$ identification faciale),
+		parcours de configuration guidé sans saisie d'IP.
+		\item \textbf{Compagnon physique}~: démarrage automatique au boot du Raspberry,
+		télémétrie embarquée, réponses de secours hors ligne.
+		\item \textbf{Cognition}~: affinage des prompts n8n, évaluation qualitative des
+		synthèses mémorielles, tests A/B sur la spontanéité (Webhook~3).
+	\end{itemize}
+	
+	%------------------------------------------------------------------
+	\section{Conclusion finale}
+	%------------------------------------------------------------------
+	
+	Ce rapport de stage a présenté \textbf{KODA} dans sa dimension complète~: une
+	ambition (compagnon de vie intelligent et personnalisé), une méthode (spirale et
+	cycles thématiques), une architecture (n8n, Distributeur, embarqué, mobile,
+	PostgreSQL) et une réalisation incrémentale validée par prototypes, tests et
+	captures d'interface.
+	
+	En relisant les chapitres dans l'ordre --- du cadre général (I) à la préparation
+	(II), puis des Cycles~1 à~5 --- le lecteur suit le cheminement d'une idée à un
+	système opérationnel. \textbf{Le Cycle~1} pense et mémorise~; \textbf{le Cycle~2}
+	orchestre~; \textbf{les Cycles~3 et~4} incarnent~; \textbf{le Cycle~5} relie
+	l'utilisateur à son compagnon au quotidien. Ensemble, ils composent une réponse
+	structurée à la problématique initiale~: offrir un accompagnement plus humain,
+	plus personnel et plus maîtrisé que les assistants du marché, tout en gardant
+	l'utilisateur au centre de la relation avec son robot.
+	
+	Le travail réalisé constitue une \textbf{base solide} pour poursuivre le projet
+	vers une version démontrable en conditions réelles~; les cycles documentés
+	fournissent à la fois une mémoire technique pour l'équipe et une carte lisible
+	pour toute personne souhaitant comprendre, en une lecture, l'ensemble de
+	l'écosystème KODA.
 	
 \end{document}

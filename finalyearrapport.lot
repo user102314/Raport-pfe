@@ -30,7 +30,9 @@
 \contentsline {table}{\numberline {VI.1}{\ignorespaces Expressions logicielles envoyées à l'écran Nextion}}{131}{table.caption.58}%
 \contentsline {table}{\numberline {VI.2}{\ignorespaces Tests de validation du logiciel Raspberry Pi}}{133}{table.caption.59}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {VII.1}{\ignorespaces Périmètre fonctionnel de KodaMate}}{137}{table.caption.60}%
-\contentsline {table}{\numberline {VII.2}{\ignorespaces Organisation du code KodaMate}}{139}{table.caption.62}%
-\contentsline {table}{\numberline {VII.3}{\ignorespaces Tests de validation de KodaMate}}{148}{table.caption.71}%
+\contentsline {table}{\numberline {VII.1}{\ignorespaces Interfaces KodaMate et rôles utilisateur}}{140}{table.caption.63}%
+\contentsline {table}{\numberline {VII.2}{\ignorespaces Correspondance services principaux et besoins utilisateur}}{151}{table.caption.77}%
+\contentsline {table}{\numberline {VII.3}{\ignorespaces Tests de validation par interface}}{153}{table.caption.78}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {VIII.1}{\ignorespaces Synthèse des cycles KODA --- besoin couvert et composant principal}}{156}{table.caption.79}%
 \contentsfinish 
