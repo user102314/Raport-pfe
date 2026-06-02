@@ -1,0 +1,137 @@
+\babel@toc {french}{}\relax 
+\babel@toc {french}{}\relax 
+\babel@toc {french}{}\relax 
+\babel@toc {french}{}\relax 
+\babel@toc {french}{}\relax 
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {I.1}{\ignorespaces Modèle en spirale — enchaînement des six cycles de développement KODA}}{9}{figure.caption.5}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {II.1}{\ignorespaces Synthèse visuelle des besoins fonctionnels KODA (chapitre~II)}}{13}{figure.caption.6}%
+\contentsline {figure}{\numberline {II.2}{\ignorespaces Architecture multicouche du système KODA (vue chapitre~II)}}{14}{figure.caption.7}%
+\contentsline {figure}{\numberline {II.3}{\ignorespaces Acteurs principaux et contexte d'intégration du système KODA}}{16}{figure.caption.8}%
+\contentsline {figure}{\numberline {II.4}{\ignorespaces Modèle en spirale et enchaînement des six cycles de développement KODA}}{18}{figure.caption.10}%
+\contentsline {figure}{\numberline {II.5}{\ignorespaces Planification des cycles : jalons, chevauchements et dépendances}}{19}{figure.caption.11}%
+\contentsline {figure}{\numberline {II.6}{\ignorespaces Environnement matériel de développement et de test (poste, Raspberry Pi, robot)}}{20}{figure.caption.12}%
+\contentsline {figure}{\numberline {II.7}{\ignorespaces Environnement logiciel : outils de développement et chaîne technique (chapitre~II)}}{21}{figure.caption.13}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {III.1}{\ignorespaces De la question à la réponse~: réflexion rapide (mémoire déjà présente) ou réflexion lente (analyse puis construction)}}{26}{figure.3.1}%
+\contentsline {figure}{\numberline {III.2}{\ignorespaces Architecture cognitive de KODA inspirée de la théorie du double traitement}}{27}{figure.3.2}%
+\contentsline {figure}{\numberline {III.3}{\ignorespaces Cycle~1 --- vue d'ensemble des trois workflows n8n}}{28}{figure.3.3}%
+\contentsline {figure}{\numberline {III.4}{\ignorespaces Cycle~1 --- diagramme de cas d'utilisation général}}{29}{figure.3.4}%
+\contentsline {figure}{\numberline {III.5}{\ignorespaces Cycle~1 --- schéma de classes général (persistance)}}{30}{figure.3.5}%
+\contentsline {figure}{\numberline {III.6}{\ignorespaces Webhook~1 --- diagramme de séquence (six parties du pipeline)}}{31}{figure.3.6}%
+\contentsline {figure}{\numberline {III.7}{\ignorespaces Webhook~1 --- entrée fonctionnelle (nœud \textit {Test}, \textit {Switch})}}{32}{figure.3.7}%
+\contentsline {figure}{\numberline {III.8}{\ignorespaces Webhook~1 --- séquence de l'entrée fonctionnelle}}{33}{figure.3.8}%
+\contentsline {figure}{\numberline {III.9}{\ignorespaces Webhook~1 --- cas d'utilisation de l'entrée fonctionnelle}}{33}{figure.3.9}%
+\contentsline {figure}{\numberline {III.10}{\ignorespaces Entrée fonctionnelle --- intégration SerpAPI dans le workflow n8n (branche musique du \textit {Switch})}}{35}{figure.3.10}%
+\contentsline {figure}{\numberline {III.11}{\ignorespaces Entrée fonctionnelle --- nœud \textit {Search Music} (SerpAPI, moteur YouTube) et exemple de sortie (\texttt {search\_query}, \texttt {youtube\_url})}}{35}{figure.3.11}%
+\contentsline {figure}{\numberline {III.12}{\ignorespaces Confrontation à l'historique --- workflow n8n}}{35}{figure.3.12}%
+\contentsline {figure}{\numberline {III.13}{\ignorespaces Confrontation à l'historique --- diagramme de séquence}}{36}{figure.3.13}%
+\contentsline {figure}{\numberline {III.14}{\ignorespaces Classification sémantique --- chaîne n8n (Code5, Identité1, Basic LLM Chain, Code2)}}{36}{figure.3.14}%
+\contentsline {figure}{\numberline {III.15}{\ignorespaces Classification sémantique --- diagramme de séquence}}{37}{figure.3.15}%
+\contentsline {figure}{\numberline {III.16}{\ignorespaces Classification sémantique --- cas d'utilisation}}{37}{figure.3.16}%
+\contentsline {figure}{\numberline {III.17}{\ignorespaces Classification sémantique — Paramètres du nœud OpenRouter Chat Model (credential, modèle Gemini via OpenRouter)}}{38}{figure.3.17}%
+\contentsline {figure}{\numberline {III.18}{\ignorespaces Classification sémantique --- tableau de bord OpenRouter (clé API workflow n8n, suivi des dépenses par modèle)}}{39}{figure.3.18}%
+\contentsline {figure}{\numberline {III.19}{\ignorespaces Gestion utilisateur (unkonu) --- \textit {Switch1}, branche enregistrement (\texttt {presentation}), branche LLM (\texttt {unkonu}) et poursuite vers la réponse contextualisée}}{42}{figure.3.19}%
+\contentsline {figure}{\numberline {III.20}{\ignorespaces Gestion utilisateur (unkonu) --- Entrée JSON du \textit {Switch1} (\texttt {persone = unkonu}, sortie classification sémantique)}}{42}{figure.3.20}%
+\contentsline {figure}{\numberline {III.21}{\ignorespaces Gestion utilisateur (unkonu) --- Sortie texte~: invitation à la première rencontre et demande du prénom}}{43}{figure.3.21}%
+\contentsline {figure}{\numberline {III.22}{\ignorespaces Gestion utilisateur (unkonu) --- diagramme de séquence}}{45}{figure.3.22}%
+\contentsline {figure}{\numberline {III.23}{\ignorespaces Réponse contextualisée.1 — Branche mémorielle : récupération et génération contextuelle}}{47}{figure.3.23}%
+\contentsline {figure}{\numberline {III.24}{\ignorespaces Réponse contextualisée.2 — Branche générale : contexte conversationnel et génération de réponse}}{49}{figure.3.24}%
+\contentsline {figure}{\numberline {III.25}{\ignorespaces Réponse contextualisée — Vue complète des deux branches de traitement contextuel}}{50}{figure.3.25}%
+\contentsline {figure}{\numberline {III.26}{\ignorespaces Réponse contextualisée — Diagramme de séquence du cinquième bloc}}{50}{figure.3.26}%
+\contentsline {figure}{\numberline {III.27}{\ignorespaces Notes et mémoire persistante (partie~1) — Sous-workflow n8n~: test \texttt {questiontype = note}, \textit {Basic LLM Chain~2} et structuration}}{51}{figure.3.27}%
+\contentsline {figure}{\numberline {III.28}{\ignorespaces Notes et mémoire persistante — Entrée JSON~: \texttt {question}, \texttt {output}, \texttt {persone} et \texttt {questiontype = note}}}{52}{figure.3.28}%
+\contentsline {figure}{\numberline {III.29}{\ignorespaces Notes et mémoire persistante — Sortie JSON~: \texttt {date\_evenement} et \texttt {evenement} extraits du message naturel}}{52}{figure.3.29}%
+\contentsline {figure}{\numberline {III.30}{\ignorespaces Notes et mémoire persistante (partie~2) — Diagramme de classes (persistance mémoire)}}{54}{figure.3.30}%
+\contentsline {figure}{\numberline {III.31}{\ignorespaces Webhook~2 --- workflow n8n}}{55}{figure.3.31}%
+\contentsline {figure}{\numberline {III.32}{\ignorespaces Webhook~2 --- diagramme de séquence}}{56}{figure.3.32}%
+\contentsline {figure}{\numberline {III.33}{\ignorespaces Webhook~2 --- exemple de sortie structurée (quatre dimensions de la fiche journalière)}}{58}{figure.3.33}%
+\contentsline {figure}{\numberline {III.34}{\ignorespaces Webhook~2 --- schéma de persistance (\texttt {utilisateur} $\rightarrow $ \texttt {accompagnement}~: \texttt {interets}, \texttt {synthese}, \texttt {point\_cles}, \texttt {conseils})}}{59}{figure.3.34}%
+\contentsline {figure}{\numberline {III.35}{\ignorespaces Webhook~3 --- workflow n8n}}{60}{figure.3.35}%
+\contentsline {figure}{\numberline {III.36}{\ignorespaces Webhook~3 --- diagramme de séquence}}{61}{figure.3.36}%
+\contentsline {figure}{\numberline {III.37}{\ignorespaces Webhook~3 --- entrée du nœud \textit {Code11}}}{62}{figure.3.37}%
+\contentsline {figure}{\numberline {III.38}{\ignorespaces Webhook~3 --- sortie JSON (\texttt {parole\_du\_robot}, \texttt {emotion\_visuelle})}}{62}{figure.3.38}%
+\contentsline {figure}{\numberline {III.39}{\ignorespaces Architecture cognitive globale de KODA --- interaction entre les trois webhooks}}{63}{figure.3.39}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {IV.1}{\ignorespaces Cycle~2 --- diagramme de cas d'utilisation général du Distributeur de services}}{69}{figure.4.1}%
+\contentsline {figure}{\numberline {IV.2}{\ignorespaces Cycle~2 --- schéma de classes général du backend (persistance PostgreSQL)}}{70}{figure.4.2}%
+\contentsline {figure}{\numberline {IV.3}{\ignorespaces Architecture multicouche de KODA --- place du Distributeur de services (Cycle~2)}}{71}{figure.4.3}%
+\contentsline {figure}{\numberline {IV.4}{\ignorespaces Cycle~2 --- Distributeur pivot central (composants et flux)}}{72}{figure.4.4}%
+\contentsline {figure}{\numberline {IV.5}{\ignorespaces Architecture des dossiers du projet backend Distributeur (\texttt {src/})}}{74}{figure.4.5}%
+\contentsline {figure}{\numberline {IV.6}{\ignorespaces Exécution du programme backend (Distributeur)}}{75}{figure.4.6}%
+\contentsline {figure}{\numberline {IV.7}{\ignorespaces Cycle~2 --- cas d'utilisation du système embarqué vis-à-vis du Distributeur de services}}{76}{figure.4.7}%
+\contentsline {figure}{\numberline {IV.8}{\ignorespaces Action 1 --- vue compacte du pipeline vocal (Flux~1)}}{77}{figure.4.8}%
+\contentsline {figure}{\numberline {IV.9}{\ignorespaces Action 1 (a) --- entrée : capture, identification faciale et transcription STT}}{77}{figure.4.9}%
+\contentsline {figure}{\numberline {IV.10}{\ignorespaces Action 1 (b) --- sortie : Flux~1, synthèse TTS et restitution au robot}}{78}{figure.4.10}%
+\contentsline {figure}{\numberline {IV.11}{\ignorespaces Action 2 --- vue compacte de l'introduction de parole (Flux~3)}}{79}{figure.4.11}%
+\contentsline {figure}{\numberline {IV.12}{\ignorespaces Action 2 (a) --- entrée : détection de présence et requête au Distributeur}}{79}{figure.4.12}%
+\contentsline {figure}{\numberline {IV.13}{\ignorespaces Action 2 (b) --- sortie : Flux~3, synthèse TTS et restitution au robot}}{80}{figure.4.13}%
+\contentsline {figure}{\numberline {IV.14}{\ignorespaces Cycle~2 --- échanges WebSocket robot $\leftrightarrow $ Distributeur (temps réel)}}{81}{figure.4.14}%
+\contentsline {figure}{\numberline {IV.15}{\ignorespaces Configuration Azure Speech (STT/TTS)}}{82}{figure.4.15}%
+\contentsline {figure}{\numberline {IV.16}{\ignorespaces Test Text-to-Speech}}{82}{figure.4.16}%
+\contentsline {figure}{\numberline {IV.17}{\ignorespaces Test Speech-to-Text}}{82}{figure.4.17}%
+\contentsline {figure}{\numberline {IV.18}{\ignorespaces Pipeline de reconnaissance faciale --- de la capture caméra à l'identité utilisateur}}{83}{figure.4.18}%
+\contentsline {figure}{\numberline {IV.19}{\ignorespaces Diagramme de séquence --- identification faciale (robot, Distributeur, base de référence)}}{84}{figure.4.19}%
+\contentsline {figure}{\numberline {IV.20}{\ignorespaces Exemple d'images de référence en mémoire (profils utilisateurs)}}{85}{figure.4.20}%
+\contentsline {figure}{\numberline {IV.21}{\ignorespaces Authentification mobile --- séquence \texttt {POST /api/auth/login}}}{87}{figure.4.21}%
+\contentsline {figure}{\numberline {IV.22}{\ignorespaces Chat mobile --- séquence \texttt {POST /api/trigger-n8n}}}{88}{figure.4.22}%
+\contentsline {figure}{\numberline {IV.23}{\ignorespaces Paramètres, power et historique --- séquences REST KodaMate}}{89}{figure.4.23}%
+\contentsline {figure}{\numberline {IV.24}{\ignorespaces Exécution de quelques endpoints (tests manuels)}}{90}{figure.4.24}%
+\contentsline {figure}{\numberline {IV.25}{\ignorespaces Interface Supabase --- administration PostgreSQL}}{90}{figure.4.25}%
+\contentsline {figure}{\numberline {IV.26}{\ignorespaces Délégation au workflow n8n --- séquence robot ou mobile $\rightarrow $ Distributeur $\rightarrow $ n8n}}{92}{figure.4.26}%
+\contentsline {figure}{\numberline {IV.27}{\ignorespaces Communication avec n8n --- exemple de payload en entrée de webhook}}{92}{figure.4.27}%
+\contentsline {figure}{\numberline {IV.28}{\ignorespaces Conflit d'adressage et CORS --- topologie réseau et solutions}}{99}{figure.4.28}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {V.1}{\ignorespaces Conception 3D du châssis KODA sous Blender (vue éclatée des pièces)}}{104}{figure.caption.27}%
+\contentsline {figure}{\numberline {V.2}{\ignorespaces Raspberry Pi 4 Model B utilisé comme unité centrale de KODA}}{105}{figure.caption.28}%
+\contentsline {figure}{\numberline {V.3}{\ignorespaces Carte Arduino Uno (microcontrôleur ATmega328P à 16~MHz)}}{106}{figure.caption.30}%
+\contentsline {figure}{\numberline {V.4}{\ignorespaces Shield L293D empilé sur l'Arduino Uno (commande des moteurs DC et servomoteurs)}}{106}{figure.caption.31}%
+\contentsline {figure}{\numberline {V.5}{\ignorespaces Moteur DC utilisé pour la mobilité du robot (bornes M1 et M3 du shield)}}{107}{figure.caption.32}%
+\contentsline {figure}{\numberline {V.6}{\ignorespaces Principe de traction différentielle — moteurs M1 et M3}}{107}{figure.caption.33}%
+\contentsline {figure}{\numberline {V.7}{\ignorespaces Servomoteur utilisé pour les articulations (bras S1/S2 et rotation Nextion S3)}}{108}{figure.caption.34}%
+\contentsline {figure}{\numberline {V.8}{\ignorespaces ReSpeaker 4-Mic Array USB : quatre microphones MEMS pour capture omnidirectionnelle et détection de direction (DOA)}}{109}{figure.caption.35}%
+\contentsline {figure}{\numberline {V.9}{\ignorespaces Module gyroscopique MPU5060 utilisé pour améliorer la précision de rotation}}{110}{figure.caption.36}%
+\contentsline {figure}{\numberline {V.10}{\ignorespaces Relation conceptuelle~: DOA du ReSpeaker $\rightarrow $ consigne Raspberry $\rightarrow $ Arduino (M1, M3 + MPU5060) $\rightarrow $ caméra du torse orientée}}{110}{figure.caption.37}%
+\contentsline {figure}{\numberline {V.11}{\ignorespaces Capteurs de touche capacitifs ajoutés pour le sens tactile du robot}}{111}{figure.caption.38}%
+\contentsline {figure}{\numberline {V.12}{\ignorespaces Amplificateur audio PAM8403 (chaîne filaire entre la sortie jack du Pi et les haut-parleurs)}}{112}{figure.caption.39}%
+\contentsline {figure}{\numberline {V.13}{\ignorespaces Paire de haut-parleurs gauche/droite alimentés par le PAM8403}}{112}{figure.caption.40}%
+\contentsline {figure}{\numberline {V.14}{\ignorespaces Caméra Raspberry Pi connectée au port CSI (acquisition d'images pour l'identification visuelle)}}{113}{figure.caption.41}%
+\contentsline {figure}{\numberline {V.15}{\ignorespaces Écran Nextion NX4832T035\_011 (3{,}5\textquotedbl ) affichant le visage animé de KODA}}{113}{figure.caption.42}%
+\contentsline {figure}{\numberline {V.16}{\ignorespaces Power Bank 5\,V / 3\,A alimentant le Raspberry Pi (chaîne logique)}}{114}{figure.caption.44}%
+\contentsline {figure}{\numberline {V.17}{\ignorespaces 3 piles lithium 3{,}7\,V en série (11{,}1\,V total) alimentant le Shield L293D et les moteurs}}{115}{figure.caption.45}%
+\contentsline {figure}{\numberline {V.19}{\ignorespaces Architecture matérielle logique mise à jour avec toucher et gyroscope}}{115}{figure.caption.47}%
+\contentsline {figure}{\numberline {V.18}{\ignorespaces Schéma de montage matériel de KODA — style Fritzing (Cycle~3)}}{116}{figure.caption.46}%
+\contentsline {figure}{\numberline {V.20}{\ignorespaces Prototype physique KODA après impression 3D et montage}}{124}{figure.caption.50}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {VI.1}{\ignorespaces Cycle~4 --- architecture logicielle globale du logiciel Raspberry Pi (services, adaptateurs et environnement externe)}}{129}{figure.caption.51}%
+\contentsline {figure}{\numberline {VI.2}{\ignorespaces Cycle~4 --- arborescence du dossier \texttt {codeRaspberry/} (packages, modules clés et firmware Arduino)}}{130}{figure.caption.52}%
+\contentsline {figure}{\numberline {VI.3}{\ignorespaces Cycle~4 --- diagramme de classes UML : services métier et adaptateurs matériels}}{132}{figure.caption.53}%
+\contentsline {figure}{\numberline {VI.4}{\ignorespaces Cycle~4 --- séquence de démarrage parallèle (\texttt {app.main.run})}}{133}{figure.caption.54}%
+\contentsline {figure}{\numberline {VI.5}{\ignorespaces Cycle~4 --- machine d'états logicielle du robot (passif, actif, touch, sommeil)}}{135}{figure.caption.55}%
+\contentsline {figure}{\numberline {VI.6}{\ignorespaces Cycle~4 --- machine d'états interne du moteur \texttt {HybridWakeWordEngine} (Vosk gate, Azure race, timeout)}}{136}{figure.caption.56}%
+\contentsline {figure}{\numberline {VI.7}{\ignorespaces Cycle~4 --- séquence complète d'un tour de parole : wake → rotation → greeting → écoute → backend → dispatch}}{136}{figure.caption.57}%
+\contentsline {figure}{\numberline {VI.8}{\ignorespaces Cycle~4 --- broadcaster PCM : un producteur sox, plusieurs consommateurs (Vosk, Azure WS, VAD)}}{137}{figure.caption.58}%
+\contentsline {figure}{\numberline {VI.9}{\ignorespaces Cycle~4 --- rotation en boucle fermée : Pi $\rightarrow $ Arduino $\rightarrow $ MPU6050 $\rightarrow $ DONE/ERR}}{139}{figure.caption.59}%
+\contentsline {figure}{\numberline {VI.10}{\ignorespaces Cycle~4 --- flowchart de dispatch des actions retournées par le backend}}{140}{figure.caption.61}%
+\contentsline {figure}{\numberline {VI.11}{\ignorespaces Cycle~4 --- séquence d'interruption par capteur tactile (chatouilles)}}{142}{figure.caption.63}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {VII.1}{\ignorespaces Cycle~5 --- cas d'utilisation de KodaMate (vue utilisateur)}}{149}{figure.caption.65}%
+\contentsline {figure}{\numberline {VII.2}{\ignorespaces Cycle~5 --- place de KodaMate entre l'utilisateur, le Distributeur, la cognition n8n et le corps du robot}}{150}{figure.caption.66}%
+\contentsline {figure}{\numberline {VII.3}{\ignorespaces Cycle~5 --- parcours utilisateur de KodaMate}}{151}{figure.caption.67}%
+\contentsline {figure}{\numberline {VII.4}{\ignorespaces Cycle~5 --- séquence de démarrage et orientation de l'utilisateur}}{153}{figure.caption.69}%
+\contentsline {figure}{\numberline {VII.5}{\ignorespaces Cycle~5 --- connexion et test du serveur Distributeur}}{154}{figure.caption.70}%
+\contentsline {figure}{\numberline {VII.6}{\ignorespaces Cycle~5 --- séquence d'authentification utilisateur}}{155}{figure.caption.71}%
+\contentsline {figure}{\numberline {VII.7}{\ignorespaces Cycle~5 --- configuration initiale : identité du robot (gauche) et voix, langue et état d'allumage (droite)}}{156}{figure.caption.72}%
+\contentsline {figure}{\numberline {VII.8}{\ignorespaces Cycle~5 --- séquence de lecture et mise à jour de la configuration}}{157}{figure.caption.73}%
+\contentsline {figure}{\numberline {VII.9}{\ignorespaces Cycle~5 --- accueil : veille et environnement (gauche), réseau déconnecté (centre), robot actif (droite)}}{158}{figure.caption.74}%
+\contentsline {figure}{\numberline {VII.10}{\ignorespaces Cycle~5 --- séquence de supervision : état KODA, météo et marche/arrêt}}{158}{figure.caption.75}%
+\contentsline {figure}{\numberline {VII.11}{\ignorespaces Cycle~5 --- dialogue texte avec KODA}}{159}{figure.caption.76}%
+\contentsline {figure}{\numberline {VII.12}{\ignorespaces Cycle~5 --- séquence d'envoi d'une question et affichage de la réponse}}{160}{figure.caption.77}%
+\contentsline {figure}{\numberline {VII.13}{\ignorespaces Cycle~5 --- historique des conversations avec filtre et recherche}}{161}{figure.caption.78}%
+\contentsline {figure}{\numberline {VII.14}{\ignorespaces Cycle~5 --- séquence de consultation de l'historique}}{161}{figure.caption.79}%
+\contentsline {figure}{\numberline {VII.15}{\ignorespaces Cycle~5 --- paramètres : profil robot (gauche), Wi-Fi et préférences (centre), informations et déconnexion (droite)}}{162}{figure.caption.80}%
+\contentsline {figure}{\numberline {VII.16}{\ignorespaces Cycle~5 --- séquence de sélection d'un réseau Wi-Fi (simulation locale)}}{163}{figure.caption.81}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {VIII.1}{\ignorespaces Vue synthétique de l'écosystème KODA au terme du projet}}{169}{figure.caption.85}%
+\contentsfinish 

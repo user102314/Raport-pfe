@@ -1,0 +1,99 @@
+%% Cycle 4 — Architecture logicielle globale Raspberry Pi (composants)
+%% Export → public/koda-cycle4-architecture-globale.png  (A3 paysage)
+%% Rendu : npx -p @mermaid-js/mermaid-cli mmdc -i <fichier>.mmd -o <out>.png -w 3508 -H 2480
+
+flowchart LR
+    %% --- couleurs sobres ---
+    classDef entry      fill:#0d47a1,stroke:#0d47a1,color:#fff,stroke-width:1px;
+    classDef service    fill:#e3f2fd,stroke:#1565c0,color:#0d47a1,stroke-width:1px;
+    classDef adapter    fill:#fff3e0,stroke:#ef6c00,color:#bf360c,stroke-width:1px;
+    classDef hw         fill:#f3e5f5,stroke:#6a1b9a,color:#4a148c,stroke-width:1px;
+    classDef external   fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20,stroke-width:1px;
+
+    subgraph ENTRY["app/ — point d'entrée"]
+        MAIN["main.py<br/>boucle async, signaux, shutdown"]:::entry
+        CFG["config.py<br/>AppConfig + .env"]:::entry
+    end
+
+    subgraph SVC_VOC["services/ — pipeline vocal"]
+        CONV["ConversationService<br/>orchestre 1 tour"]:::service
+        WW["WakeWordService<br/>+ HybridWakeWordEngine<br/>+ VoskWakeWordEngine"]:::service
+        LIS["ContinuousListenerService<br/>VAD sox (silence)"]:::service
+        SPE["SpeechService<br/>TTS backend"]:::service
+        AUD["AudioService<br/>+ PCMBroadcaster"]:::service
+        DOA["DOAReader<br/>XMOS USB HID"]:::service
+        MUS["MusicPlayer<br/>cache + paplay"]:::service
+    end
+
+    subgraph SVC_BODY["services/ — corps et IO"]
+        DIS["DisplayService<br/>expressions Nextion"]:::service
+        MOT["MotionService<br/>+ MotionDispatcher<br/>(R<aaa>/L<aaa>/STOP)"]:::service
+        TCH["TouchSensorService<br/>GPIO interrupt"]:::service
+        FACE["FaceRecognitionService<br/>cache + FAF refresh"]:::service
+        HCHK["HardwareCheckService<br/>diagnostic boot"]:::service
+    end
+
+    subgraph ADAP["adapters/ — IO concret"]
+        RSP["RespeakerAdapter<br/>sox + remix XMOS ch0"]:::adapter
+        ARD["ArduinoAdapter<br/>send / send_line"]:::adapter
+        NEX["NextionAdapter<br/>UART"]:::adapter
+        BKC["BackendClient<br/>HTTP + WebSocket"]:::adapter
+        AOU["AudioOutputAdapter<br/>Bluetooth / jack"]:::adapter
+        CAM["CameraAdapter<br/>MJPEG + rpicam"]:::adapter
+    end
+
+    subgraph UTL["utils/"]
+        LOG["logger.py<br/>RotatingFileHandler"]:::service
+        SUB["subprocess_registry<br/>track + killpg"]:::service
+        STA["states.py<br/>traces lisibles"]:::service
+    end
+
+    subgraph HARD["Matériel KODA"]
+        H_MIC["ReSpeaker 4-Mic"]:::hw
+        H_SPK["Hauteparleur BT"]:::hw
+        H_NEX["Écran Nextion"]:::hw
+        H_ARD["Arduino + Motor Shield<br/>+ MPU6050 (A4/A5)"]:::hw
+        H_CAM["Caméra CSI"]:::hw
+        H_TCH["Capteur touch GPIO"]:::hw
+    end
+
+    subgraph CLOUD["Backend KODA"]
+        BKE["FastAPI Distributeur<br/>STT / TTS / face_id"]:::external
+        N8N["n8n Workflow"]:::external
+        SUP["Supabase"]:::external
+    end
+
+    %% --- câblage logique ---
+    MAIN --> CFG
+    MAIN --> HCHK
+    MAIN --> WW & CONV & DIS & MOT & TCH
+
+    CONV --> SPE & LIS & MUS & FACE & DIS & MOT
+    WW   --> RSP
+    LIS  --> RSP
+    AUD  --> RSP
+    DOA  --> RSP
+
+    SPE  --> BKC --> AOU
+    MUS  --> BKC
+    FACE --> BKC
+    FACE --> CAM
+    DIS  --> NEX
+    MOT  --> ARD
+    TCH  -.->|interrupt| MAIN
+
+    RSP --> H_MIC
+    AOU --> H_SPK
+    NEX --> H_NEX
+    ARD --> H_ARD
+    CAM --> H_CAM
+    TCH --> H_TCH
+
+    BKC --> BKE
+    BKE --> N8N
+    BKE --> SUP
+
+    LOG -.- MAIN
+    SUB -.- RSP
+    SUB -.- MUS
+    STA -.- MAIN

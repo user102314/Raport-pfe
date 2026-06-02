@@ -1,0 +1,39 @@
+\babel@toc {french}{}\relax 
+\babel@toc {french}{}\relax 
+\babel@toc {french}{}\relax 
+\babel@toc {french}{}\relax 
+\babel@toc {french}{}\relax 
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {II.1}{\ignorespaces Vue synthétique des cycles et livrables attendus}}{18}{table.caption.9}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {III.1}{\ignorespaces Correspondance entre mécanismes cognitifs humains et implémentations de KODA}}{63}{table.caption.14}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {IV.1}{\ignorespaces Comparaison des technologies backend envisagées}}{73}{table.caption.15}%
+\contentsline {table}{\numberline {IV.2}{\ignorespaces Répartition des 65 endpoints par axe de communication}}{93}{table.caption.16}%
+\contentsline {table}{\numberline {IV.3}{\ignorespaces Endpoints racine --- exploitation et documentation}}{93}{table.caption.17}%
+\contentsline {table}{\numberline {IV.4}{\ignorespaces Endpoint de diagnostic base de données}}{94}{table.caption.18}%
+\contentsline {table}{\numberline {IV.5}{\ignorespaces Endpoints CRUD --- communication avec PostgreSQL par entité}}{95}{table.caption.19}%
+\contentsline {table}{\numberline {IV.6}{\ignorespaces Endpoints orientés robot --- audio, vision et mot-clé}}{96}{table.caption.20}%
+\contentsline {table}{\numberline {IV.7}{\ignorespaces Endpoints de délégation au moteur n8n}}{96}{table.caption.21}%
+\contentsline {table}{\numberline {IV.8}{\ignorespaces Endpoints backend effectivement utilisés par KodaMate (UI)}}{96}{table.caption.22}%
+\contentsline {table}{\numberline {IV.9}{\ignorespaces Appels réseau complémentaires de KodaMate (hors Distributeur)}}{97}{table.caption.23}%
+\contentsline {table}{\numberline {IV.10}{\ignorespaces Mapping des écrans KodaMate vers les endpoints backend}}{97}{table.caption.24}%
+\contentsline {table}{\numberline {IV.11}{\ignorespaces Problèmes techniques rencontrés et solutions apportées}}{98}{table.caption.25}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {V.1}{\ignorespaces Inventaire des composants matériels de KODA}}{103}{table.caption.26}%
+\contentsline {table}{\numberline {V.2}{\ignorespaces Spécifications techniques du Raspberry Pi 4 Model B}}{105}{table.caption.29}%
+\contentsline {table}{\numberline {V.3}{\ignorespaces Architecture d'alimentation de KODA}}{114}{table.caption.43}%
+\contentsline {table}{\numberline {V.4}{\ignorespaces Récapitulatif des connexions entre composants}}{117}{table.caption.48}%
+\contentsline {table}{\numberline {V.5}{\ignorespaces Tests unitaires par composant (Cycle~3)}}{118}{table.caption.49}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {VI.1}{\ignorespaces Cycle~4 --- les cinq types d'actions dispatchés côté Pi}}{141}{table.caption.60}%
+\contentsline {table}{\numberline {VI.2}{\ignorespaces Expressions logicielles envoyées à l'écran Nextion}}{141}{table.caption.61}%
+\contentsline {table}{\numberline {VI.3}{\ignorespaces Tests de validation du logiciel Raspberry Pi}}{144}{table.caption.62}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {VII.1}{\ignorespaces Interfaces KodaMate et rôles utilisateur}}{152}{table.caption.66}%
+\contentsline {table}{\numberline {VII.2}{\ignorespaces Correspondance services principaux et besoins utilisateur}}{163}{table.caption.80}%
+\contentsline {table}{\numberline {VII.3}{\ignorespaces Tests de validation par interface}}{165}{table.caption.81}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {VIII.1}{\ignorespaces Synthèse des cycles KODA --- besoin couvert et composant principal}}{168}{table.caption.82}%
+\contentsfinish 

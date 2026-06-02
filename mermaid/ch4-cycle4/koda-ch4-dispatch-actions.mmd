@@ -1,0 +1,38 @@
+%% Cycle 4 - Flowchart de dispatch des actions retournees par le backend / n8n
+%% Export -> public/koda-cycle4-dispatch-actions.png  (A3 portrait OK)
+
+flowchart TB
+    classDef step fill:#e3f2fd,stroke:#1565c0,color:#0d47a1
+    classDef act fill:#fff3e0,stroke:#ef6c00,color:#bf360c
+    classDef bad fill:#ffebee,stroke:#c62828,color:#b71c1c
+    classDef ok fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20
+
+    START(["WAV capture<br/>ContinuousListener"])
+    POST["POST /api/audio/speech-to-action"]
+    SNIFF["Backend n8n response sniff<br/>_interpret_n8n_envelope"]
+    AR["ActionResult<br/>type / text / audio / url / motion"]
+    SW{"type ?"}
+
+    START --> POST --> SNIFF --> AR --> SW
+
+    SW -- "text"   --> T1["DisplayService<br/>SINGING"]
+    T1 --> T2["SpeechService.speak<br/>audio TTS"]
+    T2 --> END_T(["fin tour"])
+
+    SW -- "music"  --> M1["SpeechService.speak<br/>annonce"]
+    M1 --> M2["MusicPlayer<br/>cache + paplay"]
+    M2 --> END_M(["fin tour"])
+
+    SW -- "motion" --> MO1["MotionDispatcher<br/>forward / backward / left / right / stop"]
+    MO1 --> END_MO(["fin tour"])
+
+    SW -- "sleep"  --> S1["DisplayService<br/>SLEEPING"]
+    S1 --> S2(["retour mode PASSIF"])
+
+    SW -- "error"  --> E1["DisplayService<br/>SAD"]
+    E1 --> E2(["log + reprise"])
+
+    class START,POST,SNIFF,AR,SW step
+    class T1,T2,M1,M2,MO1,S1 act
+    class END_T,END_M,END_MO,S2 ok
+    class E1,E2 bad

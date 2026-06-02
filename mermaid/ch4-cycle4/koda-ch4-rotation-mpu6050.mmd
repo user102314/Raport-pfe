@@ -1,0 +1,34 @@
+%% Cycle 4 — Rotation en boucle fermée avec MPU6050 (Pi ↔ Arduino)
+%% Export → public/koda-cycle4-rotation-mpu6050.png
+
+sequenceDiagram
+    autonumber
+    participant Conv as ConversationService / app.main
+    participant Mot as MotionService
+    participant Ar as ArduinoAdapter
+    participant Fw as Firmware Arduino
+    participant Gy as MPU6050 (I2C A4/A5)
+
+    Conv->>Mot: rotate_by_angle(+45°)
+    Note over Mot: |angle| < deadband ? -> retour ok=True
+    Mot->>Mot: signed > 0 -> R, target = round(|angle|)
+    Mot->>Ar: send_line("R045\n", timeout=3 s)
+    Ar->>Fw: octets ASCII + newline
+    Note over Fw: moteurs ON (PWM motor_speed)
+    loop 200 Hz tant que |intégré| < target - 6°
+        Fw->>Gy: lecture GYRO_ZOUT (I2C burst)
+        Gy-->>Fw: omega_z (rad/s)
+        Fw->>Fw: theta += omega_z * dt - bias
+    end
+    Note over Fw: passe en PWM frein (110) sur les 6 derniers degrés
+    Fw->>Fw: STOP motors + 150 ms settle
+    Fw-->>Ar: "DONE:46\n"
+    Ar-->>Mot: "DONE:46"
+    Mot->>Mot: settle_s sleep
+    Mot-->>Conv: MotionResult(ok=True, command=RIGHT)
+
+    alt timeout firmware (6 s) ou MPU6050 absent
+        Fw-->>Ar: "ERR:timeout" / "ERR:nogyro"
+        Mot->>Ar: send(S) (STOP défensif)
+        Mot-->>Conv: MotionResult(ok=False, error)
+    end

@@ -1,0 +1,190 @@
+%% Cycle 4 — Diagramme de classes UML (services + adapters principaux)
+%% Export → public/koda-cycle4-classes-services.png  (A3 paysage)
+
+classDiagram
+    direction LR
+
+    class ConversationService {
+        -AudioService audio
+        -DisplayService display
+        -MotionService motion
+        -SpeechService speech
+        -BackendClient backend
+        -ContinuousListenerService listener
+        -MusicPlayer music_player
+        -FaceRecognitionService face_recognition
+        -MotionDispatcher motion_dispatcher
+        +listen_and_answer() async
+        +run_turn(seconds) async
+        +handle_text_question(text) async
+        -_process_audio(wav) async
+        -_dispatch_action(ActionResult) async
+        -_resolve_extra_text() str
+    }
+
+    class WakeWordService {
+        -AudioService audio
+        -BackendClient backend
+        -WakeWordMatcher matcher
+        -WakeWordEngine engine
+        +prepare() async
+        +wait_for_wake(stop_event) async WakeMatch
+    }
+
+    class HybridWakeWordEngine {
+        -RespeakerAdapter respeaker
+        -WakeWordMatcher matcher
+        -str backend_base_url
+        -float awaiting_timeout_s
+        +prepare() async
+        +listen(stop_event) async WakeMatch
+        -_run_vosk_gate() async
+        -_open_azure_ws() async
+        -_state SLEEP|AWAITING
+    }
+
+    class VoskWakeWordEngine {
+        -str language
+        -WakeWordMatcher matcher
+        -RespeakerAdapter respeaker
+        +prepare() async
+        +listen(stop_event) async WakeMatch
+    }
+
+    class ContinuousListenerService {
+        -RespeakerAdapter respeaker
+        -ListenerConfig config
+        +listen() async Path~wav~
+    }
+
+    class MotionService {
+        -ArduinoAdapter adapter
+        -RotationCalibration rotation
+        -asyncio.Lock lock
+        -asyncio.Event abort_event
+        +rotate_by_angle(signed) async MotionResult
+        +forward() async
+        +backward() async
+        +left() async
+        +right() async
+        +stop() async
+        +hello() async
+        +request_abort()
+    }
+
+    class MotionDispatcher {
+        -MotionService motion
+        +execute(MotionCommand) async
+    }
+
+    class FaceRecognitionService {
+        -CameraAdapter camera
+        -BackendClient backend
+        -TTLCache cache
+        -asyncio.Task refresh_task
+        +current_name() str
+        +fire_and_forget_refresh()
+        +cancel_pending_refresh() async
+    }
+
+    class DisplayService {
+        -NextionAdapter nextion
+        -asyncio.Lock lock
+        +set_expression(Expression) async
+        +resume_idle() async
+    }
+
+    class MusicPlayer {
+        -AudioOutputAdapter audio_output
+        -Path cache_dir
+        -str backend_base_url
+        +play_url(url, title) async
+    }
+
+    class SpeechService {
+        -BackendClient backend
+        -AudioOutputAdapter audio_output
+        +speak(text) async
+    }
+
+    class TouchSensorService {
+        -int pin
+        -float cooldown
+        +start(callback) bool
+        +close()
+    }
+
+    class RespeakerAdapter {
+        -str alsa_device
+        -int native_channels
+        -int processed_channel_index
+        +open_stream() iterator
+        +stop_stream()
+    }
+
+    class ArduinoAdapter {
+        -Serial serial
+        -threading.Lock lock
+        +open()
+        +close()
+        +send(cmd:str) str
+        +send_line(text, read_timeout_s) str
+    }
+
+    class NextionAdapter {
+        +open()
+        +close()
+        +write_command(str)
+    }
+
+    class BackendClient {
+        -httpx.AsyncClient client
+        +start() async
+        +health_with_retry() async
+        +identify_face(jpg) async dict
+        +speech_to_action(wav) async ActionResult
+        +text_to_action(text) async ActionResult
+        +download_tts(text) async bytes
+        +close() async
+    }
+
+    class CameraAdapter {
+        +capture_jpeg() bytes
+    }
+
+    class AudioOutputAdapter {
+        -str bluetooth_mac
+        +ensure_bluetooth() async bool
+        +play_wav_file(path) async
+        +stop_playback() async
+    }
+
+    class DOAReader {
+        +start() bool
+        +read_angle() int
+        +voice_active() bool
+    }
+
+    ConversationService --> SpeechService
+    ConversationService --> MotionService
+    ConversationService --> DisplayService
+    ConversationService --> MusicPlayer
+    ConversationService --> FaceRecognitionService
+    ConversationService --> ContinuousListenerService
+    ConversationService --> BackendClient
+    ConversationService --> MotionDispatcher
+
+    WakeWordService --> HybridWakeWordEngine
+    WakeWordService --> VoskWakeWordEngine
+    HybridWakeWordEngine --> RespeakerAdapter
+    VoskWakeWordEngine --> RespeakerAdapter
+    ContinuousListenerService --> RespeakerAdapter
+
+    MotionService --> ArduinoAdapter
+    MotionDispatcher --> MotionService
+    DisplayService --> NextionAdapter
+    SpeechService --> BackendClient
+    SpeechService --> AudioOutputAdapter
+    MusicPlayer --> AudioOutputAdapter
+    FaceRecognitionService --> CameraAdapter
+    FaceRecognitionService --> BackendClient

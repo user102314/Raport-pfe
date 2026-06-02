@@ -1,29 +1,31 @@
 # Prompts Nano Banana — Cycle 3 (2 figures conceptuelles)
 
 Enregistrer les images générées sous :
-  public/ch3-schema-doa.png
+  public/koda-cycle3-doa-rotation-gyro.png
   public/ch3-traction-differentielle.png
 Puis recompiler le PDF (pdflatex).
 
 ================================================================================
-1) SCHÉMA DOA — Voix → rotation robot → caméra sur le torse
+1) SCHÉMA DOA — Voix → Raspberry → Arduino + MPU5060 → rotation → caméra sur le torse
 ================================================================================
 
 Professional academic technical diagram, clean flat vector style, white background, soft blue and gray accents, French labels optional but clear English OK.
 
-Title at top: "Direction of arrival (DOA) — KODA robot"
+Title at top: "DOA and corrected rotation — KODA robot"
 
-Flow left to right in 4 numbered steps:
+Flow left to right in 5 numbered steps:
 (1) Circular ReSpeaker 4-mic array icon on a small robot silhouette, label "Voice detected — DOA angle"
-(2) Top-down view of a small robot with two tracks/wheels (differential drive), curved arrow showing rotation in place, labels "DC motors M1 & M3 — pivot toward speaker"
-(3) Robot front view with camera lens fixed on CHEST/TORSO (not on head), label "Camera on body — face detection"
-(4) Optional checkmark "User oriented"
+(2) Raspberry Pi block, label "Target angle calculated"
+(3) USB serial arrow toward Arduino Uno + L293D shield, label "ROTATE(angle)"
+(4) Arduino block connected to MPU5060 by I2C A4/A5, label "Gyro feedback — corrected stop"
+(5) Top-down tracked robot rotating with motors M1 and M3, then front view with camera lens fixed on CHEST/TORSO, label "Camera on body — user oriented"
 
 Important: head/Nextion screen may be separate small note "S3 servo = Nextion face only (does NOT move camera)".
+Important: MPU5060 must be shown connected to Arduino, not to Raspberry Pi.
 
 No photorealistic photo, no Fritzing, no 3D render game style. Infographic for engineering PFE report. 16:9, high resolution, minimal text, arrows between steps.
 
-Negative prompt: wrong camera on head, single wheel car, complex equations, dark background, watermark.
+Negative prompt: MPU connected to Raspberry GPIO, wrong camera on head, single wheel car, complex equations, dark background, watermark.
 
 ================================================================================
 2) TRACTION DIFFÉRENTIELLE — Moteurs M1 et M3
@@ -53,6 +55,6 @@ Negative prompt: 4-wheel car, steering wheel, airplane, photorealistic, cluttere
 VARIANTE COURTE (si limite de caractères)
 ================================================================================
 
-DOA: infographic 4 steps — mic array → DOA angle → tank robot rotates M1 M3 → camera on chest detects face. Flat vector, white bg, academic.
+DOA: infographic — ReSpeaker DOA → Raspberry target angle → USB serial to Arduino → MPU5060 on Arduino I2C A4/A5 corrects M1/M3 rotation → camera on chest faces user. Flat vector, white bg, academic.
 
 Traction: top-down differential drive robot, M1 M3 labels, three motion cases forward pivot turn. Vector textbook style white background.
