@@ -1,0 +1,13 @@
+%% Block 4 — Séquence 1/3 : presentation
+%% Export → public/ch3-block4-scenario-presentation.png
+%%{init: {'theme': 'neutral', 'themeVariables': {'fontSize': '15px'}}}%%
+
+sequenceDiagram
+    participant S as Switch1
+    participant E as API + PostgreSQL
+    participant R as Étape 5
+
+    Note over S: Type = presentation
+    S->>+E: Envoi profil (Code8, HTTP)
+    E-->>-S: Identité créée
+    S->>R: Poursuite du dialogue

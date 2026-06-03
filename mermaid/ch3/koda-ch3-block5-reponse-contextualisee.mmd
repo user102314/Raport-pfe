@@ -1,0 +1,21 @@
+%% Étape 5 — Réponse contextualisée (USE_MEMORY / NO_MEMORY)
+%% Export → public/ch3-block5-reponse-mermaid.png
+%%{init: {'theme': 'neutral', 'themeVariables': {'fontSize': '15px'}}}%%
+
+sequenceDiagram
+    participant C as Classification
+    participant S as Switch use_memory
+    participant PG as PostgreSQL
+    participant AI as AI Agent
+
+    C->>S: decision + questionType
+    alt USE_MEMORY = true
+        S->>PG: Profil, historique, identité KODA
+        PG-->>S: Contexte personnel
+        S->>AI: Réponse mémorielle
+    else NO_MEMORY
+        S->>PG: 100 conversations (+ insert si nouvelle info)
+        PG-->>S: Contexte dialogue
+        S->>AI: Réponse générale
+    end
+    AI-->>S: JSON output

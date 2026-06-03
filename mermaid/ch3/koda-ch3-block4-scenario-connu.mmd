@@ -1,0 +1,11 @@
+%% Block 4 — Séquence 3/3 : personne connue
+%% Export → public/ch3-block4-scenario-connu.png
+%%{init: {'theme': 'neutral', 'themeVariables': {'fontSize': '15px'}}}%%
+
+sequenceDiagram
+    participant S as Switch1
+    participant R as Étape 5 — Réponse
+
+    Note over S: Profil déjà en base
+    S->>+R: Message classifié
+    R-->>-S: Réponse contextualisée

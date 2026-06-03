@@ -1,0 +1,24 @@
+%% Webhook 3 — introduction de parole (spontaneite)
+%% Export → public/ch3-webhook3-spontaneite-mermaid.png
+
+sequenceDiagram
+    participant BE as Backend / vision
+    participant N8N as Webhook 3 n8n
+    participant PG as PostgreSQL
+    participant CD as Code11
+    participant AI as AI Agent
+    participant R as Robot
+
+    BE->>N8N: username (connu ou unkonu)
+    N8N->>PG: Fiches Webhook 2 (accompagnement)
+    PG-->>N8N: interets, synthese, conseils
+    alt utilisateur connu
+        N8N->>CD: Contexte personnalise
+        CD-->>N8N: Prompt accueil
+        N8N->>AI: AI Agent (introduction)
+    else unkonu
+        N8N->>AI: AI Agent (invitation)
+    end
+    AI-->>N8N: parole_du_robot, emotion_visuelle
+    N8N-->>BE: Reponse JSON
+    BE->>R: TTS + expression faciale

@@ -1,0 +1,30 @@
+%% Webhook 1 — Entrée fonctionnelle, séquence partie 2
+%% Export → public/dsb1-part2-mermaid.png
+
+sequenceDiagram
+    actor U as Utilisateur
+    participant C as Interface / Chat
+    participant W as Webhook n8n
+    participant SW as Switch intention
+    participant BR as Branches métier
+
+    Note over W: Entrée JSON nœud Test<br/>(intention, flags…) — voir partie 1
+    activate W
+    W->>SW: Router selon intention
+    activate SW
+    alt musique
+        SW->>BR: SerpAPI, réponse musique
+    else ferme
+        SW->>BR: Arrêt / OFF
+    else motdepasse
+        SW->>BR: Authentification / ON
+    else direction
+        SW->>BR: Réponse direction
+    else inconnu
+        SW->>BR: Inconnu / estInconnu (etat == 1)
+    end
+    BR-->>W: Réponse selon branche
+    deactivate SW
+    W-->>C: Retour HTTP
+    deactivate W
+    C-->>U: Affichage réponse

@@ -1,0 +1,18 @@
+%% Classification sémantique — flux simplifié (question → LLM)
+%% Export → public/ch3-classification-sequence-mermaid.png
+
+sequenceDiagram
+    actor U as Utilisateur
+    participant N8N as Workflow n8n
+    participant PG as PostgreSQL
+    participant OR as OpenRouter
+    participant LLM as Gemini (flash)
+
+    U->>N8N: Question filtrée
+    N8N->>PG: Contexte profil
+    PG-->>N8N: Données Identité
+    N8N->>OR: Prompt classification
+    OR->>LLM: Inférence unique
+    LLM-->>OR: USE_MEMORY / NO_MEMORY + catégorie
+    OR-->>N8N: Texte structuré
+    Note over N8N: Code2 parse → routage aval

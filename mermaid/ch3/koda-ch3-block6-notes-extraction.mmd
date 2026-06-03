@@ -1,0 +1,19 @@
+%% Etape 6 partie 1 — extraction conditionnelle des notes
+%% Export → public/ch3-block6-notes-extraction-mermaid.png
+
+sequenceDiagram
+    participant B5 as Etape 5 (reponse)
+    participant IF as Test questiontype
+    participant LLM as Basic LLM Chain 2
+    participant OR as OpenRouter
+
+    B5->>IF: question, output, persone, questiontype
+    alt questiontype = note
+        IF->>LLM: Message + reponse + contexte
+        LLM->>OR: Prompt structuration
+        OR-->>LLM: date_evenement, evenement
+        LLM-->>IF: JSON normalise
+        Note over IF: Pret pour INSERT notes (partie 2)
+    else autre type
+        Note over IF: Branche ignoree — passage direct a la persistance
+    end

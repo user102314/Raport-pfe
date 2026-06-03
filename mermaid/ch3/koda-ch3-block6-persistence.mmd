@@ -1,0 +1,19 @@
+%% Etape 6 partie 2 — persistance et clôture Webhook 1
+%% Export → public/ch3-block6-persistence-mermaid.png
+
+sequenceDiagram
+    participant N8N as Workflow n8n
+    participant PG as PostgreSQL
+    participant WH as Respond to Webhook
+    participant U as Utilisateur
+
+    N8N->>PG: INSERT conversations (question + reponse)
+    opt information personnelle / about_me
+        N8N->>PG: INSERT personal_info
+    end
+    opt questiontype = note
+        N8N->>PG: INSERT notes (date, evenement)
+    end
+    N8N->>PG: INSERT historique (+ rotation 5 messages)
+    N8N->>WH: Reponse finalisee
+    WH->>U: JSON output (fin du cycle)

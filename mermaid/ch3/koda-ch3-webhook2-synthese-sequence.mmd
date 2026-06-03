@@ -1,0 +1,27 @@
+%% Webhook 2 — synthese journaliere (consolidation)
+%% Export → public/ch3-webhook2-synthese-mermaid.png
+
+sequenceDiagram
+    participant BE as Backend (trigger)
+    participant N8N as Webhook 2 n8n
+    participant PG as PostgreSQL
+    participant CD as Code (structuration)
+    participant AI as AI Agent
+    participant LLM as Gemini (OpenRouter)
+
+    BE->>N8N: Appel HTTP planifie
+    N8N->>PG: Utilisateurs actifs (Get ID USER)
+    PG-->>N8N: iduser
+    N8N->>PG: Profil et parametres KODA
+    PG-->>N8N: Contexte global
+    N8N->>PG: Conversations et infos du jour
+    PG-->>N8N: Echanges journaliers
+    N8N->>CD: Agregation JSON + prompt
+    CD-->>N8N: Contexte par utilisateur
+    N8N->>AI: Mod Thinking When Koda Sleep
+    AI->>LLM: Synthese 4 dimensions
+    LLM-->>AI: Fiche structuree
+    AI-->>N8N: interets, synthese, points, conseils
+    N8N->>PG: INSERT accompagnement
+    PG-->>N8N: OK
+    Note over PG,N8N: Memoire long terme — exploitee par Webhooks 1 et 3

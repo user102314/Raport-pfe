@@ -1,0 +1,23 @@
+%% Webhook 1 — Entrée fonctionnelle, séquence partie 1
+%% Export → public/dsb1-part1-mermaid.png
+
+sequenceDiagram
+    actor U as Utilisateur
+    participant C as Interface / Chat
+    participant W as Webhook n8n
+    participant T0 as When chat message received
+    participant DB as PostgreSQL Identité
+    participant Test as Nœud Code Test
+
+    U->>C: Saisit un message (chatInput)
+    C->>W: Requête HTTP (webhook)
+    activate W
+    W->>T0: Déclenche le flux (message utilisateur)
+    T0-->>W: json.chatInput
+    W->>DB: Requête Identité (motdepasse, etat, …)
+    DB-->>W: Ligne utilisateur / état
+    W->>Test: Données agrégées (message + $input)
+    Note right of Test: Normalisation, mots-clés<br/>priorité : ferme → motdepasse<br/>→ musique → direction → inconnu
+    Test-->>W: JSON intention, flags, nomChanson, direction…
+    Note over W: Suite partie 2 : routage Switch<br/>et branches métier
+    deactivate W

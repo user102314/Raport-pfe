@@ -1,0 +1,14 @@
+%% Block 4 — Séquence 2/3 : unkonu
+%% Export → public/ch3-block4-scenario-unkonu.png
+%%{init: {'theme': 'neutral', 'themeVariables': {'fontSize': '15px'}}}%%
+
+sequenceDiagram
+    actor U as Utilisateur
+    participant S as Switch1
+    participant L as LLM OpenRouter
+
+    Note over S: persone = unkonu
+    U->>S: Message (ex. salutation)
+    S->>+L: Demande d'introduction
+    L-->>-U: « Présentez-vous… »
+    Note over S: Fin — pas d'étape 5
