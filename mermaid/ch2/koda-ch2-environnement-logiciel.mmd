@@ -1,0 +1,37 @@
+%% Chapitre II — Environnement logiciel
+%% Export → public/ch2-environnement-logiciel-mermaid.png
+
+flowchart TB
+    subgraph COG["Cognition"]
+        N8N["n8n<br/>workflows"]
+        JS["JavaScript<br/>nœuds Code"]
+    end
+
+    subgraph BACK["Backend"]
+        PY["Python 3<br/>FastAPI"]
+        SQL["PostgreSQL<br/>Supabase"]
+    end
+
+    subgraph MOB["Mobile"]
+        MAUI[".NET MAUI 8<br/>C# / XAML"]
+    end
+
+    subgraph EMB["Embarqué"]
+        RPI["Raspberry Pi OS<br/>Python asyncio"]
+        VOSK["Vosk · VAD"]
+    end
+
+    subgraph OUTILS["Outils"]
+        GIT["Git"]
+        VSC["VS Code / Visual Studio"]
+        MERM["Mermaid · draw.io"]
+        DOCK["Docker"]
+    end
+
+    N8N --> PY
+    PY --> SQL
+    MAUI --> PY
+    RPI --> PY
+    OUTILS --> COG
+    OUTILS --> BACK
+    OUTILS --> MOB

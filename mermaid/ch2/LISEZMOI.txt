@@ -1,0 +1,14 @@
+Chapitre II — Diagrammes (sources Mermaid)
+
+Fichiers .mmd → régénération :
+  npx -y @mermaid-js/mermaid-cli -i mermaid/ch2/FICHIER.mmd -o public/NOM.png -b white -w 1200 -H 800
+
+Diagrammes intégrés dans finalyearrapport.tex :
+  ch2-besoins-fonctionnels.png (ou -mermaid.png)
+  ch2-architecture-systeme-generale.png
+  ch2-diagramme-acteurs.png (PlantUML)
+  ch2-modele-spirale.png
+  ch2-tracabilite-besoins.png
+  ch2-planification-cycles.png (ou -mermaid.png)
+  ch2-environnement-materiel.png
+  ch2-environnement-logiciel.png (ou -mermaid.png)

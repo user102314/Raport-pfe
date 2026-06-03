@@ -1,0 +1,26 @@
+%% Chapitre II — Modèle en spirale KODA
+%% Export → public/ch2-modele-spirale.png
+
+flowchart TB
+    subgraph SPI["Un tour de spirale = 4 étapes"]
+        direction TB
+        P1["1. Planifier<br/>besoins · périmètre"]
+        P2["2. Analyser les risques<br/>technique · intégration"]
+        P3["3. Développer & intégrer<br/>incrément testable"]
+        P4["4. Valider<br/>recette · retour encadrement"]
+        P1 --> P2 --> P3 --> P4
+    end
+
+    subgraph CYC["Six cycles thématiques KODA"]
+        direction LR
+        C1["Cycle 1<br/>n8n"]
+        C2["Cycle 2<br/>Distributeur"]
+        C3["Cycle 3<br/>Matériel"]
+        C4["Cycle 4<br/>Logiciel Pi"]
+        C5["Cycle 5<br/>KodaMate"]
+        C6["Cycle 6<br/>Tests globaux"]
+        C1 --> C2 --> C3 --> C4 --> C5 --> C6
+    end
+
+    P4 -.->|"tour suivant"| P1
+    SPI --> CYC

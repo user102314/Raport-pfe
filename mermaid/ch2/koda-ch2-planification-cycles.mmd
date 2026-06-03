@@ -1,0 +1,20 @@
+%% Chapitre II — Planification des cycles
+%% Export → public/ch2-planification-cycles-mermaid.png
+
+flowchart LR
+    C1["Cycle 1<br/>n8n<br/>Ch. III"]
+    C2["Cycle 2<br/>Distributeur<br/>Ch. IV"]
+    C3["Cycle 3<br/>Matériel<br/>Ch. V"]
+    C4["Cycle 4<br/>Logiciel Pi<br/>Ch. VI"]
+    C5["Cycle 5<br/>KodaMate<br/>Ch. VII"]
+    C6["Cycle 6<br/>Validation"]
+
+    C1 --> C2
+    C2 --> C4
+    C3 --> C4
+    C2 --> C5
+    C4 --> C6
+    C5 --> C6
+
+    C1 -.->|parallèle partiel| C2
+    C3 -.->|dérisque atelier| C2

@@ -803,326 +803,265 @@ Le chapitre suivant, \textbf{«\,Préparation du Projet\,»}, formalise les beso
 	\chapter{Préparation du Projet}
 	\chaptermark{Préparation du Projet}
 	
+	% Figures chapitre II : compactes pour limiter les pages blanches
+	\newcommand{\ChTwoFig}[1]{%
+		\includegraphics[width=0.88\linewidth,keepaspectratio]{#1}%
+	}
+	\newcommand{\ChTwoFigMed}[1]{%
+		\includegraphics[width=\linewidth,height=0.36\textheight,keepaspectratio]{#1}%
+	}
+	
 	\section{Introduction du chapitre}
 	
-	Ce chapitre pose les fondations ingénierie du projet \textbf{KODA} avant d'entrer dans
-	le détail technique des cycles de réalisation. Nous y traduisons l'intention du
-	chapitre~I en \textbf{exigences traçables} (fonctionnelles et non fonctionnelles),
-	en \textbf{vision architecturale} et en \textbf{périmètre d'acteurs}. Nous y
-	présentons également la \textbf{méthodologie de pilotage} retenue : le \textbf{modèle
-	en spirale}, fondé sur des \textbf{cycles de développement successifs} —
-	et non sur une succession de sprints Scrum — où chaque tour de spirale livre un
-	incrément (couche ou sous-système) intégrable et réévalue les risques avant le tour
-	suivant. Enfin, nous documentons les environnements matériel et logiciel qui ont
-	encadré la production du prototype.
+	Le chapitre~I a posé le \textbf{contexte}, la \textbf{problématique} et la
+	\textbf{solution KODA} sous forme de vision. Le présent chapitre~II en est la
+	\textbf{traduction ingénierie}~: il formalise ce que le système doit faire
+	(besoins), comment il doit se tenir dans le temps (exigences non fonctionnelles),
+	comment il est structuré (architecture générale), et comment il a été construit
+	progressivement (modèle en spirale et cycles). Chaque besoin identifié ici est
+	\textbf{traçable} vers un cycle de réalisation et vers un chapitre technique du
+	rapport, afin d'éviter l'écart entre l'intention du début de stage et le prototype
+	livré.
 	
 	%----------------------------------------------------------------
 	\section{Spécification des besoins}
 	%----------------------------------------------------------------
 	
-	\subsection{Spécifications des besoins fonctionnels}
+	\subsection{Besoins fonctionnels}
 	
-	Les besoins fonctionnels précisent \textit{ce que} KODA doit offrir à l'utilisateur,
-	sans décrire encore les choix d'implémentation. Ils reprennent la problématique du
-	chapitre~I~: un \textbf{compagnon de vie} capable de présence, de réflexion et
-	d'accompagnement personnalisé, et non un simple exécuteur de commandes.
+	Les besoins fonctionnels (BF) décrivent \textit{ce que} KODA doit offrir à
+	l'utilisateur. Ils sont dérivés du chapitre~I, enrichis par les capacités réellement
+	implémentées dans les cycles~1 à~5 (workflows n8n, Distributeur, robot, KodaMate).
 	
-	\begin{itemize}
-		\item \textbf{Dialoguer naturellement :} l'utilisateur s'adresse à KODA à l'oral ou
-		par message ; le compagnon comprend la demande, y répond de façon claire et
-		pertinente, et adapte son ton à la situation (explication, conseil, réconfort).
-		Lorsque la question appelle une réponse immédiate (arrêt, mot de passe, musique,
-		déplacement), KODA réagit sans détour ; sinon, il prend le temps d'analyser avant
-		de répondre.
-		\item \textbf{Se souvenir et personnaliser :} KODA reconnaît les personnes avec
-		lesquelles il interagit, retient leurs présentations, leurs préférences et les
-		éléments importants de leurs échanges (notes, informations personnelles). Il peut
-		répondre en s'appuyant sur ce qu'il sait déjà de l'utilisateur, ou traiter une
-		question générale sans tout reconsulter ; la mémoire est consolidée au fil du
-		temps pour garder une continuité dans la relation.
-		\item \textbf{Reconnaître et accueillir :} le compagnon identifie l'interlocuteur
-		(visage, contexte) et adapte son comportement~: accueil personnalisé pour une
-		personne connue, invitation à se présenter pour un visiteur inconnu, conformément
-		à l'objectif de présence humaine évoqué au chapitre~I.
-		\item \textbf{Être présent physiquement :} le robot matérialise l'interaction
-		(captures, parole, déplacements ou signaux prévus par le prototype) et reste
-		relié au reste du système pour que l'expérience ne se limite pas à un écran ou à
-		une enceinte déconnectée du corps du compagnon.
-		\item \textbf{Permettre le pilotage à distance :} via l'application mobile,
-		l'utilisateur configure la personnalité de KODA (nom, caractère, langue, etc.),
-		suit son activité et supervise son compagnon au quotidien, comme annoncé dans la
-		solution proposée au chapitre~I.
-		\item \textbf{Protéger l'usage et l'environnement :} KODA fonctionne selon des
-		modes ouvert ou protégé (mot de passe), afin de limiter l'accès aux fonctions
-		sensibles lorsque le compagnon est en mode sécurisé~; cette exigence répond au
-		besoin, formulé au chapitre~I, d'allier accompagnement humain et gestion
-		responsable de l'environnement domestique.
-	\end{itemize}
+	\begin{table}[H]
+		\centering
+		\caption{Catalogue des besoins fonctionnels KODA}
+		\label{tab:ch2-bf}
+		\small
+		\renewcommand{\arraystretch}{1.2}
+		\begin{tabularx}{\textwidth}{|c|>{\raggedright\arraybackslash}p{3.6cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}p{2.2cm}|}
+			\hline
+			\textbf{Id.} & \textbf{Besoin} & \textbf{Description} & \textbf{Cycle(s)} \\
+			\hline
+			BF01 & Dialogue naturel & Comprendre une question (oral ou texte), répondre de façon claire ; réponses immédiates si commande directe (arrêt, mot de passe, musique, déplacement), sinon analyse approfondie. & 1, 4, 5 \\
+			\hline
+			BF02 & Mémoire \& personnalisation & Retenir profils, préférences, notes et historique ; répondre en s'appuyant sur le passé ; consolidation mémorielle périodique. & 1, 2 \\
+			\hline
+			BF03 & Accueil \& identification & Reconnaître un visiteur connu ou inviter un inconnu à se présenter (\texttt{unkonu}) ; accueil personnalisé. & 1, 2, 4 \\
+			\hline
+			BF04 & Présence physique & Matérialiser l'interaction par voix, expression (Nextion), mouvement (Arduino) et capteurs, relié au système central. & 3, 4 \\
+			\hline
+			BF05 & Pilotage mobile & Configurer KODA (nom, langue, caractère), superviser l'état, dialoguer par texte, consulter l'historique. & 2, 5 \\
+			\hline
+			BF06 & Sécurité d'usage & Modes ouvert / protégé par mot de passe ; limiter les fonctions sensibles en mode sécurisé. & 1, 2, 5 \\
+			\hline
+			BF07 & Commandes fonctionnelles & Musique (recherche), notes/rappels, informations personnelles, agenda (selon branches workflow). & 1, 2 \\
+			\hline
+			BF08 & Spontanéité & Prendre l'initiative de parler (Webhook~3) en s'appuyant sur les synthèses d'accompagnement. & 1 \\
+			\hline
+			BF09 & Chaîne vocale embarquée & Mot de réveil, capture VAD, STT/TTS via backend, restitution audio sur le robot. & 2, 4 \\
+			\hline
+			BF10 & Reconnaissance faciale & Identifier un interlocuteur via caméra et service backend dédié. & 2 \\
+			\hline
+			BF11 & Supervision état robot & Lire et commander l'état marche/arrêt ; afficher état réseau et contexte (météo) sur mobile. & 2, 5 \\
+			\hline
+			BF12 & Authentification mobile & Connexion utilisateur, session persistante, test de joignabilité du serveur. & 2, 5 \\
+			\hline
+		\end{tabularx}
+	\end{table}
 	
-	\IfFileExists{public/ch2-besoins-fonctionnels.png}{%
+	\IfFileExists{public/ch2-besoins-fonctionnels-mermaid.png}{%
 		\begin{figure}[htbp]
 			\centering
-			\includegraphics[width=0.95\textwidth]{public/ch2-besoins-fonctionnels.png}
-			\caption{Synthèse visuelle des besoins fonctionnels KODA (chapitre~II)}
+			\ChTwoFig{public/ch2-besoins-fonctionnels-mermaid.png}
+			\caption{Synthèse des besoins fonctionnels KODA}
 			\label{fig:ch2-besoins-f}
 		\end{figure}
-	}{}
+	}{%
+		\IfFileExists{public/ch2-besoins-fonctionnels.png}{%
+			\begin{figure}[htbp]
+				\centering
+				\ChTwoFigMed{public/ch2-besoins-fonctionnels.png}
+				\caption{Synthèse des besoins fonctionnels KODA}
+				\label{fig:ch2-besoins-f}
+			\end{figure}
+		}{}}
 	
-	\subsection{Spécification des besoins non fonctionnels}
+	\subsection{Besoins non fonctionnels}
 	
-	Les besoins non fonctionnels décrivent \textit{comment} le système doit se comporter
-	pour être acceptable au quotidien~: fiabilité, confiance, simplicité d'évolution.
-	Ils complètent les besoins fonctionnels sans entrer dans le détail des outils retenus
-	aux chapitres techniques suivants.
+	Les besoins non fonctionnels (BNF) précisent les \textbf{qualités} attendues du
+	système (tableau~\ref{tab:ch2-bnf}).
 	
-	\begin{itemize}
-		\item \textbf{Réactivité perçue :} les réponses du compagnon doivent paraître
-		fluides à l'utilisateur, y compris lorsque le traitement s'appuie sur des
-		services en ligne (recherche, synthèse vocale, etc.)~; les échanges déjà connus ne
-		doivent pas systématiquement être retraités comme s'il n'y avait aucune mémoire.
-		\item \textbf{Continuité de service :} une coupure partielle d'un service distant
-		ne doit pas faire perdre l'essentiel des données ni bloquer durablement
-		l'interaction~; les informations importantes (profils, historiques, paramètres)
-		restent conservées de façon durable.
-		\item \textbf{Confiance et respect de la vie privée :} seules les personnes
-		autorisées accèdent aux fonctions sensibles~; les identifiants et données
-		personnelles sont protégés, et le compagnon n'expose pas inutilement ce qu'il
-		sait de l'utilisateur.
-		\item \textbf{Clarté pour l'équipe projet :} la logique est organisée par blocs
-		(dialogue, mémoire, robot, application) afin de pouvoir corriger ou enrichir une
-		partie sans remettre en cause tout le système~; les scénarios principaux restent
-		documentés pour la validation en fin de cycle.
-		\item \textbf{Ouverture aux évolutions :} il doit être possible d'ajouter une
-		nouvelle capacité (type de question, écran mobile, capteur) en s'appuyant sur
-		l'architecture globale du chapitre~I, sans repartir d'une conception entièrement
-		nouvelle.
-		\item \textbf{Accessibilité d'usage :} l'application de pilotage et les modes du
-		compagnon restent compréhensibles pour un utilisateur non spécialiste, en ligne
-		avec l'objectif d'un compagnon \og accessible \fg{} par rapport aux robots
-		professionnels coûteux évoqués dans l'analyse de l'existant.
-	\end{itemize}
+	\begin{table}[H]
+		\centering
+		\caption{Catalogue des besoins non fonctionnels KODA}
+		\label{tab:ch2-bnf}
+		\small
+		\renewcommand{\arraystretch}{1.2}
+		\begin{tabularx}{\textwidth}{|c|>{\raggedright\arraybackslash}p{3.4cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}p{2.4cm}|}
+			\hline
+			\textbf{Id.} & \textbf{Qualité} & \textbf{Exigence} & \textbf{Contrôle} \\
+			\hline
+			BNF01 & Réactivité perçue & Réponses fluides ; réutilisation de la mémoire sans retraitement inutile. & Tests démo \\
+			\hline
+			BNF02 & Disponibilité des données & Profils, historiques et paramètres conservés malgré coupures partielles de services cloud. & PostgreSQL \\
+			\hline
+			BNF03 & Sécurité \& confidentialité & Authentification, protection des données personnelles, accès restreint aux fonctions sensibles. & Auth JWT, modes \\
+			\hline
+			BNF04 & Maintenabilité & Découpage par couches (mobile, backend, n8n, embarqué) ; interfaces stables (REST, webhooks). & Architecture \\
+			\hline
+			BNF05 & Évolutivité & Ajout de capacités (nouvelle intention, écran, capteur) sans refonte globale. & Distributeur pivot \\
+			\hline
+			BNF06 & Accessibilité & Interfaces compréhensibles pour un utilisateur non expert (mobile, modes robot). & UX KodaMate \\
+			\hline
+			BNF07 & Intégration incrémentale & Chaque cycle livre un incrément testable raccordé au précédent. & Spirale \\
+			\hline
+			BNF08 & Robustesse embarquée & Mode dégradé si matériel ou réseau indisponible ; arrêt propre des actionneurs. & Cycle 4 \\
+			\hline
+		\end{tabularx}
+	\end{table}
 	
-	\subsection{Architecture du système}
+	%----------------------------------------------------------------
+	\section{Architecture générale et acteurs}
+	%----------------------------------------------------------------
 	
-	L'architecture cible est \textbf{multicouche} et \textbf{distribuée} : un moteur
-	d'automatisation (\textbf{n8n}) concentre la logique métier conversationnelle ; un
-	\textbf{backend Python (FastAPI)} centralise les accès données et les intégrations
-	cloud ; un \textbf{noyau embarqué (Raspberry Pi)} assure le lien avec le monde
-	physique ; une \textbf{application mobile} prolonge l'expérience utilisateur ; une
-	\textbf{base PostgreSQL} matérialise la mémoire long terme. La
-	figure~\ref{fig:ch2-architecture-systeme} (chapitre~I et~II) illustre cette décomposition ; les cycles
-	de développement du présent rapport s'alignent sur ces blocs pour réduire le
-	rayon d'intégration à chaque itération.
+	L'architecture est \textbf{multicouche} avec le \textbf{Distributeur FastAPI} comme
+	hub unique~: KodaMate et le robot passent par lui pour atteindre n8n, PostgreSQL et
+	les API cloud (Azure, OpenRouter, SerpAPI, Open-Meteo).
 	
 	\begin{figure}[htbp]
 		\centering
-		\includegraphics[width=0.95\textwidth]{public/ch2-architecture-systeme.png}
-		\caption{Architecture multicouche du système KODA (vue chapitre~II)}
+		\ChTwoFig{public/ch2-architecture-systeme-generale.png}
+		\caption{Architecture générale du système KODA}
 		\label{fig:ch2-architecture-systeme}
 	\end{figure}
 	
-	\subsection{Identification des acteurs}
+	\begin{table}[htbp]
+		\centering
+		\caption{Acteurs et rôles dans l'écosystème KODA}
+		\label{tab:ch2-acteurs}
+		\small
+		\renewcommand{\arraystretch}{1.15}
+		\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3cm}|>{\raggedright\arraybackslash}X|}
+			\hline
+			\textbf{Acteur} & \textbf{Rôle} \\
+			\hline
+			Utilisateur final & Dialogue, configuration et supervision via KodaMate. \\
+			\hline
+			Équipe projet / encadrant & Conception, intégration, validation (PFE). \\
+			\hline
+			Distributeur & Médiation technique entre tous les composants. \\
+			\hline
+			Services cloud & IA, voix, vision, recherche, base de données. \\
+			\hline
+			Organisme d'accueil & Cadre professionnel (MicroEdition). \\
+			\hline
+		\end{tabularx}
+	\end{table}
 	
-	On distingue notamment :
-	\begin{itemize}
-		\item l'\textbf{Utilisateur final} (personne qui dialogue avec KODA et configure
-		l'application) ;
-		\item le \textbf{système KODA} (ensemble logiciel/matériel) ;
-		\item le \textbf{Distributeur de services} (backend) en tant qu'intermédiaire
-		technique ;
-		\item les \textbf{services externes} (Supabase, OpenRouter pour les LLM,
-		SerpAPI pour la recherche musique au Block~1, Azure pour la voix et la vision) ;
-		\item l'\textbf{organisme d'accueil} et l'\textbf{équipe projet} (rôles de pilotage
-		et de validation).
-	\end{itemize}
-	
-	% Figure acteurs : page portrait dediee, rotation 90° pour lisibilite
 	\IfFileExists{public/ch2-diagramme-acteurs.png}{%
-		\clearpage
-		\begin{figure}[p]
+		\begin{figure}[htbp]
 			\centering
-			\vfill
-			\rotatebox{-90}{%
-				\includegraphics[
-					width=0.92\textheight,
-					keepaspectratio
-				]{public/ch2-diagramme-acteurs.png}%
-			}%
-			\vspace{1.2em}
+			\includegraphics[width=\linewidth,keepaspectratio]{public/ch2-diagramme-acteurs.png}
 			\caption{Acteurs principaux et contexte d'intégration du système KODA}
 			\label{fig:ch2-acteurs}
-			\vfill
 		\end{figure}
-		\clearpage
 	}{}
 	
 	%----------------------------------------------------------------
-	\section{Pilotage du projet — Modèle en spirale et cycles de développement}
+	\section{Méthodologie en spirale et planification}
 	%----------------------------------------------------------------
 	
-	Contrairement à une approche \textbf{Agile Scrum} fondée sur des \textit{sprints}
-	de durée fixe avec cérémonies prescrites (daily, review, rétrospective), nous avons
-	retenu le \textbf{modèle en spirale} : à chaque itération, une portion du produit
-	(cycle thématique : workflows n8n, backend, matériel, logiciel embarqué, mobile,
-	validation) est \textbf{spécifiée}, \textbf{réalisée} puis \textbf{intégrée} au
-	système global, avec une \textbf{réévaluation des risques} et des priorités avant le
-	tour suivant. Chaque cycle produit un incrément \textbf{testable} et raccordé aux
-	livrables des tours précédents, jusqu'à stabiliser l'écosystème KODA complet.
-	
-	\subsection{Équipe et rôles}
-	
-	Le projet est conduit par une \textbf{équipe de projet de fin d'études} (DSI3.2,
-	ISET Mahdia), en binôme, sous la responsabilité d'un \textbf{encadrant académique}
-	et en lien avec l'\textbf{organisme d'accueil} MicroEdition (cf. chapitre~I). Les
-	rôles se répartissent entre conception des workflows n8n, développement backend,
-	intégration embarquée, développement mobile et campagne de tests, avec des points
-	de synchronisation à la fin de chaque cycle pour valider l'intégration incrémentale.
-	
-	\subsection{Découpage du travail : six cycles}
-	
-	Le périmètre fonctionnel est découpé en six cycles \textbf{ordonnés logiquement} —
-	sans équivalence directe avec des sprints Scrum — comme suit :
-	
-	\begin{enumerate}
-		\item \textbf{Cycle~1 — Workflow et n8n :} conception des webhooks, blocs de
-		traitement (classification d'intention, analyseur de dépendance mémoire,
-		consolidation, proactivité), intégration des API LLM et recherche.
-		\item \textbf{Cycle~2 — Backend :} Distributeur de services (FastAPI), accès
-		PostgreSQL / Supabase, Clean Architecture, endpoints pour le robot et le mobile.
-		\item \textbf{Cycle~3 — Système embarqué, partie matérielle :} choix et câblage
-		des capteurs, actionneurs, alimentation, mécanique ou support physique associé au
-		Raspberry Pi selon le prototype.
-		\item \textbf{Cycle~4 — Système embarqué, partie logicielle (Raspberry Pi) :}
-		logiciel embarqué, communication avec le backend, gestion des flux audio/vidéo
-		locaux, robustesse sur carte ARM.
-		\item \textbf{Cycle~5 — Cross-plateforme :} application mobile (configuration,
-		suivi, notifications), parcours utilisateur unifiés Android/iOS.
-		\item \textbf{Cycle~6 — Tests et validation :} tests unitaires et d'intégration,
-		scénarios bout-en-bout, validation des besoins non fonctionnels (sécurité,
-		performance).
-	\end{enumerate}
-	
-	\begin{table}[htbp]
-		\centering
-		\caption{Vue synthétique des cycles et livrables attendus}
-		\label{tab:cycles_koda}
-		\renewcommand{\arraystretch}{1.25}
-		\begin{tabular}{|c|>{\raggedright\arraybackslash}p{4.2cm}|>{\raggedright\arraybackslash}p{7.5cm}|}
-			\hline
-			\textbf{Cycle} & \textbf{Thème} & \textbf{Livrable principal} \\
-			\hline
-			1 & Workflow n8n & Webhooks opérationnels, prompts et routages stabilisés \\
-			\hline
-			2 & Backend & API documentée, persistance, intégrations cloud \\
-			\hline
-			3 & Embarqué HW & Plateforme physique prête à accueillir le logiciel \\
-			\hline
-			4 & Embarqué SW (Pi) & Services locaux et dialogue avec le Distributeur \\
-			\hline
-			5 & Cross-plateforme & Application mobile utilisable sur les cibles \\
-			\hline
-			6 & Tests \& validation & Rapport de recette, correctifs de fin de projet \\
-			\hline
-		\end{tabular}
-	\end{table}
+	Le pilotage repose sur le \textbf{modèle en spirale} (Boehm), et non sur Scrum ni un
+	cycle en~V strict~: à chaque tour, on \textbf{planifie}, \textbf{analyse les risques},
+	\textbf{développe} un incrément testable, puis \textbf{valide} avant le cycle suivant.
+	Cette approche convient à un prototype IA multicouche (n8n, backend, robot, mobile).
 	
 	\begin{figure}[htbp]
 		\centering
-		\includegraphics[width=0.95\textwidth]{public/ch2-modele-spirale.png}
-		\caption{Modèle en spirale et enchaînement des six cycles de développement KODA}
+		\ChTwoFig{public/ch2-modele-spirale.png}
+		\caption{Modèle en spirale et six cycles thématiques KODA}
 		\label{fig:ch2-modele-spirale}
 	\end{figure}
 	
-	%----------------------------------------------------------------
-	\section{Planification des cycles}
-	%----------------------------------------------------------------
+	Le tableau~\ref{tab:cycles_koda} relie chaque \textbf{cycle} au \textbf{chapitre}
+	du rapport (chapitre~IV = Cycle~2 backend).
 	
-	La planification ne s'exprime pas en \textbf{sprints} de deux semaines mais en
-	\textbf{jalons de cycles} : chaque cycle se termine par une \textbf{démonstration
-	intégrée} (workflow branché sur le backend, backend branché sur la base, puis
-	ajout du Raspberry Pi, etc.). Les dépendances imposent un ordre raisonnable : le
-	moteur n8n (cycle~1) et le backend (cycle~2) peuvent avancer en parallèle partiel,
-	mais la validation bout-en-bout (cycle~6) recouvre l'ensemble. Le calendrier
-	académique du PFE (nombre de semaines, séances de suivi, livrables intermédiaires)
-	structure la cadence réelle ; le \textbf{modèle en spirale} en garantit la
-	\textbf{cohérence} : aucun cycle ne clôt sans critères d'acceptation liés aux
-	chapitres techniques correspondants du rapport.
+	\begin{table}[htbp]
+		\centering
+		\caption{Cycles, chapitres du rapport et livrables}
+		\label{tab:cycles_koda}
+		\small
+		\renewcommand{\arraystretch}{1.2}
+		\begin{tabularx}{\textwidth}{|c|>{\raggedright\arraybackslash}p{2.8cm}|c|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}p{2.4cm}|}
+			\hline
+			\textbf{Cy.} & \textbf{Thème} & \textbf{Ch.} & \textbf{Livrable} & \textbf{Besoins} \\
+			\hline
+			1 & n8n / cognition & III & 3 webhooks, mémoire & BF01--03, 07--08 \\
+			\hline
+			2 & Distributeur & IV & API, BDD, hub cloud & BF02, 05--12 \\
+			\hline
+			3 & Matériel robot & V & Pi, Arduino, Nextion & BF04 \\
+			\hline
+			4 & Logiciel Pi & VI & Audio, VAD, mouvement & BF04, 09 \\
+			\hline
+			5 & KodaMate MAUI & VII & App mobile & BF05, 11--12 \\
+			\hline
+			6 & Validation globale & --- & Recette BNF & BNF01--08 \\
+			\hline
+		\end{tabularx}
+	\end{table}
 	
-	\IfFileExists{public/ch2-planification-cycles.png}{%
+	Équipe PFE (DSI3.2, ISET Mahadia), binôme, encadrement et lien MicroEdition (ch.~I).
+	Dépendances~: cycles 1--2 en parallèle partiel puis intégration ; cycle~3 tôt ;
+	cycles~4--5 après backend ; cycle~6 en recette globale.
+	
+	\begin{figure}[htbp]
+		\centering
+		\ChTwoFig{public/ch2-tracabilite-besoins.png}
+		\caption{Traçabilité besoins $\rightarrow$ cycles de réalisation}
+		\label{fig:ch2-tracabilite}
+	\end{figure}
+	
+	\IfFileExists{public/ch2-planification-cycles-mermaid.png}{%
 		\begin{figure}[htbp]
 			\centering
-			\includegraphics[width=\textwidth]{public/ch2-planification-cycles.png}
-			\caption{Planification des cycles : jalons, chevauchements et dépendances}
+			\ChTwoFig{public/ch2-planification-cycles-mermaid.png}
+			\caption{Planification --- dépendances entre les six cycles}
 			\label{fig:ch2-planification-cycles}
 		\end{figure}
-	}{}
+	}{%
+		\IfFileExists{public/ch2-planification-cycles.png}{%
+			\begin{figure}[htbp]
+				\centering
+				\ChTwoFigMed{public/ch2-planification-cycles.png}
+				\caption{Planification des cycles --- jalons et chevauchements}
+				\label{fig:ch2-planification-cycles}
+			\end{figure}
+		}{}}
 	
 	%----------------------------------------------------------------
-	\section{Architecture}
+	\section{Environnements de développement}
 	%----------------------------------------------------------------
 	
-	\subsection{Architecture de l'application}
+	\subsection{Matériel et logiciel}
 	
-	Au-delà du schéma global (chapitre~I), l'architecture applicative distingue :
-	\textbf{(a)} la couche \textit{présentation} (mobile) ; \textbf{(b)} la couche
-	\textit{orchestration intelligente} (n8n) ; \textbf{(c)} la couche
-	\textit{services} (FastAPI) ; \textbf{(d)} la couche \textit{données} (PostgreSQL) ;
-	\textbf{(e)} la couche \textit{embarquée} (Raspberry Pi). Les communications
-	principales suivent le modèle requête-réponse REST et événements asynchrones selon
-	les besoins (temps réel, webhooks). Cette structuration facilite le parallélisme
-	des cycles tout en conservant des interfaces stables entre équipes.
+	\textbf{Matériel}~: PC de développement (8~Go+ RAM), Raspberry Pi, prototype robot
+	(audio, caméra, Nextion), smartphone ou émulateur pour KodaMate, accès Internet
+	(Supabase, OpenRouter, SerpAPI, Azure).
 	
-	\subsubsection{Architecture en oignon (\textit{Onion Architecture}) du backend}
+	\begin{figure}[htbp]
+		\centering
+		\ChTwoFig{public/ch2-environnement-materiel.png}
+		\caption{Environnement matériel de test}
+		\label{fig:ch2-env-materiel}
+	\end{figure}
 	
-	Le \textbf{Distributeur de services} (backend Python, cycle~2) adopte une
-	\textbf{architecture en oignon} : les couches sont organisées en \textbf{anneaux
-	concentriques}, du plus stable au plus volatile. Au \textbf{c\oe{}ur} se trouvent le
-	\textbf{domaine métier} (entités, règles) ; autour, les \textbf{cas d'usage}
-	orchestrent les scénarios sans dépendre des frameworks ; puis viennent les
-	\textbf{adaptateurs} (API REST, sérialisation, accès données) ; en périphérie, la
-	\textbf{infrastructure} (FastAPI, Supabase, SDK Azure, clients HTTP vers n8n ou le
-	robot). Les dépendances pointent \textbf{toujours vers l'intérieur}, ce qui isole
-	la logique métier des technologies et facilite les tests unitaires sur le domaine.
-	
-	Ce modèle — popularisé notamment par Jeffrey Palermo sous le nom d'\textit{Onion
-	Architecture} — recoupe les principes de la \textbf{Clean Architecture} détaillés
-	au chapitre du cycle~2 : les deux visions décrivent des couches concentriques et la
-	règle d'inversion des dépendances ; l'«\,oignon\,» met l'accent sur la \textbf{testabilité}
-	du noyau et sur le fait que l'infrastructure soit interchangeable sans toucher au
-	c\oe{}ur du système. Ainsi, le backend KODA reste cohérent avec la vision multicouche
-	de la figure~\ref{fig:ch2-architecture-systeme} tout en précisant sa structure interne.
-	
-	%----------------------------------------------------------------
-	\section{Environnement de Developement}
-	%----------------------------------------------------------------
-	
-	\subsection{Environnement matériel}
-	
-	Le développement s'appuie sur des postes de travail type PC (processeur multi-c\oe{}urs,
-	au moins 8~Go de RAM recommandés pour les outils de conteneurisation et les IDE),
-	un \textbf{Raspberry Pi} cible pour les tests embarqués, périphériques audio/vidéo
-	selon les besoins du robot, et un smartphone ou émulateur pour la couche mobile.
-	Un accès Internet stable est nécessaire pour Supabase, OpenRouter, SerpAPI et
-	Azure durant l'intégration.
-	
-	\IfFileExists{public/ch2-environnement-materiel.png}{%
-		\begin{figure}[htbp]
-			\centering
-			\includegraphics[width=0.92\textwidth]{public/ch2-environnement-materiel.png}
-			\caption{Environnement matériel de développement et de test (poste, Raspberry Pi, robot)}
-			\label{fig:ch2-env-materiel}
-		\end{figure}
-	}{}
-	
-	%----------------------------------------------------------------
-	\section{Environnement logiciel}
-	%----------------------------------------------------------------
-	
-	\subsection{Outils de développement et modélisation}
+	\textbf{Logiciel}~:
 	
 	\begin{itemize}
 		\item \textbf{n8n} (self-hosted ou cloud) pour l'édition des workflows ;
-		\item \textbf{Visual Studio Code} ou équivalent pour Python, Dart et LaTeX ;
+		\item \textbf{Visual Studio Code} ou Visual Studio pour Python, C\# et LaTeX ;
 		\item \textbf{Git} pour le versioning ;
 		\item \textbf{draw.io / Mermaid} / captures d'écran pour les diagrammes de séquence et de
 		cas d'utilisation ;
@@ -1138,26 +1077,40 @@ Le chapitre suivant, \textbf{«\,Préparation du Projet\,»}, formalise les beso
 		\item \textbf{Python~3} avec \textbf{FastAPI}, SQLAlchemy, asyncpg, SDK Azure et
 		intégrations Gemini/OpenRouter côté Distributeur ;
 		\item \textbf{SQL} (PostgreSQL) ;
-		\item \textbf{Dart / Flutter} pour l'application cross-plateforme ;
+		\item \textbf{C\# / .NET MAUI~8} pour l'application cross-plateforme KodaMate ;
 		\item \textbf{Bash} et utilitaires système sur Raspberry Pi OS.
 	\end{itemize}
 	
-	\begin{figure}[htbp]
-		\centering
-		\includegraphics[width=0.95\textwidth]{public/ch2-environnement-logiciel.png}
-		\caption{Environnement logiciel : outils de développement et chaîne technique (chapitre~II)}
-		\label{fig:ch2-env-logiciel}
-	\end{figure}
+	\IfFileExists{public/ch2-environnement-logiciel-mermaid.png}{%
+		\begin{figure}[htbp]
+			\centering
+			\ChTwoFig{public/ch2-environnement-logiciel-mermaid.png}
+			\caption{Environnement logiciel --- stack technique KODA}
+			\label{fig:ch2-env-logiciel}
+		\end{figure}
+	}{%
+		\IfFileExists{public/ch2-environnement-logiciel.png}{%
+			\begin{figure}[htbp]
+				\centering
+				\ChTwoFigMed{public/ch2-environnement-logiciel.png}
+				\caption{Environnement logiciel --- outils et chaîne technique}
+				\label{fig:ch2-env-logiciel}
+			\end{figure}
+		}{}}
 	
 	%----------------------------------------------------------------
-	\section{Conclusion}
+	\section{Conclusion du chapitre}
 	%----------------------------------------------------------------
 	
-	Ce chapitre a cadré la préparation de KODA : besoins fonctionnels et non
-	fonctionnels, acteurs, architecture de référence, environnements, et surtout un
-	\textbf{modèle en spirale} articulé en six cycles — en rupture avec une
-	gestion purement Scrum/sprint, tout en conservant l'esprit d'incrémentalité et de
-	revue de fin de cycle. Le chapitre suivant détaille le \textbf{Cycle~1} (\textbf{Analyseur et réflexion})~: workflows n8n.
+	Ce chapitre traduit la vision du chapitre~I en ingénierie exploitable~:
+	\textbf{12 besoins fonctionnels} et \textbf{8 besoins non fonctionnels} identifiés,
+	une \textbf{architecture générale} centrée sur le Distributeur, une
+	\textbf{méthodologie en spirale} avec six cycles tracés vers les chapitres III à
+	VII, et les \textbf{environnements} matériel et logiciel du prototype. Les éléments
+	qui manquaient initialement dans ce chapitre --- diagramme d'architecture à jour,
+	figure de spirale, tableaux de besoins numérotés, traçabilité explicite --- sont
+	désormais formalisés ici pour servir de référence unique avant l'entrée dans le
+	détail du \textbf{Cycle~1} (chapitre~III, workflows n8n).
 	
 		%================================================================
 	%  CHAPITRE III : Analyseur et réflexion

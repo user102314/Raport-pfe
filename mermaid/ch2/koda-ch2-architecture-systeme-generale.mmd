@@ -1,0 +1,39 @@
+%% Chapitre II — Architecture générale KODA
+%% Export → public/ch2-architecture-systeme-generale.png
+
+flowchart TB
+    U["👤 Utilisateur"]
+
+    subgraph PRES["Couche présentation"]
+        M["📱 KodaMate<br/>.NET MAUI"]
+        R["🤖 Robot KODA<br/>Raspberry Pi + Arduino"]
+    end
+
+    subgraph ORCH["Couche orchestration"]
+        D["⚙️ Distributeur de services<br/>Backend FastAPI"]
+    end
+
+    subgraph COG["Couche cognitive"]
+        N["🧠 Analyseur & réflexion<br/>Workflows n8n"]
+    end
+
+    subgraph DATA["Couche données"]
+        DB[("🗄️ PostgreSQL<br/>Supabase")]
+    end
+
+    subgraph EXT["Services externes"]
+        E1["Azure STT/TTS · Vision"]
+        E2["OpenRouter · LLM"]
+        E3["SerpAPI · Open-Meteo"]
+    end
+
+    U --> M
+    U --> R
+    M -->|"REST / JSON"| D
+    R -->|"REST · WebSocket"| D
+    D --> N
+    D --> DB
+    N --> DB
+    D --> E1
+    N --> E2
+    D --> E3
