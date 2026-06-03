@@ -1,0 +1,43 @@
+%% Cycle 4 — Séquence de démarrage parallèle (app.main.run)
+%% Export → public/koda-cycle4-sequence-boot.png  (A3 paysage)
+
+sequenceDiagram
+    autonumber
+    participant U as Utilisateur (CLI)
+    participant Main as app.main
+    participant Cfg as AppConfig
+    participant HW as HardwareCheck
+    participant Nx as NextionAdapter
+    participant Ar as ArduinoAdapter
+    participant Bk as BackendClient
+    participant Bt as Bluetooth
+    participant Vk as Vosk engine
+    participant DOA as DOAReader
+
+    U->>Main: python -m app.main
+    Main->>Cfg: load_config()
+    Cfg-->>Main: AppConfig
+    Main->>HW: run_full_check()
+    HW-->>Main: rapport composants (mic, cam, nextion, arduino, bt)
+
+    par Adaptateurs série en parallèle
+        Main->>Nx: open() (UART)
+        Main->>Ar: open() (USB)
+    end
+
+    Note over Main: Bootstrap parallèle (asyncio.gather)
+    par Bootstrap parallèle
+        Main->>Bk: start() puis health_with_retry()
+        Main->>Bt: ensure_bluetooth()
+        Main->>Vk: prepare() (charge modèle ~8 s)
+        Main->>DOA: start()
+        Main->>Nx: resume_idle()
+        Main->>Ar: hello() (servos)
+    end
+
+    Bt-->>Main: connecté (ou fallback)
+    Bk-->>Main: backend OK (ou degraded)
+    Vk-->>Main: modèle chargé
+    DOA-->>Main: device USB OK
+    Note over Main: tout résultat exceptionnel est loggué<br/>(return_exceptions=True) — pas d'arrêt
+    Main-->>U: state(READY) — KODA online

@@ -1,0 +1,59 @@
+%% Cycle 4 — Séquence d'un tour de parole (wake → rotate → greet → listen → dispatch)
+%% Export → public/koda-cycle4-sequence-tour-de-parole.png  (A3 paysage)
+
+sequenceDiagram
+    autonumber
+    actor User as Utilisateur
+    participant WW as WakeWordService
+    participant Hyb as HybridWakeWordEngine
+    participant Bk as BackendClient
+    participant DOA as DOAReader
+    participant Mot as MotionService
+    participant Ar as Arduino (MPU6050)
+    participant Dis as DisplayService
+    participant Spe as SpeechService
+    participant Lis as ContinuousListener
+    participant Conv as ConversationService
+    participant Face as FaceRecognitionService
+
+    User->>Hyb: « Hey KODA »
+    Hyb->>WW: WakeMatch(keyword)
+    par Démarrage parallèle (gather)
+        WW->>Dis: set_expression(SURPRISED)
+        WW->>Spe: speak(greeting)
+        WW->>DOA: read_angle()
+        DOA-->>WW: raw_angle
+        WW->>Mot: rotate_by_angle(signed)
+        Mot->>Ar: R045\n
+        Ar-->>Mot: DONE:46
+        WW->>Face: fire_and_forget_refresh()
+    end
+    WW->>Dis: set_expression(THINKING)
+
+    WW->>Conv: listen_and_answer()
+    Conv->>Lis: listen() — sox VAD
+    User-->>Lis: question (parle)
+    Lis-->>Conv: capture.wav
+
+    Conv->>Face: current_name() (cache)
+    Face-->>Conv: « Salah » (ou inconnu)
+    Conv->>Bk: speech_to_action(wav, extra_text)
+    Bk-->>Conv: ActionResult{type, text, audio, …}
+
+    alt type=text
+        Conv->>Dis: set_expression(SINGING)
+        Conv->>Spe: speak via audio TTS
+    else type=music
+        Conv->>Spe: speak intro
+        Conv->>Bk: download mp3
+        Conv->>Spe: play_url(cache)
+    else type=motion
+        Conv->>Mot: forward/back/left/right
+    else type=sleep
+        Conv->>Dis: set_expression(SLEEPING)
+    else type=error
+        Conv->>Dis: set_expression(SAD)
+    end
+
+    Conv-->>WW: tour terminé
+    Note over WW: tour suivant si voix avant max_active_silences

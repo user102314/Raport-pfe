@@ -1,0 +1,68 @@
+%% Cycle 4 — Machine d'états logicielle (mode passif / actif / touch / sommeil)
+%% Export → public/koda-cycle4-machine-etats.png  (A3 portrait OK)
+
+stateDiagram-v2
+    direction TB
+    [*] --> BOOT
+
+    state BOOT {
+        [*] --> LoadConfig
+        LoadConfig --> HwCheck : config OK
+        HwCheck --> OpenAdapters
+        OpenAdapters --> BootstrapParallel
+        BootstrapParallel --> [*] : READY
+    }
+
+    BOOT --> READY
+    READY --> PASSIVE : start loop
+
+    state "PASSIVE (sommeil léger)" as PASSIVE {
+        [*] --> WaitWake
+        WaitWake --> WaitWake : pas de mot
+    }
+
+    PASSIVE --> WAKE : mot de réveil détecté
+    state WAKE {
+        [*] --> Surprised
+        Surprised --> RotateToSpeaker : Expression + Greeting
+        RotateToSpeaker --> [*] : DONE:<angle>
+    }
+
+    WAKE --> ACTIVE
+    state "ACTIVE (conversation)" as ACTIVE {
+        [*] --> Listen
+        Listen --> Backend : WAV
+        Backend --> Dispatch : ActionResult
+        state Dispatch <<choice>>
+        Dispatch --> Text : type=text
+        Dispatch --> Music : type=music
+        Dispatch --> Motion : type=motion
+        Dispatch --> Sleep : type=sleep
+        Dispatch --> ErrorAct : type=error
+        Text --> WaitFollowUp
+        Music --> WaitFollowUp
+        Motion --> WaitFollowUp
+        ErrorAct --> WaitFollowUp
+        WaitFollowUp --> Listen : voix avant timeout
+        WaitFollowUp --> [*] : N silences consécutifs
+    }
+
+    ACTIVE --> PASSIVE : fin de session
+    ACTIVE --> SLEEPING : action sleep
+    SLEEPING --> PASSIVE
+
+    PASSIVE --> TOUCH : capteur GPIO
+    ACTIVE  --> TOUCH : capteur GPIO
+    state TOUCH {
+        [*] --> AbortRotation
+        AbortRotation --> StopAudio
+        StopAudio --> KillSubprocs
+        KillSubprocs --> PlayLaugh
+        PlayLaugh --> [*]
+    }
+    TOUCH --> PASSIVE
+
+    PASSIVE --> SHUTDOWN : SIGINT / SIGTERM
+    ACTIVE  --> SHUTDOWN
+    SLEEPING --> SHUTDOWN
+    SHUTDOWN --> [*]

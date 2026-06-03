@@ -1,7 +1,9 @@
 # Cycle 3 — Figures suggérées (à générer ou photographier)
 
 ## Déjà prévues dans le rapport
-- public/ch3-architecture-materielle.png  → export PlantUML plantuml/koda-cycle3-hardware.puml
+- public/ch3-architecture-materielle.png  → montage style Fritzing mis à jour :
+  Raspberry Pi + caméra + ReSpeaker + Nextion + audio + Arduino/L293D + M1/M3 + S1/S2/S3,
+  avec deux capteurs de touche sur GPIO17/GPIO27 et MPU5060 branché sur Arduino via I2C A4/A5.
 - public/ch3-schema-cablage-main.png     → esquisse main (copiée) ; option : redessiner proprement
 
 ## Figures recommandées (photos réelles — priorité PFE)

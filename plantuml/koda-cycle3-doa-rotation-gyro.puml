@@ -1,0 +1,50 @@
+@startuml koda-cycle3-doa-rotation-gyro
+!theme plain
+skinparam backgroundColor #FEFEFE
+skinparam componentStyle rectangle
+skinparam defaultFontSize 12
+skinparam ArrowColor #2F4F4F
+skinparam rectangle {
+  BorderColor #546E7A
+  FontColor #1F2933
+}
+title Relation DOA - rotation corrigée par gyroscope
+
+left to right direction
+
+rectangle "Perception audio\n(Raspberry Pi)" as AUDIO #E3F2FD {
+  component "ReSpeaker\n4-Mic Array" as MIC
+  component "Angle DOA\nvoix détectée" as DOA
+  component "Raspberry Pi\nangle cible" as RPI
+}
+
+rectangle "Commande temps reel\n(Arduino)" as CONTROL #E8F5E9 {
+  component "Arduino Uno\n+ Shield L293D" as ARD
+  component "MPU5060\nI2C A4/A5" as MPU
+  component "Moteur M1" as M1
+  component "Moteur M3" as M3
+}
+
+rectangle "Effet mécanique" as BODY #FFF3E0 {
+  component "Base à chenilles\nrotation sur place" as BASE
+  component "Caméra sur torse\nvise utilisateur" as CAM
+}
+
+MIC --> DOA : estimation\ndirection voix
+DOA --> RPI : angle relatif
+RPI --> ARD : USB série\nROTATE(angle)
+MPU --> ARD : vitesse angulaire\nangle mesuré
+ARD --> ARD : comparaison\nconsigne / mesure
+ARD --> M1 : PWM
+ARD --> M3 : PWM
+M1 --> BASE
+M3 --> BASE
+BASE --> CAM : corps orienté
+
+note bottom of MPU
+  Le MPU5060 est branché
+  sur l'Arduino, pas sur
+  le Raspberry Pi.
+end note
+
+@enduml

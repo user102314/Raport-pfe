@@ -1,0 +1,29 @@
+%% Cycle 4 — Machine d'états du moteur HybridWakeWordEngine (Vosk + Azure WS)
+%% Export → public/koda-cycle4-wake-word-hybride.png
+
+stateDiagram-v2
+    direction LR
+    [*] --> SLEEP
+
+    state "SLEEP\n(seul Vosk tourne)" as SLEEP {
+        [*] --> VoskStream
+        VoskStream --> VoskHit : partial contient un keyword
+        VoskHit --> [*]
+    }
+
+    SLEEP --> AWAITING : Vosk a détecté un candidat
+
+    state "AWAITING\n(Vosk + Azure WS en parallèle, race)" as AWAITING {
+        [*] --> OpenWS : ws connect / api / ws / wake-word
+        OpenWS --> StreamPCM
+        StreamPCM --> AzureMatch : Azure renvoie un keyword
+        StreamPCM --> VoskConfirm : Vosk confirme à voix haute
+        StreamPCM --> Timeout : awaiting_timeout_s écoulé
+        AzureMatch --> [*]
+        VoskConfirm --> [*]
+        Timeout --> [*]
+    }
+
+    AWAITING --> MATCH : AzureMatch ou VoskConfirm
+    AWAITING --> SLEEP : Timeout (faux positif)
+    MATCH --> [*] : WakeMatch retourné à WakeWordService

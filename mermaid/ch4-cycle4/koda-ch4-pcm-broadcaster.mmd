@@ -1,0 +1,26 @@
+%% Cycle 4 — Broadcaster PCM (1 producteur sox, N consommateurs)
+%% Export → public/koda-cycle4-pcm-broadcaster.png
+
+flowchart LR
+    classDef hw    fill:#f3e5f5,stroke:#6a1b9a,color:#4a148c;
+    classDef proc  fill:#fff3e0,stroke:#ef6c00,color:#bf360c;
+    classDef bus   fill:#e3f2fd,stroke:#1565c0,color:#0d47a1;
+    classDef cons  fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20;
+
+    MIC["ReSpeaker 4-Mic<br/>(USB, 6 canaux)"]:::hw
+    SOX["sox arecord<br/>remix 1 + -c 1 16 kHz mono"]:::proc
+    BR["PCMBroadcaster<br/>1 producteur, N consommateurs<br/>queue bornée par client"]:::bus
+
+    C1["Vosk gate (chunks ~30 ms)"]:::cons
+    C2["Azure WS (stream complet)"]:::cons
+    C3["VAD listener<br/>(détection silence)"]:::cons
+    C4["Debug dumper<br/>(optionnel)"]:::cons
+
+    MIC --> SOX --> BR
+    BR --> C1
+    BR --> C2
+    BR --> C3
+    BR -. dev .-> C4
+
+    note["Si un consommateur ne lit pas :<br/>sa queue déborde et ses anciennes<br/>trames sont droppées — les autres<br/>consommateurs ne sont pas pénalisés."]
+    BR -.- note

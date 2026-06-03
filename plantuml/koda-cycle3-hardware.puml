@@ -15,6 +15,10 @@ together {
     component [ReSpeaker\n4-Mic Array] as MIC
     component [Écran Nextion\nNX4832T035_011\n3,5"] as NX
   }
+  package "Sens tactile" as TOUCH_BOX #E0F7FA {
+    component [Capteur touche 1\nGPIO17] as TOUCH1
+    component [Capteur touche 2\nGPIO27] as TOUCH2
+  }
   package "Sortie audio" as AUDIO_OUT #F3E5F5 {
     component [Jack 3,5 mm] as JACK
     component [PAM8403] as AMP
@@ -29,6 +33,7 @@ together {
   }
   package "Commande actionneurs" as MOT_BOX #E8F5E9 {
     component [Arduino Uno\n+ Shield L293D] as ARD
+    component [Gyroscope\nMPU5060] as GYRO
     component [Moteur DC M1] as M1
     component [Moteur DC M3] as M3
     component [Servo S1\nbras droit] as S1
@@ -40,7 +45,10 @@ together {
 PB --> RPI : USB-C
 MIC --> RPI : USB
 CAM --> RPI : nappe CSI
-NX --> RPI : UART\n5V, GND\nRX→Pin 8 (TX)\nTX→Pin 10 (RX)
+NX --> RPI : UART\n5V, GND\nRX -> Pin 8 (TX)\nTX -> Pin 10 (RX)
+TOUCH1 --> RPI : GPIO17\n3,3V, GND
+TOUCH2 --> RPI : GPIO27\n3,3V, GND
+GYRO --> ARD : I2C\nSDA A4\nSCL A5\nVCC, GND
 JACK --> RPI
 JACK --> AMP
 AMP --> HP
@@ -56,12 +64,14 @@ ARD --> S3
 note right of RPI
   **Rôle** : audio, vision,
   réseau Wi-Fi, écran Nextion,
-  commande Arduino
+  commande Arduino,
+  GPIO tactile
 end note
 
 note right of ARD
   **Rôle** : PWM temps réel
-  moteurs DC + servos
+  moteurs DC + servos,
+  lecture MPU5060
 end note
 
 @enduml
